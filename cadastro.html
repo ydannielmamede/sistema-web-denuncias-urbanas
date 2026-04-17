@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!-- ATIVIDA FORMULÁRIO -->
+<html lang="pt-br">
+
+<head>
+  <link rel="stylesheet" href="CSS/Forms.css">
+  <script src="javascript/Forms.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro</title>
+</head>
+
+<body>
+  <main>
+    <form action="/cadastro" method="post">
+      <h2>Informações de cadastro</h2>
+      <div>
+        <fieldset>
+          <label for="email">Seu E-mail:</label>
+          <input type="email" id="email" name="email" placeholder="Email" required>
+        </fieldset>
+      </div>
+      <div>
+        <fieldset>
+          <label for="nome">Seu Nome:</label>
+          <input type="text" id="nome" name="nome" placeholder="Nome" minlength="3" maxlength="100">
+        </fieldset>
+      </div>
+      <div>
+        <fieldset>
+          <legend></legend>
+          <label for="Data">Sua Data de Nascimento:</label>
+          <input type="date" id="Data" name="Data">
+        </fieldset>
+      </div>
+
+      <h2>Gênero</h2>
+      <input type="radio" id="masc" name="genero" value="m">
+      <label for="masc">Masculino</label>
+      <input type="radio" id="fem" name="genero" value="f">
+      <label for="fem">Feminino</label>
+      <legend>Termos e Condições</legend>
+      <textarea id="message" name="message" rows="8" cols="70" readonly>Este é um texto para leitura.
+        Ao realizar o cadastro, você concorda com os termos estabelecidos pela plataforma de acordo com a LGPD( Lei de
+        Proteção Geral de Dados).</textarea>
+      <br>
+      <input type="checkbox" id="termos" name="termos">
+      <label for="termos">Declaro que li e aceito os termos de uso</label>
+
+      </fieldset>
+
+      <button type="submit">Cadastrar</button>
+      <button type="reset">Limpar</button>
+
+    </form>
+  </main>
+
+</body>
+
+</html>

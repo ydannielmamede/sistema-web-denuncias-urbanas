@@ -1,57 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saiba Mais</title>
-    <link rel="stylesheet" href="css/saibamais.css">
-</head>
-<body>
 
-<header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saiba Mais</title>
+  <link rel="stylesheet" href="css/saibamais.css" />
+</head>
+
+<body>
+  <header>
     <h1>Saiba Mais</h1>
     <button id="themeToggle">🌙</button>
-</header>
+  </header>
 
-<main class="layout">
-
+  <main class="layout">
     <!-- ESQUERDA -->
     <section class="content">
-        
-        <div class="card">
-            <h2>O que é uma denúncia urbana?</h2>
-            <p>Uma denúncia urbana é um relato formal sobre problemas ou irregularidades encontradas em áreas urbanas.</p>
-        </div>
+      <div class="card">
+        <h2>O que é uma denúncia urbana?</h2>
+        <p>
+          Uma denúncia urbana é um relato formal sobre problemas ou
+          irregularidades encontradas em áreas urbanas.
+        </p>
+      </div>
 
-        <div class="card">
-            <h2>Como fazer uma denúncia urbana?</h2>
-            <p>Você pode registrar diretamente pelo sistema ou entrar em contato com autoridades locais.</p>
-        </div>
+      <div class="card">
+        <h2>Como fazer uma denúncia urbana?</h2>
+        <p>
+          Você pode registrar diretamente pelo sistema ou entrar em contato
+          com autoridades locais.
+        </p>
+      </div>
 
-        <div class="card">
-            <h2>Tipos comuns</h2>
-            <p>Buracos, iluminação, lixo, barulho, segurança e outros problemas urbanos.</p>
-        </div>
+      <div class="card">
+        <h2>Tipos comuns</h2>
+        <p>
+          Buracos, iluminação, lixo, barulho, segurança e outros problemas
+          urbanos.
+        </p>
+      </div>
 
-        <a href="Index_WebApp.html"><button class="btn-denuncia">Fazer Denúncia</button></a>
-
+      <a href="Index_WebApp.html"><button class="btn-denuncia">Fazer Denúncia</button></a>
     </section>
 
     <!-- DIREITA -->
     <section class="image-side">
-        <img src="img/belem-do-para.jpg" alt="Cidade">
+      <img src="img/belem-do-para.jpg" alt="Cidade" />
     </section>
+  </main>
 
-</main>
+  <script>
+    const themeBtn = document.getElementById("themeToggle");
 
-<script>
-        const themeBtn = document.getElementById('themeToggle');
-        
-        themeBtn.addEventListener('click', () => {
-            // Alterna a classe 'light' no body
-            document.body.classList.toggle('light');
-        });
-</script>
-
+    themeBtn.addEventListener("click", () => {
+      // Alterna a classe 'light' no body
+      document.body.classList.toggle("light");
+    });
+  </script>
 </body>
+
 </html>
