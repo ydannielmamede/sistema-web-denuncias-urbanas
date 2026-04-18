@@ -49,14 +49,13 @@
             </svg>
             <input type="search" placeholder="Buscar denúncias..." />
           </div>
-          <a href="#categorias" class="btn-nav">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-            Nova Denúncia
-          </a>
         </div>
+
+        <button class="hamburger" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
     </div>
   </nav>
@@ -70,7 +69,7 @@
       <div class="hero-inner">
 
         <!-- Left -->
-        <div>
+        <div class="left">
           <div class="hero-eyebrow fade-up">
             <span class="tag">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -82,8 +81,8 @@
           </div>
           <h1 class="hero-title fade-up fade-up-1">
             Denúncias Urbanas
-            <span class="line-accent">de Infraestrutura</span>
-            e Mobilidade
+            <span class="line-accent">de Infraestrutura e Mobilidade</span>
+            
           </h1>
           <p class="hero-desc fade-up fade-up-2">
             Registre ocorrências de infraestrutura urbana de forma rápida,
@@ -275,33 +274,61 @@
             Registrar agora
           </a>
         </div>
-      </div>
 
-      <!-- Extra row -->
-      <div class="cat-grid" style="margin-top:16px;grid-template-columns:repeat(4,1fr)">
-        <div class="cat-card" style="background:linear-gradient(135deg,#1a0800,#7c2d00);min-height:170px">
-          <div class="cat-icon" style="width:42px;height:42px;font-size:20px;margin-bottom:12px">🚧</div>
-          <div class="cat-title" style="font-size:14px">Infraestrutura</div>
+        <!-- Infraestrutura -->
+        <div class="cat-card infra">
+          <div class="cat-icon">🚧</div>
+          <div class="cat-title">Infraestrutura</div>
           <div class="cat-desc">Buracos, calçadas, vias danificadas.</div>
-          <a href="#" class="cat-btn" style="margin-top:12px">+ Registrar</a>
+          <a href="#" class="cat-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Registrar agora
+          </a>
         </div>
-        <div class="cat-card" style="background:linear-gradient(135deg,#001a15,#065f46);min-height:170px">
-          <div class="cat-icon" style="width:42px;height:42px;font-size:20px;margin-bottom:12px">🌳</div>
-          <div class="cat-title" style="font-size:14px">Meio Ambiente</div>
+
+        <!-- Meio Ambiente -->
+        <div class="cat-card meio">
+          <div class="cat-icon">🌳</div>
+          <div class="cat-title">Meio Ambiente</div>
           <div class="cat-desc">Desmatamento, descarte irregular, poluição.</div>
-          <a href="#" class="cat-btn" style="margin-top:12px">+ Registrar</a>
+          <a href="#" class="cat-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Registrar agora
+          </a>
         </div>
-        <div class="cat-card" style="background:linear-gradient(135deg,#0d0016,#4c1d95);min-height:170px">
-          <div class="cat-icon" style="width:42px;height:42px;font-size:20px;margin-bottom:12px">🚌</div>
-          <div class="cat-title" style="font-size:14px">Transporte</div>
+
+        <!-- Transporte -->
+        <div class="cat-card transp">
+          <div class="cat-icon">🚌</div>
+          <div class="cat-title">Transporte</div>
           <div class="cat-desc">Ônibus, semáforos, sinalização viária.</div>
-          <a href="#" class="cat-btn" style="margin-top:12px">+ Registrar</a>
+          <a href="#" class="cat-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Registrar agora
+          </a>
         </div>
-        <div class="cat-card" style="background:linear-gradient(135deg,#0c0014,#701a75);min-height:170px">
-          <div class="cat-icon" style="width:42px;height:42px;font-size:20px;margin-bottom:12px">🗑️</div>
-          <div class="cat-title" style="font-size:14px">Limpeza Urbana</div>
+
+        <!-- Limpeza Urbana -->
+        <div class="cat-card limp">
+          <div class="cat-icon">🗑️</div>
+          <div class="cat-title">Limpeza Urbana</div>
           <div class="cat-desc">Lixo acumulado, limpeza de logradouros.</div>
-          <a href="#" class="cat-btn" style="margin-top:12px">+ Registrar</a>
+          <a href="#" class="cat-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Registrar agora
+          </a>
         </div>
       </div>
     </div>
@@ -466,7 +493,7 @@
           <p class="cta-sub">Junte-se a mais de 1.200 cidadãos que já contribuíram para uma cidade melhor. Cada denúncia
             conta.</p>
         </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div class="cta-btn">
           <a href="#categorias" class="btn-primary" style="white-space:nowrap">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="5" x2="12" y2="19" />
