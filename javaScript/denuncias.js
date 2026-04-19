@@ -1,33 +1,15 @@
-// Função para abrir o modal
-function abrirModal() {
-  document.getElementById("modalFormulario").style.display = "flex";
-}
-
-// Função para fechar o modal
-function fecharModal() {
-  document.getElementById("modalFormulario").style.display = "none";
-}
-
-// Fechar modal ao clicar fora dele
-window.onclick = function(event) {
-  const modal = document.getElementById("modalFormulario");
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-};
-
 // Hamburger menu toggle
-document.addEventListener('DOMContentLoaded', function() {
-  const hamburger = document.querySelector('.hamburger');
-  const navLinks = document.querySelector('.nav-links');
+document.addEventListener("DOMContentLoaded", function() {
+  const hamburger = document.querySelector(".hamburger");
+  const navLinks = document.querySelector(".nav-links");
 
   if (hamburger && navLinks) {
-    hamburger.addEventListener('click', function() {
-      navLinks.classList.toggle('mobile-open');
-      hamburger.classList.toggle('active');
+    hamburger.addEventListener("click", function() {
+      navLinks.classList.toggle("mobile-open");
+      hamburger.classList.toggle("active");
     });
   }
-});;
+});
 
 // Inicializar contador ao carregar a página
 function inicializarContador() {
