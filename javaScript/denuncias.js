@@ -11,6 +11,10 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
+const formulario = document.getElementById("meuFormulario");
+const contadorElement = document.getElementById("contador");
+const mensagemSucesso = document.getElementById("mensagemSucesso");
+
 // Inicializar contador ao carregar a página
 function inicializarContador() {
   if (!localStorage.getItem("formulariosEnviados")) {
@@ -21,14 +25,17 @@ function inicializarContador() {
 
 // Função para atualizar o contador
 function atualizarContador() {
+  if (!contadorElement) {
+    return;
+  }
+
   const contador = localStorage.getItem("formulariosEnviados") || "0";
-  document.getElementById("contador").textContent = contador;
+  contadorElement.textContent = contador;
 }
 
 // Escutar o envio do formulário
-document
-  .getElementById("meuFormulario")
-  .addEventListener("submit", function(e) {
+if (formulario) {
+  formulario.addEventListener("submit", function(e) {
     e.preventDefault();
 
     // Obter o contador atual
@@ -47,27 +54,31 @@ document
     atualizarContador();
 
     // Mostrar mensagem de sucesso
-    const mensagem = document.getElementById("mensagemSucesso");
-    mensagem.textContent = `✓ Denúncia registrada com sucesso! (Total: ${contador})`;
-    mensagem.className = "success";
+    if (mensagemSucesso) {
+      mensagemSucesso.textContent = `✓ Denúncia registrada com sucesso! (Total: ${contador})`;
+      mensagemSucesso.className = "success";
 
-    // Limpar mensagem após 3 segundos
-    setTimeout(() => {
-      mensagem.textContent = "";
-      fecharModal();
-    }, 3000);
+      // Limpar mensagem após 3 segundos
+      setTimeout(() => {
+        mensagemSucesso.textContent = "";
+
+        if (typeof fecharModal === "function") {
+          fecharModal();
+        }
+      }, 3000);
+    }
   });
+}
 
-// Inicializar ao carregar
-inicializarContador();
+if (contadorElement) {
+  // Inicializar ao carregar
+  inicializarContador();
 
-// Atualizar em tempo real (a cada 500ms) se estiver em abas diferentes
-setInterval(atualizarContador, 500);
+  // Atualizar em tempo real (a cada 500ms) se estiver em abas diferentes
+  setInterval(atualizarContador, 500);
 
-// Função para atualizar o contador
-function atualizarContador() {
-  const contador = localStorage.getItem("formulariosEnviados") || "0";
-  document.getElementById("contador").textContent = contador;
+  // Atualizar o contador ao carregar a página
+  atualizarContador();
 }
 
 // Função para resetar o contador
@@ -78,6 +89,3 @@ function resetarContador() {
     alert("Contador resetado com sucesso!");
   }
 }
-
-// Atualizar o contador ao carregar a página
-atualizarContador();
