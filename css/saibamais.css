@@ -12,8 +12,8 @@
   --bg: #212529;
   --card: #212529;
   --text: #e2e8f0;
-  --accent: #cc8800;
-  --accent-hover: #b47801;
+  --accent: #ffc300;
+  --accent-hover: #e6b000;
   --border: rgba(255, 255, 255, 0.1);
   --shadow: rgba(0, 0, 0, 0.3);
 }
@@ -33,7 +33,7 @@
            3. ESTILOS BASE
            ========================================= */
 body {
-  font-family: "Segoe UI", system-ui, sans-serif;
+  font-family: "Inter", sans-serif;
   background: var(--bg);
   color: var(--text);
   transition:
