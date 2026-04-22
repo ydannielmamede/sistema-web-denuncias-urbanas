@@ -3,10 +3,12 @@
 <html lang="pt-br">
 
 <head>
-  <link rel="stylesheet" href="css/forms.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro</title>
+  <title>Cadastro - Denúncias Urbanas</title>
+  <link rel="stylesheet" href="css/cadastro.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -27,25 +29,33 @@
       </div>
       <div>
         <fieldset>
-          <legend></legend>
           <label for="Data">Sua Data de Nascimento:</label>
           <input type="date" id="Data" name="Data">
         </fieldset>
       </div>
 
-      <h2>Gênero</h2>
-      <input type="radio" id="masc" name="genero" value="m">
-      <label for="masc">Masculino</label>
-      <input type="radio" id="fem" name="genero" value="f">
-      <label for="fem">Feminino</label>
-      <legend>Termos e Condições</legend>
-      <textarea id="message" name="message" rows="8" cols="70" readonly>Este é um texto para leitura.
-        Ao realizar o cadastro, você concorda com os termos estabelecidos pela plataforma de acordo com a LGPD( Lei de
-        Proteção Geral de Dados).</textarea>
-      <br>
-      <input type="checkbox" id="termos" name="termos">
-      <label for="termos">Declaro que li e aceito os termos de uso</label>
+      <fieldset>
+        <legend>Gênero</legend>
+        <div class="radio-group">
+          <div>
+            <input type="radio" id="masc" name="genero" value="m">
+            <label for="masc">Masculino</label>
+          </div>
+          <div>
+            <input type="radio" id="fem" name="genero" value="f">
+            <label for="fem">Feminino</label>
+          </div>
+        </div>
+      </fieldset>
 
+      <fieldset>
+        <legend>Termos e Condições</legend>
+        <textarea id="message" name="message" rows="6" readonly>Este é um texto para leitura.
+Ao realizar o cadastro, você concorda com os termos estabelecidos pela plataforma de acordo com a LGPD (Lei de Proteção Geral de Dados).</textarea>
+        <div style="margin-top: 16px;">
+          <input type="checkbox" id="termos" name="termos" required>
+          <label for="termos">Declaro que li e aceito os termos de uso</label>
+        </div>
       </fieldset>
 
       <button type="submit">Cadastrar</button>
@@ -54,7 +64,7 @@
     </form>
   </main>
 
-  <script src="javaScript/form.js"></script>
+  <script src="javaScript/formulario-denuncia.js"></script>
 </body>
 
 </html>
