@@ -1,0 +1,597 @@
+/* ═══════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════ */
+:root {
+  --black: #0a0c0e;
+  --dark1: #111417;
+  --dark2: #181c20;
+  --dark3: #20252b;
+  --dark4: #272d35;
+  --dark5: #2e353e;
+  --accent: #ffc300;
+  --accent2: #e6b000;
+  --accent3: #cc9d00;
+  --white: #ffffff;
+  --t1: #f2f4f7;
+  --t2: #c4cad3;
+  --t3: #8a939e;
+  --t4: #4e5866;
+  --border: rgba(255, 255, 255, 0.07);
+  --border2: rgba(255, 255, 255, 0.12);
+  --green: #22c55e;
+  --blue: #3b82f6;
+  --purple: #8b5cf6;
+  --teal: #14b8a6;
+  --orange: #f97316;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 18px;
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ═══════════════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════════════ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--dark1);
+  color: var(--t1);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dark1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--dark4);
+  border-radius: 3px;
+}
+
+/* ═══════════════════════════════════════════════════
+   MAIN LAYOUT
+═══════════════════════════════════════════════════ */
+main {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  background: var(--dark2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle background pattern */
+main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 60% 60% at 75% 50%,
+      rgba(255, 195, 0, 0.04) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 40% 50% at 20% 80%,
+      rgba(59, 130, 246, 0.03) 0%,
+      transparent 60%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════════════════
+   FORM CONTAINER
+═══════════════════════════════════════════════════ */
+form {
+  position: relative;
+  z-index: 1;
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   FORM HEADING
+═══════════════════════════════════════════════════ */
+form h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--t1);
+  letter-spacing: -0.01em;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+form h2:first-child {
+  margin-top: 0;
+}
+
+form h2:not(:first-child) {
+  margin-top: 32px;
+}
+
+form h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 32px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════════
+   FORM FIELDSET & LEGEND
+═══════════════════════════════════════════════════ */
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 18px 0;
+}
+
+legend {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--t1);
+  margin-bottom: 16px;
+  padding: 0;
+  width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════
+   LABELS
+═══════════════════════════════════════════════════ */
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--t2);
+  margin-bottom: 8px;
+  letter-spacing: 0.01em;
+}
+
+/* ═══════════════════════════════════════════════════
+   TEXT INPUTS & EMAIL
+═══════════════════════════════════════════════════ */
+input[type="email"],
+input[type="text"],
+input[type="date"] {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--dark4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--t1);
+  outline: none;
+  transition:
+    border-color var(--transition),
+    background-color var(--transition),
+    box-shadow var(--transition);
+}
+
+input[type="email"]::placeholder,
+input[type="text"]::placeholder,
+input[type="date"]::placeholder {
+  color: var(--t4);
+}
+
+input[type="email"]:focus,
+input[type="text"]:focus,
+input[type="date"]:focus {
+  border-color: rgba(255, 195, 0, 0.4);
+  background: var(--dark5);
+  box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.1);
+}
+
+input[type="email"]:hover,
+input[type="text"]:hover,
+input[type="date"]:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ═══════════════════════════════════════════════════
+   RADIO BUTTONS
+═══════════════════════════════════════════════════ */
+.radio-group {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border2);
+  border-radius: 50%;
+  background: var(--dark4);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-right: 8px;
+  transition:
+    border-color var(--transition),
+    background-color var(--transition),
+    box-shadow var(--transition);
+  vertical-align: middle;
+  display: inline-block;
+}
+
+input[type="radio"]:hover {
+  border-color: rgba(255, 195, 0, 0.3);
+}
+
+input[type="radio"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.2);
+}
+
+input[type="radio"]:focus {
+  outline: none;
+  border-color: rgba(255, 195, 0, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.15);
+}
+
+/* Radio label pairing */
+input[type="radio"] + label {
+  display: inline;
+  margin-bottom: 0;
+  margin-left: -2px;
+  font-weight: 500;
+  color: var(--t2);
+  cursor: pointer;
+  user-select: none;
+}
+
+input[type="radio"]:checked + label {
+  color: var(--t1);
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════
+   TEXTAREA
+═══════════════════════════════════════════════════ */
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  background: var(--dark4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--t1);
+  outline: none;
+  line-height: 1.5;
+  resize: vertical;
+  transition:
+    border-color var(--transition),
+    background-color var(--transition),
+    box-shadow var(--transition);
+}
+
+textarea::placeholder {
+  color: var(--t4);
+}
+
+textarea:focus {
+  border-color: rgba(255, 195, 0, 0.4);
+  background: var(--dark5);
+  box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.1);
+}
+
+textarea:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+textarea:disabled {
+  background: var(--dark3);
+  border-color: var(--border);
+  color: var(--t3);
+  cursor: not-allowed;
+}
+
+/* ═══════════════════════════════════════════════════
+   CHECKBOXES
+═══════════════════════════════════════════════════ */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border2);
+  border-radius: var(--radius-sm);
+  background: var(--dark4);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-right: 10px;
+  transition:
+    border-color var(--transition),
+    background-color var(--transition),
+    box-shadow var(--transition);
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+}
+
+input[type="checkbox"]:hover {
+  border-color: rgba(255, 195, 0, 0.3);
+}
+
+input[type="checkbox"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.2);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #111;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+input[type="checkbox"]:focus {
+  outline: none;
+  border-color: rgba(255, 195, 0, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.15);
+}
+
+/* Checkbox label pairing */
+input[type="checkbox"] + label {
+  display: inline;
+  margin-bottom: 0;
+  margin-left: -2px;
+  font-weight: 500;
+  color: var(--t2);
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.4;
+}
+
+input[type="checkbox"]:checked + label {
+  color: var(--t1);
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════ */
+button[type="submit"],
+button[type="reset"] {
+  width: 100%;
+  padding: 13px 26px;
+  margin-top: 8px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* Submit button - Primary style */
+button[type="submit"] {
+  background: var(--accent);
+  color: #111;
+  border: none;
+  margin-bottom: 12px;
+}
+
+button[type="submit"]:hover {
+  background: var(--accent2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 195, 0, 0.3);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+button[type="submit"]:disabled {
+  background: var(--dark4);
+  color: var(--t4);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Reset button - Outline style */
+button[type="reset"] {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--t1);
+  border: 1px solid var(--border2);
+  backdrop-filter: blur(4px);
+}
+
+button[type="reset"]:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 195, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+button[type="reset"]:active {
+  transform: translateY(0);
+}
+
+button[type="reset"]:disabled {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--t4);
+  border-color: var(--border);
+  cursor: not-allowed;
+}
+
+/* ═══════════════════════════════════════════════════
+   FORM WRAPPER DIVS
+═══════════════════════════════════════════════════ */
+form > div {
+  margin-bottom: 2px;
+}
+
+form > div:last-of-type {
+  margin-bottom: 18px;
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  main {
+    padding: 24px 16px;
+  }
+
+  form {
+    padding: 32px 24px;
+    max-width: 100%;
+  }
+
+  form h2 {
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+
+  input[type="email"],
+  input[type="text"],
+  input[type="date"],
+  textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  button[type="submit"],
+  button[type="reset"] {
+    font-size: 13px;
+    padding: 12px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  form {
+    padding: 24px 16px;
+    border-radius: var(--radius);
+  }
+
+  form h2 {
+    font-size: 15px;
+    margin-top: 20px;
+    margin-bottom: 14px;
+  }
+
+  label {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  input[type="email"],
+  input[type="text"],
+  input[type="date"],
+  textarea {
+    font-size: 16px;
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   ACCESSIBILITY
+═══════════════════════════════════════════════════ */
+/* Focus visible for keyboard navigation */
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  form {
+    animation: none;
+  }
+}
