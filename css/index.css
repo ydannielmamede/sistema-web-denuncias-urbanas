@@ -173,16 +173,16 @@ img {
 }
 
 .logo-main {
-  font-size: 14px;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: bold;
   color: var(--accent);
   letter-spacing: -0.01em;
 }
 
 .logo-sub {
-  font-size: 10px;
-  color: var(--t3);
-  font-weight: 400;
+  font-size: 15px;
+  /* color: var(--t3); */
+  font-weight: bold;
 }
 
 .nav-links {
@@ -195,7 +195,7 @@ img {
 .nav-link {
   padding: 7px 14px;
   border-radius: 7px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   color: var(--t3);
   transition:
@@ -391,7 +391,7 @@ img {
 }
 
 .hero-desc {
-  font-size: 16px;
+  font-size: 19px;
   color: var(--t2);
   line-height: 1.7;
   max-width: 420px;
@@ -583,7 +583,7 @@ section {
 }
 
 .section-sub {
-  font-size: 15px;
+  font-size: 20px;
   color: var(--t2);
 }
 
@@ -701,14 +701,14 @@ section {
 }
 
 .cat-title {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
   margin: 0;
   line-height: 1.25;
 }
 
 .cat-desc {
-  font-size: 12px;
+  font-size: 15px;
   color: rgba(255, 255, 255, 0.65);
   line-height: 1.55;
   margin: 0;
@@ -725,7 +725,7 @@ section {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: var(--white);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   position: relative;
   z-index: 1;
@@ -815,13 +815,13 @@ section {
 }
 
 .step-title {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 700;
   margin-bottom: 8px;
 }
 
 .step-desc {
-  font-size: 12px;
+  font-size: 15px;
   color: var(--t3);
   line-height: 1.6;
 }
@@ -883,13 +883,13 @@ section {
 }
 
 .report-title {
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 3px;
 }
 
 .report-meta {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--t3);
   display: flex;
   gap: 12px;
@@ -948,7 +948,7 @@ section {
   border-radius: 10px;
   border: 1px solid var(--border2);
   color: var(--t2);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   transition:
     border-color var(--transition),
@@ -1054,7 +1054,7 @@ section {
 }
 
 .cta-sub {
-  font-size: 15px;
+  font-size: 20px;
   color: var(--t2);
   text-align: center;
 }
@@ -1496,7 +1496,7 @@ section {
   }
 
   .footer-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 32px;
   }
 
@@ -1507,7 +1507,7 @@ section {
   }
 
   .footer-bottom-links {
-    flex-direction: column;
+    flex-direction: row;
     gap: 12px;
   }
 }
@@ -1732,9 +1732,39 @@ section {
   .footer {
     padding: 40px 0 0;
   }
+  .footer-brand{
+    margin: 0 auto;
+
+  }
+  .footer-links{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer-link{
+    display: block;
+    text-align: center;
+  }
+  .footer-contact{
+    display: inline-flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .contact-text{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
 
   .footer-grid {
+    grid-template-columns: 1fr;
     gap: 28px;
+    text-align: center;
+  }
+  .footer-bottom-links{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+
   }
 }
 
