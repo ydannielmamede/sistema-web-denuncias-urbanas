@@ -846,7 +846,7 @@
             <button type="button" class="btn-location" id="usarLocalizacaoAtual">
               Usar localização atual
             </button>
-            <span id="statusLocalizacao" class="location-status">Nenhuma localização capturada.</span>
+            <span id="statusLocalizacao" class="location-status" aria-live="polite">Nenhuma localização capturada.</span>
           </div>
           <input type="text" id="localManual" name="localManual" aria-label="Endereço manual"
             placeholder="Rua, bairro, ponto de referência ou complemento" />
@@ -860,13 +860,16 @@
         <div class="form-group">
           <span id="label-anonimo" class="form-label">Modo anônimo</span>
           <div class="toggle-row">
-            <button type="button" id="botaoTipoDenuncia" class="btn-toggle" role="switch" aria-checked="false"
+            <button type="button" id="botaoTipoDenuncia" class="btn-toggle" role="switch" aria-checked="false" aria-pressed="false"
               aria-labelledby="label-anonimo" aria-label="Ativar modo anônimo"></button>
             <p id="tipoDenunciaStatus" class="toggle-status">
               Modo anônimo desativado
             </p>
           </div>
         </div>
+        <button type="submit" class="btn-submit">Enviar denúncia</button>
+        <div id="mensagemSucesso" aria-live="polite" role="status"></div>
+        <input type="hidden" id="tipoDenunciaInput" name="tipoDenuncia" value="identificada">
       </form>
     </div>
   </div>
