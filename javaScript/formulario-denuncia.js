@@ -110,6 +110,9 @@
     const statusLocalizacao = document.getElementById("statusLocalizacao");
     const tipoDenunciaStatus = document.getElementById("tipoDenunciaStatus");
     const mensagemSucesso = document.getElementById("mensagemSucesso");
+    const toggleVisual = document.querySelector(
+      'label[for="botaoTipoDenuncia"]',
+    );
     const triggers = document.querySelectorAll("[data-modal-trigger]");
 
     // Valida se todos os elementos foram encontrados
@@ -125,7 +128,8 @@
       !usarLocalizacaoAtual ||
       !statusLocalizacao ||
       !mensagemSucesso ||
-      !tipoDenunciaStatus
+      !tipoDenunciaStatus ||
+      !toggleVisual
     ) {
       return null;
     }
@@ -145,7 +149,9 @@
       tipoDenunciaStatus.textContent = isAnonima
         ? "Modo anônimo ativado"
         : "Modo anônimo desativado";
-      botaoTipoDenuncia.setAttribute("aria-pressed", String(isAnonima));
+      botaoTipoDenuncia.checked = isAnonima;
+      botaoTipoDenuncia.setAttribute("aria-checked", String(isAnonima));
+      toggleVisual.classList.toggle("on", isAnonima);
       tipoDenunciaInput.value = isAnonima ? "anonima" : "identificada";
     }
 
@@ -214,8 +220,8 @@
     });
 
     // Alterna entre modo anônimo e identificado
-    botaoTipoDenuncia.addEventListener("click", () => {
-      isAnonima = !isAnonima;
+    botaoTipoDenuncia.addEventListener("change", () => {
+      isAnonima = botaoTipoDenuncia.checked;
       updateTipoDenunciaStatus();
     });
 

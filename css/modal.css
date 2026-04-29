@@ -131,24 +131,60 @@
   gap: 12px;
 }
 
-.btn-toggle {
-  width: 20px;
-  height: 20px;
+.toggle-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  background: var(--dark4);
   border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--dark3);
+  border-radius: 11px;
   cursor: pointer;
-  transition: all var(--transition);
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    box-shadow var(--transition);
+  flex-shrink: 0;
 }
 
-.btn-toggle:hover {
-  transform: scale(1.05);
-  border-color: var(--accent);
+.toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: var(--white);
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
 }
 
-.btn-toggle[aria-pressed="true"] {
+.toggle-input:focus-visible + .toggle-switch {
+  outline: 2px solid rgba(255, 195, 0, 0.55);
+  outline-offset: 3px;
+}
+
+.toggle-input:checked + .toggle-switch,
+.toggle-switch.on {
   background: var(--accent);
   border-color: var(--accent);
+}
+
+.toggle-input:checked + .toggle-switch .toggle-thumb,
+.toggle-switch.on .toggle-thumb {
+  transform: translateX(18px);
 }
 
 .toggle-status {
@@ -195,11 +231,6 @@
   color: var(--black);
 }
 
-.toggle-status {
-  margin-top: 10px;
-  color: var(--t2);
-  font-size: 0.95rem;
-}
 
 .modal-content input[type="text"],
 .modal-content textarea,
