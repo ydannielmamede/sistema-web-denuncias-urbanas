@@ -599,6 +599,12 @@ section {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
+  align-items: stretch;
+}
+
+.cat-grid > li {
+  display: flex;
+  min-height: 0;
 }
 
 @media (max-width: 900px) {
@@ -628,7 +634,9 @@ section {
   flex-direction: column;
   gap: 16px;
   min-height: 220px;
-  justify-content: center;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-start;
   text-align: center;
 }
 
@@ -712,11 +720,12 @@ section {
   color: rgba(255, 255, 255, 0.65);
   line-height: 1.55;
   margin: 0;
-  flex: 1;
+  flex: 1 1 auto;
 }
 
 .cat-btn {
   margin: 0 auto;
+  margin-top: auto;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -764,6 +773,12 @@ section {
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   position: relative;
+  align-items: stretch;
+}
+
+.steps > li {
+  display: flex;
+  min-height: 0;
 }
 
 .steps::before {
@@ -778,11 +793,17 @@ section {
 }
 
 .step-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   text-align: center;
   padding: 28px 20px;
   background: var(--dark3);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  flex: 1;
+  height: 100%;
+  justify-content: flex-start;
   transition:
     border-color var(--transition),
     transform var(--transition);
@@ -824,6 +845,7 @@ section {
   font-size: 15px;
   color: var(--t3);
   line-height: 1.6;
+  flex: 1 1 auto;
 }
 
 @media (max-width: 800px) {
