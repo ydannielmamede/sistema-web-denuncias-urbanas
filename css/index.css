@@ -819,7 +819,13 @@ section {
 .cat-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-4);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.cat-grid > li {
+  display: flex;
+  min-height: 0;
 }
 
 @media (max-width: 900px) {
@@ -848,7 +854,9 @@ section {
   flex-direction: column;
   gap: var(--spacing-4);
   min-height: 220px;
-  justify-content: center;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-start;
   text-align: center;
 }
 
@@ -932,11 +940,12 @@ section {
   color: var(--color-text-inverse-muted);
   line-height: 1.55;
   margin: 0;
-  flex: 1;
+  flex: 1 1 auto;
 }
 
 .cat-btn {
   margin: 0 auto;
+  margin-top: auto;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -984,6 +993,12 @@ section {
   grid-template-columns: repeat(4, 1fr);
   gap: var(--spacing-6);
   position: relative;
+  align-items: stretch;
+}
+
+.steps > li {
+  display: flex;
+  min-height: 0;
 }
 
 .steps::before {
@@ -998,11 +1013,17 @@ section {
 }
 
 .step-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   text-align: center;
   padding: var(--spacing-7) var(--spacing-5);
   background: var(--color-bg-surface);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius);
+  flex: 1;
+  height: 100%;
+  justify-content: flex-start;
   transition:
     border-color var(--transition),
     transform var(--transition);
@@ -1044,6 +1065,7 @@ section {
   font-size: 15px;
   color: var(--color-text-muted);
   line-height: 1.6;
+  flex: 1 1 auto;
 }
 
 @media (max-width: 800px) {
@@ -1879,7 +1901,7 @@ section {
   }
 
   .stats-card {
-    padding: var(--spacing-5);
+    pgit@github.com:ydannielmamede/sistema-web-denuncias-urbanas.gitgit@github.com:ydannielmamede/sistema-web-denuncias-urbanas.gitadding: var(--spacing-5);
   }
 
   .stat-big-num {
