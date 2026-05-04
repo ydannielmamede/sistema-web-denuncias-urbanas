@@ -2,52 +2,11 @@
 document.addEventListener("DOMContentLoaded", function() {
   const hamburger = document.querySelector(".hamburger");
   const navLinks = document.querySelector(".nav-links");
-  const themeToggle = document.getElementById("themeToggle");
-  const themeIcon = document.getElementById("themeIcon");
-  const root = document.documentElement;
 
   if (hamburger && navLinks) {
     hamburger.addEventListener("click", function() {
       navLinks.classList.toggle("mobile-open");
       hamburger.classList.toggle("active");
-    });
-  }
-
-  function syncThemeIcon(theme) {
-    if (!themeIcon) {
-      return;
-    }
-
-    themeIcon.innerHTML =
-      theme === "dark"
-        ? '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />'
-        : '<circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />';
-  }
-
-  function applyTheme(theme) {
-    const isDark = theme === "dark";
-    root.setAttribute("data-theme", isDark ? "dark" : "light");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-    syncThemeIcon(isDark ? "dark" : "light");
-
-    if (themeToggle) {
-      themeToggle.setAttribute("aria-pressed", String(!isDark));
-    }
-  }
-
-  if (themeToggle) {
-    const savedTheme = localStorage.getItem("theme");
-    const initialTheme =
-      savedTheme === "light" || savedTheme === "dark"
-        ? savedTheme
-        : root.getAttribute("data-theme") || "dark";
-
-    applyTheme(initialTheme);
-
-    themeToggle.addEventListener("click", function() {
-      const currentTheme =
-        root.getAttribute("data-theme") === "light" ? "light" : "dark";
-      applyTheme(currentTheme === "dark" ? "light" : "dark");
     });
   }
 });
@@ -130,3 +89,40 @@ function resetarContador() {
     alert("Contador resetado com sucesso!");
   }
 }
+document.addEventListener("DOMContentLoaded", function() {
+  const themeToggle = document.getElementById("themeToggle");
+  const themeIcon = document.getElementById("themeIcon");
+
+  function syncThemeIcon(theme) {
+    if (theme === "dark") {
+      themeIcon.innerHTML =
+        '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />';
+    } else {
+      themeIcon.innerHTML =
+        '<circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />';
+    }
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    syncThemeIcon(theme);
+  }
+
+  if (themeToggle) {
+    const savedTheme =
+      localStorage.getItem("theme") ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light");
+    applyTheme(savedTheme);
+
+    themeToggle.addEventListener("click", function() {
+      const currentTheme =
+        document.documentElement.getAttribute("data-theme") === "dark"
+          ? "light"
+          : "dark";
+      applyTheme(currentTheme);
+    });
+  }
+});

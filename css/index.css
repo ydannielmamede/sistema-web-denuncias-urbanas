@@ -228,6 +228,15 @@
   --overlay-hero-info: rgba(59, 130, 246, 0.06);
   --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.12);
   --shadow-surface: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --gradient-category-lighting: linear-gradient(135deg, #fff8dc 0%, #ffefaf 100%);
+  --gradient-category-water: linear-gradient(135deg, #e5f5ff 0%, #cfe7ff 100%);
+  --gradient-category-form: linear-gradient(135deg, #eef8ea 0%, #d7eed4 100%);
+  --gradient-category-anon: linear-gradient(135deg, #f5edff 0%, #e5ddff 100%);
+  --gradient-category-infra: linear-gradient(135deg, #fff2e0 0%, #ffd2a6 100%);
+  --gradient-category-environment: linear-gradient(135deg, #eaf8f0 0%, #d2efdd 100%);
+  --gradient-category-transparency: linear-gradient(135deg, #eef3ff 0%, #d8dfff 100%);
+  --gradient-category-cleaning: linear-gradient(135deg, #f9edff 0%, #e8d7ff 100%);
+  --gradient-card-overlay: linear-gradient(to top, rgba(255, 255, 255, 0.18) 0%, transparent 60%);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1780,11 +1789,11 @@ section {
   }
 
   .hero-title {
-    font-size: clamp(22px, 6vw, 32px);
+    font-size: 36px;
   }
 
   .hero-desc {
-    font-size: 13px;
+    font-size: 14px;
     margin-bottom: var(--spacing-6);
   }
 
@@ -1797,7 +1806,7 @@ section {
   }
 
   .stats-mini {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
   }
 
@@ -1893,16 +1902,15 @@ section {
 
 @media (max-width: 375px) {
   .hero-title {
-    font-size: clamp(20px, 6vw, 28px);
+    font-size: 30px;
   }
 
   .hero-desc {
-    font-size: 12px;
+    font-size: 14px;
   }
 
-  .stats-card {
-    pgit@github.com:ydannielmamede/sistema-web-denuncias-urbanas.gitgit@github.com:ydannielmamede/sistema-web-denuncias-urbanas.gitadding: var(--spacing-5);
-  }
+  /* .stats-card { */
+  /* } */
 
   .stat-big-num {
     font-size: 40px;
@@ -2029,11 +2037,11 @@ section {
   }
 
   .hero-title {
-    font-size: 20px;
+    font-size: 29px;
   }
 
   .hero-desc {
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .stats-card {
