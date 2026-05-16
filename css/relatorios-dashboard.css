@@ -54,11 +54,16 @@ body {
   font-family: "Inter", sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
-  display: flex;
-  height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
   font-size: 14px;
   line-height: 1.5;
+}
+
+.dashboard-shell {
+  display: flex;
+  height: calc(100vh - 62px);
+  overflow: hidden;
 }
 
 button {

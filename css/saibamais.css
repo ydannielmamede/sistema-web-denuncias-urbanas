@@ -18,7 +18,7 @@
   --shadow: rgba(0, 0, 0, 0.3);
 }
 
-.light {
+[data-theme="light"] {
   /* Tema Claro */
   --bg: #f1f5f9;
   --card: rgba(255, 255, 255, 0.7);

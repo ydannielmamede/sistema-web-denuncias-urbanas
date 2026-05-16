@@ -10,9 +10,14 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <script src="javaScript/main.js"></script>
   </head>
 
   <body>
+    <header id="header-component"></header>
+    <div class="dashboard-shell">
     <!-- ═══════════════════════════════════════════════
                       SIDEBAR
 ═══════════════════════════════════════════════════ -->
@@ -207,9 +212,9 @@
         </div>
 
         <div class="topbar-right">
-          <button class="icon-btn" id="themeToggle" title="Toggle theme">
+          <button class="icon-btn" id="dashboardThemeToggle" title="Toggle theme">
             <svg
-              id="themeIcon"
+              id="dashboardThemeIcon"
               width="15"
               height="15"
               viewBox="0 0 24 24"
@@ -1166,7 +1171,10 @@
       <!-- /content -->
     </div>
     <!-- /main -->
+    </div>
+    <!-- /dashboard-shell -->
 
+    <footer id="footer-component"></footer>
     <script src="javaScript/relatorios-dashboard.js"></script>
-  </body>
+</body>
 </html>
