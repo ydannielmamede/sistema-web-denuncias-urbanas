@@ -1,5 +1,5 @@
 // Hamburger menu toggle
-document.addEventListener("DOMContentLoaded", function() {
+function inicializarNavbar() {
   const hamburger = document.querySelector(".hamburger");
   const navLinks = document.querySelector(".nav-links");
 
@@ -9,7 +9,9 @@ document.addEventListener("DOMContentLoaded", function() {
       hamburger.classList.toggle("active");
     });
   }
-});
+}
+
+document.addEventListener("componentsLoaded", inicializarNavbar);
 
 const formulario = document.getElementById("meuFormulario");
 const contadorElement = document.getElementById("contador");
@@ -89,11 +91,15 @@ function resetarContador() {
     alert("Contador resetado com sucesso!");
   }
 }
-document.addEventListener("DOMContentLoaded", function() {
+function inicializarTema() {
   const themeToggle = document.getElementById("themeToggle");
   const themeIcon = document.getElementById("themeIcon");
 
   function syncThemeIcon(theme) {
+    if (!themeIcon) {
+      return;
+    }
+
     if (theme === "dark") {
       themeIcon.innerHTML =
         '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />';
@@ -107,16 +113,20 @@ document.addEventListener("DOMContentLoaded", function() {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
     syncThemeIcon(theme);
+
+    if (themeToggle) {
+      themeToggle.setAttribute("aria-pressed", theme === "dark");
+    }
   }
 
-  if (themeToggle) {
-    const savedTheme =
-      localStorage.getItem("theme") ||
-      (window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light");
-    applyTheme(savedTheme);
+  const savedTheme =
+    localStorage.getItem("theme") ||
+    (window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light");
+  applyTheme(savedTheme);
 
+  if (themeToggle) {
     themeToggle.addEventListener("click", function() {
       const currentTheme =
         document.documentElement.getAttribute("data-theme") === "dark"
@@ -125,4 +135,6 @@ document.addEventListener("DOMContentLoaded", function() {
       applyTheme(currentTheme);
     });
   }
-});
+}
+
+document.addEventListener("componentsLoaded", inicializarTema);

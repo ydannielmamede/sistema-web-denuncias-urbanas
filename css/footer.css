@@ -1,0 +1,328 @@
+.footer {
+  background: var(--color-bg-footer);
+  border-top: 1px solid var(--color-border-subtle);
+  padding: var(--layout-footer-padding-top) 0 0;
+  transition:
+    background var(--transition),
+    border-color var(--transition);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--spacing-10);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.footer-brand p {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin: 14px 0 var(--spacing-5);
+  max-width: 260px;
+}
+
+.footer-social {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.social-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-surface-strong);
+  border: 1px solid var(--color-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  transition:
+    background var(--transition),
+    color var(--transition),
+    border-color var(--transition);
+}
+
+.social-btn:hover {
+  background: var(--color-bg-brand-hover-soft);
+  border-color: var(--color-border-brand-soft);
+  color: var(--color-text-brand);
+}
+
+.footer-col-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-4);
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.footer-link {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  transition: color var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-link:hover {
+  color: var(--color-text-brand);
+}
+
+.footer-link::before {
+  content: "";
+  width: 0;
+  height: 0;
+  transition: width var(--transition);
+}
+
+.footer-link:hover::before {
+  width: 6px;
+}
+
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-1);
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--color-bg-surface-strong);
+  border: 1px solid var(--color-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.contact-text {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.contact-text strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: 1px;
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+  font-size: 12px;
+  color: var(--color-text-subtle);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-bottom a {
+  color: var(--color-text-subtle);
+  transition: color var(--transition);
+}
+
+.footer-bottom a:hover {
+  color: var(--color-text-brand);
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: var(--spacing-5);
+}
+
+.footer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: 20px;
+  background: var(--color-bg-success-soft);
+  border: 1px solid var(--color-border-success-faint);
+  color: var(--color-text-success);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 860px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-8);
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-4);
+  }
+
+  .footer-bottom-links {
+    flex-direction: row;
+    gap: var(--spacing-3);
+  }
+}
+
+@media (max-width: 500px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 425px) {
+  .footer-brand p {
+    margin: var(--spacing-3) 0 18px;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+
+  .footer-links {
+    gap: var(--spacing-2);
+  }
+
+  .contact-row {
+    gap: var(--spacing-2);
+  }
+
+  .contact-icon {
+    width: var(--spacing-6);
+    height: var(--spacing-6);
+  }
+
+  .footer-bottom-links {
+    gap: var(--spacing-4);
+  }
+}
+
+@media (max-width: 375px) {
+  .footer {
+    padding: var(--spacing-10) 0 0;
+  }
+
+  .footer-brand {
+    margin: 0 auto;
+  }
+
+  .footer-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-link {
+    display: block;
+    text-align: center;
+  }
+
+  .footer-contact {
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+
+  .contact-row {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .contact-text {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-7);
+    text-align: center;
+  }
+
+  .footer-social {
+    gap: 30px;
+  }
+
+  .footer-bottom-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+  }
+}
+
+@media (max-width: 320px) {
+  .footer-brand p {
+    font-size: 12px;
+  }
+
+  .footer-col-title {
+    font-size: 11px;
+  }
+
+  .footer-link {
+    font-size: 12px;
+  }
+
+  .contact-text {
+    font-size: 11px;
+  }
+
+  .contact-text strong {
+    font-size: 10px;
+  }
+
+  .footer-bottom {
+    font-size: 11px;
+  }
+
+  .footer-bottom span {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 0;
+  }
+
+  .footer-bottom span::before {
+    content: "© 2026 Denúncias Urbanas.\A Todos os direitos reservados.";
+    white-space: pre-line;
+    font-size: 11px;
+    font-weight: 400;
+    color: inherit;
+    display: block;
+  }
+}
