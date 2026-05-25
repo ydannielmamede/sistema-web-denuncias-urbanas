@@ -8,7 +8,7 @@ class Denuncia(models.Model):
     data_hora = models.DateTimeField(auto_now_add=True, null=False, unique=False, db_column='Data_hora')
     anonimo = models.BooleanField(default=False, null=False, unique=False, db_column='Anonimo')
     localizacao = models.CharField(max_length=100, null=True, unique=False, db_column='Localizacao')
-    id_categoria = models.ForeignKey('usuario.Categoria', on_delete=models.CASCADE, db_column='CATEGORIA_id_categoria')
+    id_categoria = models.ForeignKey('categoria.Categoria', on_delete=models.CASCADE, db_column='CATEGORIA_id_categoria')
     id_orgao_alvo = models.ForeignKey('orgao_alvo.OrgaoAlvo', on_delete=models.CASCADE, db_column='ORGAO_ALVO_id_orgao_alvo')
     id_usuario = models.ForeignKey('usuario.Usuario', on_delete=models.CASCADE, db_column='USUARIO_id_usuario')
 

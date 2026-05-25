@@ -6,7 +6,7 @@ class Categoria(models.Model):
     nome_categoria = models.CharField(max_length=45, null=False, unique=True)
     descricao_categoria = models.CharField(max_length=100, null=True)
 
-class Meta:
-    db_table = 'categoria'
-def __str__(self):       
-    return self.nome_categoria
+    class Meta:
+        db_table = 'categoria'
+    def __str__(self):       
+        return self.nome_categoria
