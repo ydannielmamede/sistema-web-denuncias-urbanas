@@ -1100,6 +1100,7 @@ section {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 40px;
+  padding-top: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--border);
 }
