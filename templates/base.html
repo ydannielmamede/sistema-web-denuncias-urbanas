@@ -7,6 +7,7 @@
     <title>Denúncias Urbanas</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}" />
     <link rel="stylesheet" href="{% static 'css/modal.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/saibamais.css' %}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
@@ -21,7 +22,7 @@
         <nav class="navbar" aria-label="Navegação principal">
             <div class="container">
                 <div class="nav-inner">
-                    <a href="index.html" class="nav-logo">
+                    <a href="{% url 'index' %}" class="nav-logo">
                         <div class="logo-mark">
                             <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2.5">
@@ -37,13 +38,13 @@
 
                     <ul class="nav-links">
                         <li>
-                            <a class="nav-link active" href="index.html" aria-current="page">Início</a>
+                            <a class="nav-link active" href="{% url 'index' %}" aria-current="page">Início</a>
                         </li>
-                        <li><a class="nav-link" href="index.html#categorias">Denúncias</a></li>
+                        <li><a class="nav-link" href="{% url 'index' %}#categorias">Denúncias</a></li>
                         <li>
-                            <a class="nav-link" href="index.html#como-funciona">Como Funciona</a>
+                            <a class="nav-link" href="{% url 'index' %}#como-funciona">Como Funciona</a>
                         </li>
-                        <li><a class="nav-link" href="index.html#recentes">Recentes</a></li>
+                        <li><a class="nav-link" href="{% url 'index' %}#recentes">Recentes</a></li>
                     </ul>
 
                     <div class="nav-actions">
@@ -245,6 +246,8 @@
     <script src="{% static 'js/components-loader.js' %}"></script>
     <script src="{% static 'js/denuncias.js' %}"></script>
     <script src="{% static 'js/formulario-denuncia.js' %}"></script>
+    <script src="{% static 'javaScript/denuncias.js' %}"></script>
+    <script src="{% static 'javaScript/components-loader.js' %}"></script>
 </body>
 
 </html>

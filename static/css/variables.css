@@ -1,0 +1,38 @@
+:root {
+  --black: #0a0c0e;
+  --dark1: #111417;
+  --dark2: #181c20;
+  --dark3: #20252b;
+  --dark4: #272d35;
+  --dark5: #2e353e;
+  --accent: #ffc300;
+  --accent2: #e6b000;
+  --accent3: #cc9d00;
+  --white: #ffffff;
+  --t1: #f2f4f7;
+  --t2: #c4cad3;
+  --t3: #8a939e;
+  --t4: #4e5866;
+  --border: rgba(255, 255, 255, 0.07);
+  --border2: rgba(255, 255, 255, 0.12);
+  --green: #22c55e;
+  --blue: #3b82f6;
+  --purple: #8b5cf6;
+  --teal: #14b8a6;
+  --orange: #f97316;
+
+  /* card gradients */
+  --g-luz: linear-gradient(135deg, #1a1200 0%, #6b4800 100%);
+  --g-agua: linear-gradient(135deg, #001624 0%, #0f4d6b 100%);
+  --g-form: linear-gradient(135deg, #001a08 0%, #154d28 100%);
+  --g-anon: linear-gradient(135deg, #0e0018 0%, #3c1060 100%);
+  --g-infra: linear-gradient(135deg, #1a0800 0%, #7c2d00 100%);
+  --g-meio: linear-gradient(135deg, #001a15 0%, #065f46 100%);
+  --g-transp: linear-gradient(135deg, #0d0016 0%, #4c1d95 100%);
+  --g-limp: linear-gradient(135deg, #0c0014 0%, #701a75 100%);
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 18px;
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
