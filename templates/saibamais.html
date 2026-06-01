@@ -1,0 +1,60 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{%block content%}
+
+<body class="page-saibamais">
+  <main class="layout">
+    <!-- ESQUERDA -->
+    <section class="content">
+      <div class="saibamais-topbar">
+        <h1 class="saibamais-title">Saiba Mais</h1>
+        <!-- <button id="themeToggle">🌙</button> -->
+      </div>
+
+      <div class="card">
+        <h2>O que é uma denúncia urbana?</h2>
+        <p>
+          Uma denúncia urbana é um relato formal sobre problemas ou
+          irregularidades encontradas em áreas urbanas.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Como fazer uma denúncia urbana?</h2>
+        <p>
+          Você pode registrar diretamente pelo sistema ou entrar em contato
+          com autoridades locais.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Tipos comuns</h2>
+        <p>
+          Buracos, iluminação, lixo, barulho, segurança e outros problemas
+          urbanos.
+        </p>
+      </div>
+
+      <a href="index.html#categorias"><button class="btn-denuncia">Fazer Denúncia</button></a>
+    </section>
+
+    <!-- DIREITA -->
+    <section class="image-side">
+      <img src="{% static 'img/belem-do-para.jpg' %}" alt="Cidade" />
+    </section>
+  </main>
+
+  <!-- <script> -->
+  <!--   const themeBtn = document.getElementById("themeToggle"); -->
+  <!---->
+  <!--   if (themeBtn) { -->
+  <!--     themeBtn.addEventListener("click", () => { -->
+  <!--       // Alterna a classe 'light' no body -->
+  <!--       document.body.classList.toggle("light"); -->
+  <!--     }); -->
+  <!--   } -->
+  <!-- </script> -->
+
+</body>
+{%endblock%}
