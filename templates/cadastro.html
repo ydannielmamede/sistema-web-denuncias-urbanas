@@ -24,13 +24,25 @@
       <div>
         <fieldset>
           <label for="nome">Seu Nome:</label>
-          <input type="text" id="nome" name="nome" placeholder="Nome" minlength="3" maxlength="100">
+          <input type="text" id="nome" name="nome" placeholder="Nome" minlength="3" maxlength="100" required>
         </fieldset>
       </div>
       <div>
         <fieldset>
-          <label for="Data">Sua Data de Nascimento:</label>
-          <input type="date" id="Data" name="Data">
+          <label for="cpf">Seu CPF:</label>
+          <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" minlength="11" maxlength="14" pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}" required>
+        </fieldset>
+      </div>
+      <div>
+        <fieldset>
+          <label for="telefone">Seu Telefone:</label>
+          <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" minlength="10" maxlength="20" pattern="\(?\d{2}\)?\s?\d{4,5}-?\d{4}" required>
+        </fieldset>
+      </div>
+      <div>
+        <fieldset>
+          <label for="nascimento">Sua Data de Nascimento:</label>
+          <input type="date" id="nascimento" name="nascimento" required>
         </fieldset>
       </div>
 
@@ -60,6 +72,10 @@ Ao realizar o cadastro, você concorda com os termos estabelecidos pela platafor
 
       <button type="submit">Cadastrar</button>
       <button type="reset">Limpar</button>
+
+      <div class="login-link">
+        <p>Já tem uma conta? <a href="{% url 'login' %}">Entrar</a></p>
+      </div>
 
     </form>
   </main>

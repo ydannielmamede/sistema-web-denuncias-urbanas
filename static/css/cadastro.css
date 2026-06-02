@@ -172,7 +172,8 @@ legend {
 /* ═══════════════════════════════════════════════════
    LABELS
 ═══════════════════════════════════════════════════ */
-label {
+label,
+.login-link p {
   display: block;
   font-size: 13px;
   font-weight: 500;
@@ -186,6 +187,7 @@ label {
 ═══════════════════════════════════════════════════ */
 input[type="email"],
 input[type="text"],
+input[type="tel"],
 input[type="date"] {
   width: 100%;
   padding: 11px 14px;
@@ -204,12 +206,14 @@ input[type="date"] {
 
 input[type="email"]::placeholder,
 input[type="text"]::placeholder,
+input[type="tel"]::placeholder,
 input[type="date"]::placeholder {
   color: var(--t4);
 }
 
 input[type="email"]:focus,
 input[type="text"]:focus,
+input[type="tel"]:focus,
 input[type="date"]:focus {
   border-color: rgba(255, 195, 0, 0.4);
   background: var(--dark5);
@@ -218,6 +222,7 @@ input[type="date"]:focus {
 
 input[type="email"]:hover,
 input[type="text"]:hover,
+input[type="tel"]:hover,
 input[type="date"]:hover {
   border-color: rgba(255, 255, 255, 0.12);
 }
@@ -464,6 +469,24 @@ button[type="reset"]:disabled {
 }
 
 /* ═══════════════════════════════════════════════════
+   LOGIN LINK
+═══════════════════════════════════════════════════ */
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-link a {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.login-link a:hover {
+  color: var(--accent2);
+}
+
+/* ═══════════════════════════════════════════════════
    FORM WRAPPER DIVS
 ═══════════════════════════════════════════════════ */
 form > div {
@@ -494,6 +517,7 @@ form > div:last-of-type {
 
   input[type="email"],
   input[type="text"],
+  input[type="tel"],
   input[type="date"],
   textarea {
     font-size: 16px; /* Prevents zoom on iOS */
@@ -530,6 +554,7 @@ form > div:last-of-type {
 
   input[type="email"],
   input[type="text"],
+  input[type="tel"],
   input[type="date"],
   textarea {
     font-size: 16px;
