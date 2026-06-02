@@ -80,11 +80,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'denuncias-db',
+        'NAME': 'denuncias_db',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'dannielmamede!',
         'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'PORT': '3307',
     }
 }
 

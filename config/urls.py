@@ -23,4 +23,5 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
     path('saibamais/', TemplateView.as_view(template_name='saibamais.html'), name='saibamais'),
     path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
+    path('cadastro/', TemplateView.as_view(template_name='cadastro.html'), name='cadastro'),
 ]

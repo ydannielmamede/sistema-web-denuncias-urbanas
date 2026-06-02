@@ -236,6 +236,13 @@ FormUtils.LoginFormBase = class LoginFormBase {
         FormUtils.showNotification('Um link para redefinir a senha será enviado para seu email', 'info', this.form);
     }
     onSignupLink(e) {
+        const target = e.currentTarget;
+        const href = target.getAttribute('href');
+
+        if (target.tagName === 'A' && href && href !== '#') {
+            return;
+        }
+
         e.preventDefault();
         FormUtils.showNotification('Redirecionando para a página de cadastro...', 'info', this.form);
     }
