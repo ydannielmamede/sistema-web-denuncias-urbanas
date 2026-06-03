@@ -17,11 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
+from config.views import index
+from usuario.views import cadastrar_usuario
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('', index, name='index'),
     path('saibamais/', TemplateView.as_view(template_name='saibamais.html'), name='saibamais'),
     path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
-    path('cadastro/', TemplateView.as_view(template_name='cadastro.html'), name='cadastro'),
+    path('cadastro/', cadastrar_usuario, name='cadastro'),
 ]

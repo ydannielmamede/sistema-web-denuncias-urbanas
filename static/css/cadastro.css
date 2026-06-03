@@ -186,6 +186,7 @@ label,
    TEXT INPUTS & EMAIL
 ═══════════════════════════════════════════════════ */
 input[type="email"],
+input[type="password"],
 input[type="text"],
 input[type="tel"],
 input[type="date"] {
@@ -205,6 +206,7 @@ input[type="date"] {
 }
 
 input[type="email"]::placeholder,
+input[type="password"]::placeholder,
 input[type="text"]::placeholder,
 input[type="tel"]::placeholder,
 input[type="date"]::placeholder {
@@ -212,6 +214,7 @@ input[type="date"]::placeholder {
 }
 
 input[type="email"]:focus,
+input[type="password"]:focus,
 input[type="text"]:focus,
 input[type="tel"]:focus,
 input[type="date"]:focus {
@@ -221,6 +224,7 @@ input[type="date"]:focus {
 }
 
 input[type="email"]:hover,
+input[type="password"]:hover,
 input[type="text"]:hover,
 input[type="tel"]:hover,
 input[type="date"]:hover {

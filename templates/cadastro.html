@@ -13,7 +13,8 @@
 
 <body>
   <main>
-    <form action="/cadastro" method="post">
+    <form action="{% url 'cadastro' %}" method="post">
+      {% csrf_token %}
       <h2>Informações de cadastro</h2>
       <div>
         <fieldset>
@@ -21,6 +22,18 @@
           <input type="email" id="email" name="email" placeholder="Email" required>
         </fieldset>
       </div>
+      <div>
+  <fieldset>
+    <label for="senha">Sua Senha:</label>
+    <input type="password" id="senha" name="senha" placeholder="Senha" required>
+  </fieldset>
+</div>
+      <div>
+  <fieldset>
+    <label for="repetir_senha">Repetir Senha:</label>
+    <input type="password" id="repetir_senha" name="repetir_senha" placeholder="Senha" required>
+  </fieldset>
+</div>
       <div>
         <fieldset>
           <label for="nome">Seu Nome:</label>
@@ -77,7 +90,9 @@ Ao realizar o cadastro, você concorda com os termos estabelecidos pela platafor
         <p>Já tem uma conta? <a href="{% url 'login' %}">Entrar</a></p>
       </div>
 
+
     </form>
+
   </main>
 
   <script src="javaScript/formulario-denuncia.js"></script>

@@ -10,6 +10,7 @@ class Usuario(models.Model):
     genero = models.CharField(max_length=20,null=True, unique=False, db_column='Genero')
     telefone = models.CharField(max_length=20,null=False, unique=False, db_column='Telefone')
     perfil_id = models.ForeignKey('perfil.Perfil', on_delete=models.CASCADE,null=False, db_column='Perfil_id_perfil')
+    senha = models.CharField(max_length=100,null=False, unique=False, db_column='Senha')
 
 
     class Meta:
