@@ -8,35 +8,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (!profileBtn || !dropdown) return;
 
-  // Toggle dropdown on button click
+  function setProfileMenuOpen(isOpen) {
+    profileBtn.classList.toggle('active', isOpen);
+    dropdown.classList.toggle('active', isOpen);
+    profileBtn.setAttribute('aria-expanded', String(isOpen));
+  }
+
   profileBtn.addEventListener('click', function (e) {
     e.stopPropagation();
-    profileBtn.classList.toggle('active');
-    dropdown.classList.toggle('active');
+    setProfileMenuOpen(!dropdown.classList.contains('active'));
   });
 
-  // Close dropdown when clicking a link
   const dropdownLinks = dropdown.querySelectorAll('.dropdown-item');
   dropdownLinks.forEach(link => {
     link.addEventListener('click', function () {
-      profileBtn.classList.remove('active');
-      dropdown.classList.remove('active');
+      setProfileMenuOpen(false);
     });
   });
 
-  // Close dropdown when clicking outside
   document.addEventListener('click', function (e) {
     if (!e.target.closest('.user-profile')) {
-      profileBtn.classList.remove('active');
-      dropdown.classList.remove('active');
+      setProfileMenuOpen(false);
     }
   });
 
-  // Close dropdown on Escape key
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
-      profileBtn.classList.remove('active');
-      dropdown.classList.remove('active');
+      setProfileMenuOpen(false);
+      profileBtn.focus();
     }
   });
 });

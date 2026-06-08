@@ -52,8 +52,8 @@
                         {% if user.is_authenticated %}
                         <!-- User Profile Component -->
                         <div class="user-profile">
-                            <button class="user-profile-btn" aria-label="Menu do perfil">
-                                <div class="user-avatar">
+                            <button class="user-profile-btn" type="button" aria-label="Abrir menu do perfil" aria-expanded="false" aria-controls="user-profile-menu">
+                                <div class="user-avatar" aria-hidden="true">
                                     {{ user.first_name|first|upper }}
                                 </div>
                                 <div class="user-info">
@@ -63,25 +63,33 @@
                             </button>
 
                             <!-- Dropdown Menu -->
-                            <div class="user-dropdown">
+                            <div class="user-dropdown" id="user-profile-menu">
                                 <div class="dropdown-header">
                                     <div class="dropdown-user-name">{{ user.first_name }}</div>
                                     <div class="dropdown-user-email">{{ user.email }}</div>
                                 </div>
+
+                                <ul class="dropdown-mobile-nav" aria-label="Navegação mobile">
+                                    <li><a class="dropdown-item" href="{% url 'index'%}">Início</a></li>
+                                    <li><a class="dropdown-item" href="{%url 'index'%}#categorias">Denúncias</a></li>
+                                    <li><a class="dropdown-item" href="{%url 'index'%}#como-funciona">Como Funciona</a></li>
+                                    <li><a class="dropdown-item" href="{%url 'index'%}#recentes">Recentes</a></li>
+                                </ul>
+
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a href="{% url 'index' %}" class="dropdown-item">
-                                            📍 Minhas Denúncias
+                                            Minhas Denúncias
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{% url 'index' %}" class="dropdown-item">
-                                            ⚙️ Preferências
+                                            Preferências
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{% url 'usuario:logout' %}" class="dropdown-item logout">
-                                            🚪 Sair
+                                            Sair
                                         </a>
                                     </li>
                                 </ul>
@@ -99,12 +107,6 @@
                         </div>
                         {% endif %}
                     </div>
-
-                    <button class="hamburger" aria-label="Menu">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
                 </div>
             </div>
         </nav>
