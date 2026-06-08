@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'categoria',
     'orgao_alvo',
     'usuario',
-    'perfil',
 ]
 
 MIDDLEWARE = [
@@ -80,11 +79,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'denuncias-db',
+        'NAME': 'denuncias_db',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'dannielmamede!',
         'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'PORT': '3307',
     }
 }
 
@@ -107,6 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'usuario.Usuario'
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/

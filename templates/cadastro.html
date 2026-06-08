@@ -13,7 +13,7 @@
 
 <body>
   <main>
-    <form action="{% url 'cadastro' %}" method="post">
+    <form action="{% url 'usuario:cadastro' %}" method="POST">
       {% csrf_token %}
       <h2>Informações de cadastro</h2>
       <div>
@@ -83,11 +83,11 @@ Ao realizar o cadastro, você concorda com os termos estabelecidos pela platafor
         </div>
       </fieldset>
 
-      <button type="submit">Cadastrar</button>
+      <button value = "cadastrar" type="submit">Cadastrar</button>
       <button type="reset">Limpar</button>
 
       <div class="login-link">
-        <p>Já tem uma conta? <a href="{% url 'login' %}">Entrar</a></p>
+        <p>Já tem uma conta? <a href="{% url 'usuario:login' %}">Entrar</a></p>
       </div>
 
 
