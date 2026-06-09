@@ -16,27 +16,36 @@ def cadastrar_usuario(request):
         repetir_senha = request.POST.get("repetir_senha", "")
         termos = request.POST.get("termos")
 
+        contexto = {
+            "nome": nome,
+            "email": email,
+            "cpf": cpf,
+            "telefone": telefone,
+            "nascimento": nascimento,
+            "genero": genero,
+        }
+
         # Validações locais
         if not all([nome, email, cpf, telefone, nascimento, senha]):
             messages.error(request, "Preencha todos os campos.")
-            return render(request, "cadastro.html")
+            return redirect(request, "cadastro.html", contexto)
 
         if not termos:
             messages.error(request, "Você precisa aceitar os termos.")
-            return render(request, "cadastro.html")
+            return redirect(request, "cadastro.html", contexto)
 
         if senha != repetir_senha:
             messages.error(request, "As senhas não coincidem.")
-            return render(request, "cadastro.html")
+            return redirect(request, "cadastro.html", contexto)
 
         # Validações no banco
         if Usuario.objects.filter(email=email).exists():
             messages.error(request, "Email já cadastrado.")
-            return render(request, "cadastro.html")
+            return redirect(request, "cadastro.html",contexto)
 
         if Usuario.objects.filter(cpf=cpf).exists():
             messages.error(request, "CPF já cadastrado.")
-            return render(request, "cadastro.html")
+            return redirect(request, "cadastro.html",contexto)
 
         # Cria o usuário com hash de senha automático
         Usuario.objects.create_user(
@@ -68,7 +77,7 @@ def login_usuario(request):
         # username=email porque cadastramos assim
         user = authenticate(request, username=email, password=senha)
 
-        if user is not None:
+        if user:
             login(request, user)
             return redirect("index")
 

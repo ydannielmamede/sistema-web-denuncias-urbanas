@@ -402,6 +402,40 @@ input[type="checkbox"]:checked + label {
 }
 
 /* ═══════════════════════════════════════════════════
+   ERROR MESSAGES
+═══════════════════════════════════════════════════ */
+.errors-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.erro {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.12);
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--t1);
+  font-weight: 600;
+}
+
+.erro-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(239, 68, 68, 0.14);
+  color: #ef4444;
+  border-radius: 50%;
+  font-weight: 800;
+}
+
+/* ═══════════════════════════════════════════════════
    BUTTONS
 ═══════════════════════════════════════════════════ */
 button[type="submit"],

@@ -20,6 +20,19 @@
         <p>Entre na sua conta</p>
       </div>
 
+      {% if messages %}
+        <div class="errors-container" role="alert" aria-live="polite">
+          {% for message in messages %}
+            {% if message.tags == 'error' %}
+              <div class="erro" role="alert">
+                <span class="erro-icon">!</span>
+                <span>{{ message }}</span>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
       <div class="form-group">
         <fieldset>
           <label for="email">Endereço de Email:</label>
@@ -83,8 +96,8 @@
     </form>
   </main>
 
-  <script src="{% static 'js/form-utils.js' %}"></script>
-  <script src="{% static 'js/login.js' %}"></script>
+  <!-- <script src="{% static 'js/form-utils.js' %}"></script> -->
+  <!-- <script src="{% static 'js/login.js' %}"></script> -->
 </body>
 
 </html>
