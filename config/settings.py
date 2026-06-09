@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-p4=uv2irfdbav04226fffy8dyke)2oxw3&cbwggtb_*t$f&q!^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.75']
+# ALLOWED_HOSTS = ['192.168.0.75']
 
 
 # Application definition
@@ -81,9 +81,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'denuncias_db',
         'USER': 'root',
-        'PASSWORD': 'dannielmamede!',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
-        'PORT': '3307',
+        'PORT': '3306',
     }
 }
 

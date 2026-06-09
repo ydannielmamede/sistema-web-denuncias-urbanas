@@ -1,3 +1,5 @@
+
+
 from django.db import models
 
 # Create your models here.
@@ -11,6 +13,7 @@ class Denuncia(models.Model):
     id_categoria = models.ForeignKey('categoria.Categoria', on_delete=models.CASCADE, db_column='CATEGORIA_id_categoria')
     id_orgao_alvo = models.ForeignKey('orgao_alvo.OrgaoAlvo', on_delete=models.CASCADE, db_column='ORGAO_ALVO_id_orgao_alvo')
     id_usuario = models.ForeignKey('usuario.Usuario', on_delete=models.CASCADE, db_column='USUARIO_id_usuario')
+
 
     class Meta:
         db_table = 'denuncia'
