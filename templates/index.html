@@ -442,15 +442,18 @@
         </div>
 
         <ul class="reports-list" role="list">
+          {% for denuncia in denuncias_recentes %}
           <li>
             <div class="report-item">
               <div class="report-dot" style="background: var(--accent)"></div>
               <div class="report-info">
                 <div class="report-title">
-                  Poste apagado na Rua das Flores
+                  {{ denuncia.mensagem|truncatewords:8 }}
                 </div>
                 <div class="report-meta">
-                  <span>💡 Iluminação</span><span>Centro</span><span>Há 2 horas</span>
+                  <span>{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</span>
+                  <span>{{ denuncia.localizacao|truncatewords:3 }}</span>
+                  <span>{{ denuncia.data_hora|timesince }} atrás</span>
                 </div>
               </div>
               <span class="report-badge b-pend">Pendente</span>
@@ -460,78 +463,20 @@
               </svg>
             </div>
           </li>
+          {% empty %}
           <li>
             <div class="report-item">
-              <div class="report-dot" style="background: var(--blue)"></div>
               <div class="report-info">
                 <div class="report-title">
-                  Vazamento de água na Av. Brasil
+                  Nenhuma denúncia registrada ainda
                 </div>
                 <div class="report-meta">
-                  <span>💧 Água</span><span>Bairro X</span><span>Há 5 horas</span>
+                  <span>Seja o primeiro a registrar uma denúncia!</span>
                 </div>
               </div>
-              <span class="report-badge b-prog">Em análise</span>
-              <svg aria-hidden="true" focusable="false" class="report-arrow" width="16" height="16" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
             </div>
           </li>
-          <li>
-            <div class="report-item">
-              <div class="report-dot" style="background: var(--green)"></div>
-              <div class="report-info">
-                <div class="report-title">
-                  Buraco na via — Estrada do Campo
-                </div>
-                <div class="report-meta">
-                  <span>🚧 Infraestrutura</span><span>Bairro Y</span><span>Há 1 dia</span>
-                </div>
-              </div>
-              <span class="report-badge b-done">Resolvido</span>
-              <svg aria-hidden="true" focusable="false" class="report-arrow" width="16" height="16" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </div>
-          </li>
-          <li>
-            <div class="report-item">
-              <div class="report-dot" style="background: var(--accent)"></div>
-              <div class="report-info">
-                <div class="report-title">
-                  Lixo acumulado na Praça Central
-                </div>
-                <div class="report-meta">
-                  <span>🗑️ Limpeza</span><span>Centro</span><span>Há 2 dias</span>
-                </div>
-              </div>
-              <span class="report-badge b-pend">Pendente</span>
-              <svg aria-hidden="true" focusable="false" class="report-arrow" width="16" height="16" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </div>
-          </li>
-          <li>
-            <div class="report-item">
-              <div class="report-dot" style="background: var(--green)"></div>
-              <div class="report-info">
-                <div class="report-title">
-                  Semáforo com defeito na Cruzamento A
-                </div>
-                <div class="report-meta">
-                  <span>🚌 Transporte</span><span>Cruzamento A</span><span>Há 3 dias</span>
-                </div>
-              </div>
-              <span class="report-badge b-done">Resolvido</span>
-              <svg aria-hidden="true" focusable="false" class="report-arrow" width="16" height="16" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </div>
-          </li>
+          {% endfor %}
         </ul>
 
         <div class="view-all-wrap">
