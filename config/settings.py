@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-p4=uv2irfdbav04226fffy8dyke)2oxw3&cbwggtb_*t$f&q!^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.75']
 
 
 # Application definition
@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'categoria',
     'orgao_alvo',
     'usuario',
-    'perfil',
 ]
 
 MIDDLEWARE = [
@@ -107,13 +106,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'usuario.Usuario'
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Belem'
 
 USE_I18N = True
 
