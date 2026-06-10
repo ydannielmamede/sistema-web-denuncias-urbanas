@@ -7,7 +7,8 @@
 
 {% block content %}
 <main>
-  <form class="login-form" id="formularioDenuncia" novalidate>
+  <form class="login-form" id="formularioDenuncia" method="POST" action="{% url 'denuncia:criar_denuncia' %}" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
     <div class="login-header">
       <h2>Registrar Denúncia</h2>
       <p>Envie sua ocorrência com categoria, localização e anexos. Sua participação é importante!</p>
@@ -15,7 +16,13 @@
 
     <fieldset>
       <label for="categoriaDenuncia">Categoria</label>
-      <select id="categoriaDenuncia" name="categoria" required>
+      <select
+        id="categoriaDenuncia"
+        name="categoria"
+        required
+        oninvalid="this.setCustomValidity('Selecione uma categoria.')"
+        oninput="this.setCustomValidity('')"
+      >
         <option value="">Selecione uma categoria</option>
         {% for categoria in categorias %}
           <option value="{{ categoria.id_categoria }}">{{ categoria.nome_categoria }}</option>
@@ -54,7 +61,9 @@
     </fieldset>
 
     <button type="submit" class="login-btn btn">Enviar denúncia</button>
-    <div id="mensagemSucesso" aria-live="polite" role="status"></div>
+    <div id="mensagemSucesso" class="{{ server_message_class }}" aria-live="polite" role="status">
+      {{ server_message }}
+    </div>
   </form>
 </main>
 {% endblock %}
