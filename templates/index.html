@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content%}
-  <main>
+{% block content %}
     <!-- ═══════════════════════════════════════════════════
        HERO
   ══════════════════════════════════════════════════ -->
@@ -31,7 +30,7 @@
               segura e transparente. Sua participação torna a cidade melhor.
             </p>
             <div class="hero-btns fade-up fade-up-3">
-              <a href="{% url 'denuncia:denuncia' %}" class="btn-primary" role="button">
+              <a href="{% url 'denuncia:criar_denuncia' %}" class="btn-primary" role="button">
                 <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
@@ -521,9 +520,6 @@
         </div>
       </div>
     </section>
-  </main>
-
-  <footer id="global-footer"></footer>
 
   <div class="modal" id="modalFormulario" aria-hidden="true">
     <div class="modal-content formulario-denuncia-modal" role="dialog" aria-modal="true"
@@ -593,7 +589,3 @@
     </div>
   </div>
   {% endblock %}
- 
-</body>
-
-</html>

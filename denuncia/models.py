@@ -20,6 +20,20 @@ class Denuncia(models.Model):
         db_column='USUARIO_id_usuario',
     )
 
+    class Status(models.TextChoices):
+        PENDENTE = 'P', 'Pendente'
+        EM_ANALISE = 'A', 'Em análise'
+        RESOLVIDA = 'R', 'Resolvida'
+
+    status = models.CharField(
+        max_length=1,
+        choices=Status.choices,
+        default=Status.PENDENTE,
+        db_column='Status',
+        null=False,
+        blank=False,
+    )
+
     class Meta:
         db_table = 'denuncia'
         verbose_name = 'Denuncia'

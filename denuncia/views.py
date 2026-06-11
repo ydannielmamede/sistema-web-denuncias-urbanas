@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from categoria.models import Categoria
 from orgao_alvo.models import OrgaoAlvo
@@ -88,3 +88,40 @@ def criar_denuncia(request):
         'server_message': 'Denúncia registrada com sucesso.',
         'server_message_class': 'success',
     })
+
+
+def _set_denuncia_status(denuncia, status_code):
+    if status_code not in Denuncia.Status.values:
+        raise ValueError(f'Status inválido: {status_code}')
+    denuncia.status = status_code
+    denuncia.save(update_fields=['status'])
+
+
+@login_required(login_url='usuario:login')
+def marcar_status_pendente(request, id_denuncia):
+    if request.method != 'POST':
+        return redirect('denuncia:denuncia')
+
+    denuncia = get_object_or_404(Denuncia, id_denuncia=id_denuncia)
+    _set_denuncia_status(denuncia, Denuncia.Status.PENDENTE)
+    return redirect('denuncia:denuncia')
+
+
+@login_required(login_url='usuario:login')
+def marcar_status_em_analise(request, id_denuncia):
+    if request.method != 'POST':
+        return redirect('denuncia:denuncia')
+
+    denuncia = get_object_or_404(Denuncia, id_denuncia=id_denuncia)
+    _set_denuncia_status(denuncia, Denuncia.Status.EM_ANALISE)
+    return redirect('denuncia:denuncia')
+
+
+@login_required(login_url='usuario:login')
+def marcar_status_resolvida(request, id_denuncia):
+    if request.method != 'POST':
+        return redirect('denuncia:denuncia')
+
+    denuncia = get_object_or_404(Denuncia, id_denuncia=id_denuncia)
+    _set_denuncia_status(denuncia, Denuncia.Status.RESOLVIDA)
+    return redirect('denuncia:denuncia')
