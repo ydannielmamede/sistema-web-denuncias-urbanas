@@ -24,6 +24,10 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", index, name="index"),
     path(
+        "denuncia/",
+        include(("denuncia.urls", "denuncia"), namespace="denuncia"),
+    ),
+    path(
         "saibamais/",
         TemplateView.as_view(template_name="saibamais.html"),
         name="saibamais",

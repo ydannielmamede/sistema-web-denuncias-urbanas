@@ -28,24 +28,24 @@ def cadastrar_usuario(request):
         # Validações locais
         if not all([nome, email, cpf, telefone, nascimento, senha]):
             messages.error(request, "Preencha todos os campos.")
-            return redirect(request, "cadastro.html", contexto)
+            return render(request, "usuario/cadastro.html", contexto)
 
         if not termos:
             messages.error(request, "Você precisa aceitar os termos.")
-            return redirect(request, "cadastro.html", contexto)
+            return render(request, "usuario/cadastro.html", contexto)
 
         if senha != repetir_senha:
             messages.error(request, "As senhas não coincidem.")
-            return redirect(request, "cadastro.html", contexto)
+            return render(request, "usuario/cadastro.html", contexto)
 
         # Validações no banco
         if Usuario.objects.filter(email=email).exists():
             messages.error(request, "Email já cadastrado.")
-            return redirect(request, "cadastro.html",contexto)
+            return render(request, "usuario/cadastro.html", contexto)
 
         if Usuario.objects.filter(cpf=cpf).exists():
             messages.error(request, "CPF já cadastrado.")
-            return redirect(request, "cadastro.html",contexto)
+            return render(request, "usuario/cadastro.html", contexto)
 
         # Cria o usuário com hash de senha automático
         Usuario.objects.create_user(
@@ -62,28 +62,35 @@ def cadastrar_usuario(request):
         messages.success(request, "Cadastro realizado com sucesso!")
         return redirect("usuario:login")
 
-    return render(request, "cadastro.html")
+    return render(request, "usuario/cadastro.html")
 
 
 def login_usuario(request):
     if request.method == "POST":
         email = request.POST.get("email", "").strip().lower()
         senha = request.POST.get("senha", "")
+        lembrar = request.POST.get("remember") == "on"
+        contexto = {"email": email, "lembrar": lembrar}
 
         if not all([email, senha]):
             messages.error(request, "Preencha todos os campos.")
-            return render(request, "login.html")
+            return render(request, "usuario/login.html", contexto)
 
         # username=email porque cadastramos assim
         user = authenticate(request, username=email, password=senha)
 
         if user:
             login(request, user)
+            if lembrar:
+                request.session.set_expiry(1209600)
+            else:
+                request.session.set_expiry(0)
             return redirect("index")
 
         messages.error(request, "Email ou senha inválidos.")
+        return render(request, "usuario/login.html", contexto)
 
-    return render(request, "login.html")
+    return render(request, "usuario/login.html")
 
 
 def logout_usuario(request):
