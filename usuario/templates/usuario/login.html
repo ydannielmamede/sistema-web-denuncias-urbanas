@@ -37,7 +37,7 @@
         <fieldset>
           <label for="email">Endereço de Email:</label>
           <div class="input-wrapper">
-            <input type="email" id="email" name="email" placeholder="Email" required autocomplete="email" value="{{ email|default:'' }}">
+            <input type="email" id="email" name="email" placeholder="Email" required autocomplete="email">
           </div>
           <span class="error-message" id="emailError"></span>
         </fieldset>
@@ -58,7 +58,7 @@
 
       <div class="form-options">
         <label class="remember-wrapper" for="remember">
-          <input type="checkbox" id="remember" name="remember"{% if lembrar %} checked{% endif %}>
+          <input type="checkbox" id="remember" name="remember">
           Lembrar de mim
         </label>
         <a href="#" class="forgot-password">Esqueceu a senha?</a>

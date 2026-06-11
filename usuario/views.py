@@ -69,26 +69,19 @@ def login_usuario(request):
     if request.method == "POST":
         email = request.POST.get("email", "").strip().lower()
         senha = request.POST.get("senha", "")
-        lembrar = request.POST.get("remember") == "on"
-        contexto = {"email": email, "lembrar": lembrar}
 
         if not all([email, senha]):
             messages.error(request, "Preencha todos os campos.")
-            return render(request, "usuario/login.html", contexto)
+            return render(request, "usuario/login.html")
 
         # username=email porque cadastramos assim
         user = authenticate(request, username=email, password=senha)
 
         if user:
             login(request, user)
-            if lembrar:
-                request.session.set_expiry(1209600)
-            else:
-                request.session.set_expiry(0)
             return redirect("index")
 
         messages.error(request, "Email ou senha inválidos.")
-        return render(request, "usuario/login.html", contexto)
 
     return render(request, "usuario/login.html")
 

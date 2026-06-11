@@ -12,7 +12,27 @@ class Denuncia(models.Model):
     localizacao = models.CharField(max_length=100, null=True, unique=False, db_column='Localizacao')
     id_categoria = models.ForeignKey('categoria.Categoria', on_delete=models.CASCADE, db_column='CATEGORIA_id_categoria')
     id_orgao_alvo = models.ForeignKey('orgao_alvo.OrgaoAlvo', on_delete=models.CASCADE, db_column='ORGAO_ALVO_id_orgao_alvo')
-    id_usuario = models.ForeignKey('usuario.Usuario', on_delete=models.CASCADE, db_column='USUARIO_id_usuario')
+    id_usuario = models.ForeignKey(
+        'usuario.Usuario',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        db_column='USUARIO_id_usuario',
+    )
+
+    class Status(models.TextChoices):
+        PENDENTE = 'P', 'Pendente'
+        EM_ANALISE = 'A', 'Em análise'
+        RESOLVIDA = 'R', 'Resolvida'
+
+    status = models.CharField(
+        max_length=1,
+        choices=Status.choices,
+        default=Status.PENDENTE,
+        db_column='Status',
+        null=False,
+        blank=False,
+    )
 
 
     class Meta:
