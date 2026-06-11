@@ -34,6 +34,7 @@ class Denuncia(models.Model):
         blank=False,
     )
 
+
     class Meta:
         db_table = 'denuncia'
         verbose_name = 'Denuncia'
