@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import get_object_or_404, redirect, render
 
 from categoria.models import Categoria
@@ -97,7 +97,11 @@ def _set_denuncia_status(denuncia, status_code):
     denuncia.save(update_fields=['status'])
 
 
-@login_required(login_url='usuario:login')
+def _is_staff_or_admin(user):
+    return user.is_authenticated and user.is_staff
+
+
+@user_passes_test(_is_staff_or_admin, login_url='usuario:login')
 def marcar_status_pendente(request, id_denuncia):
     if request.method != 'POST':
         return redirect('denuncia:denuncia')
@@ -107,7 +111,7 @@ def marcar_status_pendente(request, id_denuncia):
     return redirect('denuncia:denuncia')
 
 
-@login_required(login_url='usuario:login')
+@user_passes_test(_is_staff_or_admin, login_url='usuario:login')
 def marcar_status_em_analise(request, id_denuncia):
     if request.method != 'POST':
         return redirect('denuncia:denuncia')
@@ -117,7 +121,7 @@ def marcar_status_em_analise(request, id_denuncia):
     return redirect('denuncia:denuncia')
 
 
-@login_required(login_url='usuario:login')
+@user_passes_test(_is_staff_or_admin, login_url='usuario:login')
 def marcar_status_resolvida(request, id_denuncia):
     if request.method != 'POST':
         return redirect('denuncia:denuncia')
