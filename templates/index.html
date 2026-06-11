@@ -30,7 +30,7 @@
               segura e transparente. Sua participação torna a cidade melhor.
             </p>
             <div class="hero-btns fade-up fade-up-3">
-              <a href="{% url 'denuncia:criar_denuncia' %}" class="btn-primary" role="button">
+              <a href="{% url 'denuncia:denuncia' %}" class="btn-primary" role="button">
                 <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
@@ -66,7 +66,7 @@
                   <circle cx="9" cy="7" r="4" />
                   <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
                 </svg>
-                +1.2k cidadãos ativos
+                +{{ cidadaos_impactados }} cidadãos ativos
               </div>
             </div>
           </div>
@@ -82,32 +82,32 @@
                 Estatísticas de Denúncias
               </div>
               <div class="stat-big">
-                <div class="stat-big-num">1.240</div>
+                <div class="stat-big-num">{{ total_denuncias }}</div>
                 <div class="stat-big-label">Total de Denúncias Enviadas</div>
               </div>
               <hr class="stats-divider" />
               <div class="stats-mini">
                 <div class="stat-mini">
                   <div class="stat-mini-num" style="color: var(--green)">
-                    780
+                    {{ resolvidas }}
                   </div>
                   <div class="stat-mini-label">Resolvidas</div>
                 </div>
                 <div class="stat-mini">
                   <div class="stat-mini-num" style="color: var(--accent)">
-                    320
+                    {{ pendentes }}
                   </div>
                   <div class="stat-mini-label">Pendentes</div>
                 </div>
                 <div class="stat-mini">
                   <div class="stat-mini-num" style="color: var(--blue)">
-                    140
+                    {{ em_analise }}
                   </div>
                   <div class="stat-mini-label">Em análise</div>
                 </div>
               </div>
-              <div role="progressbar" aria-valuenow="63" aria-valuemin="0" aria-valuemax="100"
-                aria-label="Taxa de resolução: 63%" style="
+              <div role="progressbar" aria-valuenow="{{ taxa_resolucao }}" aria-valuemin="0" aria-valuemax="100"
+                aria-label="Taxa de resolução: {{ taxa_resolucao }}%" style="
                     margin-top: 16px;
                     background: var(--dark4);
                     border-radius: var(--radius-sm);
@@ -116,7 +116,7 @@
                   ">
                 <div style="
                       height: 100%;
-                      width: 63%;
+                      width: {{ taxa_resolucao }}%;
                       background: linear-gradient(
                         90deg,
                         var(--green),
@@ -135,7 +135,7 @@
                       font-size: 10px;
                       font-weight: 700;
                       color: var(--green);
-                    ">63%</span>
+                    ">{{ taxa_resolucao }}%</span>
               </div>
             </div>
           </div>
@@ -150,19 +150,19 @@
       <div class="container">
         <div class="stats-band-grid">
           <div class="band-stat">
-            <div class="band-num">1.240</div>
+            <div class="band-num">{{ total_denuncias }}</div>
             <div class="band-label">Denúncias registradas</div>
           </div>
           <div class="band-stat">
-            <div class="band-num">87%</div>
+            <div class="band-num">{{ taxa_resposta }}%</div>
             <div class="band-label">Taxa de resposta</div>
           </div>
           <div class="band-stat">
-            <div class="band-num">2.8d</div>
+            <div class="band-num">{{ tempo_medio_resolucao }}d</div>
             <div class="band-label">Tempo médio de resolução</div>
           </div>
           <div class="band-stat">
-            <div class="band-num">12k+</div>
+            <div class="band-num">{{ cidadaos_impactados }}</div>
             <div class="band-label">Cidadãos impactados</div>
           </div>
         </div>
@@ -202,15 +202,14 @@
                 Relate falta de iluminação pública ou postes danificados em
                 sua região.
               </div>
-              <button type="button" class="cat-btn" data-modal-trigger="true" data-categoria="falta de luz"
-                data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}" class="cat-btn" data-categoria="falta de luz" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
                   <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
                 Registrar agora
-              </button>
+              </a>
             </div>
           </li>
 
@@ -221,15 +220,14 @@
               <div class="cat-desc">
                 Denuncie interrupções no abastecimento de água ou vazamentos.
               </div>
-              <button type="button" class="cat-btn" data-modal-trigger="true" data-categoria="falta de agua"
-                data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}" class="cat-btn" data-categoria="falta de agua" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
                   <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
                 Registrar agora
-              </button>
+              </a>
             </div>
           </li>
 
@@ -241,14 +239,14 @@
                 Registre uma ocorrência com sua identificação para acompanhar
                 o status.
               </div>
-              <button type="button" class="cat-btn" data-modal-trigger="true" data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}" class="cat-btn" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
                   <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
                 Registrar agora
-              </button>
+              </a>
             </div>
           </li>
 
@@ -260,14 +258,14 @@
               <div class="cat-desc">
                 Envie sua denúncia sem necessidade de identificação pessoal.
               </div>
-              <button type="button" class="cat-btn" data-modal-trigger="true" data-modo="anonima">
+              <a href="{% url 'denuncia:denuncia' %}" class="cat-btn" data-modo="anonima">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
                   <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
                 Registrar agora
-              </button>
+              </a>
             </div>
           </li>
 
@@ -276,15 +274,14 @@
               <div class="cat-icon">🚧</div>
               <div class="cat-title">Infraestrutura</div>
               <div class="cat-desc">Buracos, calçadas, vias danificadas.</div>
-              <button type="button" class="cat-btn" data-modal-trigger="true" data-categoria="infraestrutura"
-                data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}" class="cat-btn" data-categoria="infraestrutura" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
                   <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
                 Registrar agora
-              </button>
+              </a>
             </div>
           </li>
 
@@ -295,15 +292,14 @@
               <div class="cat-desc">
                 Desmatamento, descarte irregular, poluição.
               </div>
-              <button type="button" class="cat-btn" data-modal-trigger="true" data-categoria="meio ambiente"
-                data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}" class="cat-btn" data-categoria="meio ambiente" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
                   <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
                 Registrar agora
-              </button>
+              </a>
             </div>
           </li>
 
@@ -314,15 +310,14 @@
               <div class="cat-desc">
                 Ônibus, semáforos, sinalização viária.
               </div>
-              <button type="button" class="cat-btn" data-modal-trigger="true" data-categoria="transporte"
-                data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}" class="cat-btn" data-categoria="transporte" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
                   <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
                 Registrar agora
-              </button>
+              </a>
             </div>
           </li>
 
@@ -333,15 +328,14 @@
               <div class="cat-desc">
                 Lixo acumulado, limpeza de logradouros.
               </div>
-              <button type="button" class="cat-btn" data-modal-trigger="true" data-categoria="limpeza urbana"
-                data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}" class="cat-btn" data-categoria="limpeza urbana" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
                   <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
                 Registrar agora
-              </button>
+              </a>
             </div>
           </li>
         </ul>
@@ -455,7 +449,7 @@
                   <span>{{ denuncia.data_hora|timesince }} atrás</span>
                 </div>
               </div>
-              <span class="report-badge b-pend">Pendente</span>
+              <span class="report-badge {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}">{{ denuncia.get_status_display }}</span>
               <svg aria-hidden="true" focusable="false" class="report-arrow" width="16" height="16" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="9 18 15 12 9 6" />
@@ -506,15 +500,14 @@
             </p>
           </div>
           <div class="cta-btn">
-            <button type="button" class="btn-primary" style="white-space: nowrap" data-modal-trigger="true"
-              data-modo="identificada">
+            <a href="{% url 'denuncia:denuncia' %}" class="btn-primary" style="white-space: nowrap">
               <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2.5">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
               Registrar agora
-            </button>
+            </a>
             <a href="#" class="btn-outline" style="white-space: nowrap">Acessar painel</a>
           </div>
         </div>
