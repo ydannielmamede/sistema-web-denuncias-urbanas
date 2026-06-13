@@ -48,7 +48,7 @@
           <label for="password">Senha:</label>
           <div class="input-wrapper password-wrapper">
             <input type="password" id="password" name="senha" placeholder="Senha" required autocomplete="current-password">
-            <button type="button" class="password-toggle" id="passwordToggle" aria-label="Alternar visibilidade da senha">
+            <button type="button" class="password-toggle" id="passwordToggle" aria-label="Mostrar senha" aria-pressed="false">
               <span class="eye-icon"></span>
             </button>
           </div>
@@ -96,8 +96,27 @@
     </form>
   </main>
 
-  <!-- <script src="{% static 'js/form-utils.js' %}"></script> -->
-  <!-- <script src="{% static 'js/login.js' %}"></script> -->
+  <script>
+    // Elementos usados pelo botão de alternância da senha.
+    // Os IDs e classes abaixo também são usados pelo CSS em static/css/login.css.
+    const passwordInput = document.getElementById('password');
+    const passwordToggle = document.getElementById('passwordToggle');
+    const eyeIcon = passwordToggle?.querySelector('.eye-icon');
+
+    // Alterna entre senha oculta e senha visível sem enviar o formulário.
+    passwordToggle?.addEventListener('click', () => {
+      const isPassword = passwordInput.type === 'password';
+
+      // Troca o tipo do input e reaproveita a classe .show-password para alterar o ícone.
+      passwordInput.type = isPassword ? 'text' : 'password';
+      eyeIcon?.classList.toggle('show-password', isPassword);
+
+      // Mantém o estado acessível para leitores de tela e navegação por teclado.
+      passwordToggle.setAttribute('aria-label', isPassword ? 'Ocultar senha' : 'Mostrar senha');
+      passwordToggle.setAttribute('aria-pressed', String(isPassword));
+      passwordInput.focus();
+    });
+  </script>
 </body>
 
 </html>
