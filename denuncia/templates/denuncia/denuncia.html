@@ -25,7 +25,7 @@
       >
         <option value="">Selecione uma categoria</option>
         {% for categoria in categorias %}
-          <option value="{{ categoria.id_categoria }}">{{ categoria.nome_categoria }}</option>
+          <option value="{{ categoria.id_categoria }}">{{ categoria.icone }} {{ categoria.nome_categoria }}</option>
         {% endfor %}
       </select>
     </fieldset>

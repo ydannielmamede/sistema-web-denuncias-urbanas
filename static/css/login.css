@@ -40,7 +40,19 @@ main {
   padding: 40px 24px;
   background: var(--dark2);
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+}
+
+.login-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1180px;
+  min-height: 640px;
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(340px, 2fr);
+  align-items: stretch;
+  gap: 40px;
 }
 
 main::before {
@@ -58,14 +70,222 @@ main::before {
   z-index: 0;
 }
 
-form {
+main::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(
+    ellipse 80% 80% at 50% 50%,
+    black 30%,
+    transparent 80%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.login-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: var(--t1);
+  animation: slideInUp 0.5s ease-out;
+}
+
+.hero-content,
+.hero-map-area {
+  flex: 1 1 50%;
+  min-height: 0;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-map-area {
+  display: flex;
+}
+
+.hero-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 195, 0, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 195, 0, 0.08);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.login-hero h1 {
+  max-width: 680px;
+  margin-bottom: 16px;
+  font-size: clamp(34px, 4.2vw, 56px);
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+.login-hero p {
+  max-width: 560px;
+  margin-bottom: 0;
+  color: var(--t2);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.hero-preview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--dark3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 24px 60px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+
+.preview-map {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--dark3);
+}
+
+.preview-map.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.preview-map .leaflet-pane,
+.preview-map .leaflet-tile,
+.preview-map .leaflet-marker-icon,
+.preview-map .leaflet-marker-shadow,
+.preview-map .leaflet-tile-container,
+.preview-map .leaflet-pane > svg,
+.preview-map .leaflet-pane > canvas,
+.preview-map .leaflet-zoom-box,
+.preview-map .leaflet-image-layer,
+.preview-map .leaflet-layer {
+  position: absolute;
+}
+
+.preview-map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 500;
+  background: linear-gradient(180deg, rgba(20, 24, 31, 0.08), rgba(20, 24, 31, 0.38));
+  pointer-events: none;
+}
+
+.denuncia-pin {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border: 1px solid color-mix(in srgb, var(--pin-color) 58%, white 18%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, color-mix(in srgb, var(--pin-color) 22%, transparent) 0 42%, transparent 43%),
+    linear-gradient(145deg, rgba(20, 24, 31, 0.94), rgba(35, 40, 50, 0.82));
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 0 0 4px color-mix(in srgb, var(--pin-color) 20%, transparent),
+    0 0 0 6px color-mix(in srgb, var(--pin-color) 12%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.denuncia-pin::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(20, 24, 31, 0.9);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.denuncia-pin span {
   position: relative;
   z-index: 1;
+  display: block;
+  font-size: 17px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: rgba(20, 24, 31, 0.96);
+  color: var(--t1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.34);
+}
+
+.leaflet-popup-content {
+  margin: 12px 14px;
+  color: var(--t2);
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.leaflet-popup-content strong {
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--t2);
+}
+
+form {
+  position: relative;
+  justify-self: end;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background: var(--dark3);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 48px;
-  max-width: 480px;
+  padding: 42px;
+  max-width: 430px;
   width: 100%;
   box-shadow:
     0 25px 50px -12px rgba(0, 0, 0, 0.25),
@@ -104,6 +324,34 @@ form h2::after {
   height: 3px;
   background: var(--accent);
   border-radius: 2px;
+}
+
+.home-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(20, 24, 31, 0.78);
+  color: var(--t2);
+  font-size: 13px;
+  font-weight: 700;
+  backdrop-filter: blur(12px);
+  transition:
+    border-color var(--transition),
+    background-color var(--transition),
+    color var(--transition),
+    transform var(--transition);
+}
+
+.home-link:hover {
+  border-color: rgba(255, 195, 0, 0.35);
+  background: rgba(255, 195, 0, 0.1);
+  color: var(--accent);
+  transform: translateY(-1px);
 }
 
 .login-header {
@@ -516,9 +764,71 @@ button[type="submit"]:active {
   border-radius: 3px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 900px) {
+  .login-container {
+    grid-template-columns: 1fr;
+    gap: 44px;
+    min-height: auto;
+    max-width: 680px;
+  }
+
+  .login-hero {
+    min-height: auto;
+  }
+
   form {
-    padding: 32px 24px;
+    justify-self: stretch;
+    align-self: auto;
+    max-width: none;
+  }
+
+  .login-hero h1,
+  .login-hero p {
+    max-width: none;
+  }
+
+  .hero-preview {
+    height: 260px;
+    min-height: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    align-items: flex-start;
+    padding: 24px 14px;
+  }
+
+  .login-container {
+    gap: 36px;
+  }
+
+  .hero-top-actions {
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .home-link,
+  .hero-badge {
+    font-size: 11px;
+    padding: 7px 10px;
+  }
+
+  .login-hero h1 {
+    font-size: 30px;
+  }
+
+  .login-hero p {
+    font-size: 14px;
+  }
+
+  .hero-preview {
+    height: 230px;
+    min-height: 230px;
+  }
+
+  form {
+    padding: 28px 20px;
   }
 
   .social-login,
