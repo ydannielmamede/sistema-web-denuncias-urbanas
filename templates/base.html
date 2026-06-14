@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Denúncias Urbanas</title>
+    <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
     <link rel="stylesheet" href="{% static 'css/index.css' %}" />
     <link rel="stylesheet" href="{% static 'css/modal.css' %}" />
     <link rel="stylesheet" href="{% static 'css/user-profile.css' %}" />
@@ -44,7 +45,7 @@
                         </li>
                         <li><a class="nav-link" href="{%url 'index'%}#categorias">Denúncias</a></li>
                         <li>
-                          <a class="nav-link" href="{%url 'index'%}#como-funciona">Como Funciona</a>
+                          <a class="nav-link" href="{%url 'index'%}#como-funciona">Informações</a>
                         </li>
                         <li><a class="nav-link" href="{%url 'index'%}#recentes">Recentes</a></li>
                     </ul>
@@ -58,7 +59,7 @@
                                     {{ user.first_name|first|upper }}
                                 </div>
                                 <div class="user-info">
-                                    <div class="user-name">{{ user.first_name }}</div>
+                                    <div class="user-name">{{ user.get_full_name|default:user.first_name }}</div>
                                     <div class="user-status">Online</div>
                                 </div>
                             </button>
@@ -66,7 +67,7 @@
                             <!-- Dropdown Menu -->
                             <div class="user-dropdown" id="user-profile-menu">
                                 <div class="dropdown-header">
-                                    <div class="dropdown-user-name">{{ user.first_name }}</div>
+                                    <div class="dropdown-user-name">{{ user.get_full_name|default:user.first_name }}</div>
                                     <div class="dropdown-user-email">{{ user.email }}</div>
                                 </div>
 
