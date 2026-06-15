@@ -1036,6 +1036,17 @@ section {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-bottom-links {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }
 
 @media (max-width: 500px) {
@@ -1459,8 +1470,7 @@ section {
   }
 
   .logo-text-wrap {
-    display: none;
-    /* Hide logo text on small screens */
+    display: block;
   }
 
   .nav-search {

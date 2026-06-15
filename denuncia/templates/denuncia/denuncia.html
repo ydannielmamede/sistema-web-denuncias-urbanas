@@ -2,68 +2,86 @@
 {% load static %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="stylesheet" href="{% static 'css/denuncias.css' %}" />
 {% endblock %}
 
 {% block content %}
-<main>
-  <form class="login-form" id="formularioDenuncia" method="POST" action="{% url 'denuncia:criar_denuncia' %}" enctype="multipart/form-data" novalidate>
-    {% csrf_token %}
-    <div class="login-header">
-      <h2>Registrar Denúncia</h2>
-      <p>Envie sua ocorrência com categoria, localização e anexos. Sua participação é importante!</p>
-    </div>
-
-    <fieldset>
-      <label for="categoriaDenuncia">Categoria</label>
-      <select
-        id="categoriaDenuncia"
-        name="categoria"
-        required
-        oninvalid="this.setCustomValidity('Selecione uma categoria.')"
-        oninput="this.setCustomValidity('')"
-      >
-        <option value="">Selecione uma categoria</option>
-        {% for categoria in categorias %}
-          <option value="{{ categoria.id_categoria }}">{{ categoria.icone }} {{ categoria.nome_categoria }}</option>
-        {% endfor %}
-      </select>
-    </fieldset>
-
-    <fieldset>
-      <label for="mensagemDenuncia">Mensagem</label>
-      <textarea id="mensagemDenuncia" name="mensagem" rows="5" placeholder="Descreva o problema encontrado" required></textarea>
-    </fieldset>
-
-    <fieldset>
-      <label>Localização</label>
-      <div class="location-row">
-        <button type="button" class="btn-location" id="usarLocalizacaoAtual">Usar localização atual</button>
-        <span id="statusLocalizacao" class="location-status" aria-live="polite">Nenhuma localização capturada.</span>
+<div class="denuncia-page">
+  <section class="denuncia-map-panel" aria-label="Mapa para selecionar localização da denúncia">
+    <div class="map-card">
+      <div class="map-header">
+        <h2>Selecione o local da ocorrência</h2>
+        <p>Clique no mapa de Belém para marcar o ponto exato da denúncia.</p>
       </div>
-      <input type="text" id="localManual" name="localManual" placeholder="Rua, bairro, ponto de referência ou complemento" />
-    </fieldset>
+      <div id="denunciaMap" class="denuncia-map"></div>
+    </div>
+  </section>
 
-    <fieldset>
-      <label for="midiaDenuncia">Fotos e/ou vídeos</label>
-      <input type="file" id="midiaDenuncia" name="midia" accept="image/*,video/*" multiple />
-    </fieldset>
+  <section class="denuncia-form-panel">
+    <form class="login-form" id="formularioDenuncia" method="POST" action="{% url 'denuncia:criar_denuncia' %}" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      <div class="login-header">
+        <h2>Registrar Denúncia</h2>
+        <p>Envie sua ocorrência com categoria, localização e anexos. Sua participação é importante!</p>
+      </div>
 
-    <fieldset>
-      <div class="toggle-row">
-        <input type="checkbox" id="botaoTipoDenuncia" name="anonimo" class="toggle-input" />
-        <label for="botaoTipoDenuncia" class="toggle-switch" aria-label="Modo anônimo"></label>
-        <div>
-          <span class="toggle-label">Modo anônimo</span>
-          <p class="toggle-status">Marque para enviar anonimamente</p>
+      <fieldset>
+        <label for="categoriaDenuncia">Categoria</label>
+        <select
+          id="categoriaDenuncia"
+          name="categoria"
+          required
+          oninvalid="this.setCustomValidity('Selecione uma categoria.')"
+          oninput="this.setCustomValidity('')"
+        >
+          <option value="">Selecione uma categoria</option>
+          {% for categoria in categorias %}
+            <option value="{{ categoria.id_categoria }}">{{ categoria.icone }} {{ categoria.nome_categoria }}</option>
+          {% endfor %}
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <label for="mensagemDenuncia">Mensagem</label>
+        <textarea id="mensagemDenuncia" name="mensagem" rows="5" placeholder="Descreva o problema encontrado" required></textarea>
+      </fieldset>
+
+      <fieldset>
+        <label>Localização</label>
+        <div class="location-row">
+          <button type="button" class="btn-location" id="usarLocalizacaoAtual">Usar localização atual</button>
+          <span id="statusLocalizacao" class="location-status" aria-live="polite">Nenhuma localização capturada.</span>
         </div>
-      </div>
-    </fieldset>
+        <input type="text" id="localManual" name="localManual" placeholder="Clique no mapa ou informe rua, bairro e ponto de referência" />
+      </fieldset>
 
-    <button type="submit" class="login-btn btn">Enviar denúncia</button>
-    <div id="mensagemSucesso" class="{{ server_message_class }}" aria-live="polite" role="status">
-      {{ server_message }}
-    </div>
-  </form>
-</main>
+      <fieldset>
+        <label for="midiaDenuncia">Fotos e/ou vídeos</label>
+        <input type="file" id="midiaDenuncia" name="midia" accept="image/*,video/*" multiple />
+      </fieldset>
+
+      <fieldset>
+        <div class="toggle-row">
+          <input type="checkbox" id="botaoTipoDenuncia" name="anonimo" class="toggle-input" />
+          <label for="botaoTipoDenuncia" class="toggle-switch" aria-label="Modo anônimo"></label>
+          <div>
+            <span class="toggle-label">Modo anônimo</span>
+            <p class="toggle-status">Marque para enviar anonimamente</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <button type="submit" class="login-btn btn">Enviar denúncia</button>
+      <div id="mensagemSucesso" class="{{ server_message_class }}" aria-live="polite" role="status">
+        {{ server_message }}
+      </div>
+    </form>
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="{% static 'js/denuncia-map.js' %}"></script>
 {% endblock %}

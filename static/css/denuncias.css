@@ -19,7 +19,7 @@ body {
 main {
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   padding: 40px 24px;
   background: var(--dark2);
@@ -38,6 +38,63 @@ main::before {
   z-index: 0;
 }
 
+.denuncia-page {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 1180px);
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.denuncia-map-panel,
+.denuncia-form-panel {
+  min-width: 0;
+}
+
+.map-card {
+  height: 100%;
+  padding: 28px;
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.24);
+  animation: slideInUp 0.45s ease-out;
+}
+
+.map-header {
+  margin-bottom: 20px;
+}
+
+.map-header h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.05;
+  margin-bottom: 10px;
+  color: var(--t1);
+}
+
+.map-header p {
+  color: var(--t2);
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.denuncia-map {
+  width: 100%;
+  min-height: 560px;
+  height: calc(100% - 106px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--dark4);
+}
+
+.denuncia-map .leaflet-control-attribution {
+  font-size: 10px;
+}
+
 form.login-form {
   position: relative;
   z-index: 1;
@@ -48,6 +105,12 @@ form.login-form {
   border-radius: var(--radius-lg);
   box-shadow: 0 28px 60px rgba(0, 0, 0, 0.24);
   animation: slideInUp 0.45s ease-out;
+}
+
+.denuncia-form-panel form.login-form {
+  width: 100%;
+  max-width: none;
+  height: 100%;
 }
 
 @keyframes slideInUp {
@@ -254,13 +317,46 @@ textarea:focus {
   color: #f87171;
 }
 
+@media (max-width: 900px) {
+  main {
+    align-items: center;
+  }
+
+  .denuncia-page {
+    grid-template-columns: 1fr;
+  }
+
+  .denuncia-map-panel {
+    order: 1;
+  }
+
+  .denuncia-form-panel {
+    order: 2;
+  }
+
+  .denuncia-map {
+    min-height: 360px;
+    height: 360px;
+  }
+
+  .denuncia-form-panel form.login-form {
+    height: auto;
+  }
+}
+
 @media (max-width: 720px) {
   main {
     padding: 32px 20px;
   }
 
+  .map-card,
   form.login-form {
     padding: 32px 24px;
+  }
+
+  .map-header h2,
+  .login-header h2 {
+    font-size: 1.7rem;
   }
 }
 
@@ -269,7 +365,13 @@ textarea:focus {
     padding: 24px 16px;
   }
 
+  .map-card,
   form.login-form {
     padding: 28px 20px;
+  }
+
+  .denuncia-map {
+    min-height: 320px;
+    height: 320px;
   }
 }
