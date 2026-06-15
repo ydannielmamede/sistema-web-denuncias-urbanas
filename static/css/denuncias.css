@@ -240,6 +240,19 @@ textarea:focus {
   font-size: 0.95rem;
 }
 
+.mobile-location-map-wrapper {
+  display: none;
+}
+
+.mobile-location-map {
+  width: 100%;
+  height: 260px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--dark4);
+}
+
 .login-btn,
 .btn {
   display: inline-flex;
@@ -360,9 +373,14 @@ textarea:focus {
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
   main {
     padding: 32px 20px;
+  }
+
+  .denuncia-map-panel,
+  .map-card {
+    display: none;
   }
 
   .map-card,
@@ -373,6 +391,15 @@ textarea:focus {
   .denuncia-map {
     height: clamp(300px, 56vw, 360px);
     min-height: 300px;
+  }
+
+  .mobile-location-map-wrapper.is-visible {
+    display: block;
+    margin: 0 0 14px;
+  }
+
+  .mobile-location-map {
+    height: 260px;
   }
 
   .map-header h2,
@@ -394,5 +421,9 @@ textarea:focus {
   .denuncia-map {
     min-height: 280px;
     height: 280px;
+  }
+
+  .mobile-location-map {
+    height: 240px;
   }
 }

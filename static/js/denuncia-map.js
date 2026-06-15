@@ -1,31 +1,40 @@
 document.addEventListener("DOMContentLoaded", () => {
   const mapElement = document.getElementById("denunciaMap");
+  const mobileMapWrapper = document.getElementById("mobileLocationMapWrapper");
+  const mobileMapElement = document.getElementById("mobileLocationMap");
   const locationInput = document.getElementById("localManual");
   const statusElement = document.getElementById("statusLocalizacao");
   const currentLocationButton = document.getElementById("usarLocalizacaoAtual");
 
-  if (!mapElement || !locationInput || typeof L === "undefined") {
+  if (!locationInput || typeof L === "undefined") {
     return;
   }
 
   const belemCenter = [-1.455833, -48.503887];
-  const map = L.map(mapElement).setView(belemCenter, 13);
+  const mobileQuery = window.matchMedia("(max-width: 768px)");
+  let map = null;
+  let mobileMap = null;
   let marker = null;
+  let mobileMarker = null;
   let lastGeocodeTime = 0;
-  const GEOCODE_DELAY = 500; // ms
+  const GEOCODE_DELAY = 500;
 
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-    maxZoom: 20,
-    attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
-  }).addTo(map);
+  const addTileLayer = (targetMap) => {
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+      maxZoom: 20,
+      attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
+    }).addTo(targetMap);
+  };
+
+  if (mapElement) {
+    map = L.map(mapElement).setView(belemCenter, 13);
+    addTileLayer(map);
+  }
 
   const reverseGeocode = async (lat, lng) => {
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`,
-        {
-          headers: { "User-Agent": "DenunciasUrbanasApp/1.0" },
-        }
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
       );
 
       if (!response.ok) throw new Error("Nominatim API error");
@@ -33,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await response.json();
       if (data.address) {
         const address = data.address;
-        // Formatar endereço: rua + número + bairro + cidade
         const parts = [];
         if (address.road) parts.push(address.road);
         if (address.house_number) parts.push(address.house_number);
@@ -50,7 +58,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  const updateLocation = async (latlng, message) => {
+  const setMarker = (targetMap, latlng, isMobileMap) => {
+    if (!targetMap) return;
+
+    if (isMobileMap) {
+      if (mobileMarker) {
+        mobileMarker.setLatLng(latlng);
+      } else {
+        mobileMarker = L.marker(latlng).addTo(targetMap);
+      }
+      mobileMarker.bindPopup("Local selecionado para a denúncia").openPopup();
+      return;
+    }
+
+    if (marker) {
+      marker.setLatLng(latlng);
+    } else {
+      marker = L.marker(latlng).addTo(targetMap);
+    }
+    marker.bindPopup("Local selecionado para a denúncia").openPopup();
+  };
+
+  const updateLocation = async (latlng, targetMap, isMobileMap = false, message) => {
     const lat = latlng.lat.toFixed(6);
     const lng = latlng.lng.toFixed(6);
 
@@ -58,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
       statusElement.textContent = "Convertendo coordenadas...";
     }
 
-    // Throttling: evitar múltiplas requisições
     const now = Date.now();
     if (now - lastGeocodeTime < GEOCODE_DELAY) {
       locationInput.value = `${lat}, ${lng}`;
@@ -75,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
           statusElement.textContent = `Localização: ${address}`;
         }
       } else {
-        // Fallback: usar coordenadas se Nominatim falhar
         locationInput.value = `${lat}, ${lng}`;
         if (statusElement) {
           statusElement.textContent = "Coordenadas capturadas (endereço indisponível).";
@@ -83,24 +110,53 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    if (marker) {
-      marker.setLatLng(latlng);
-    } else {
-      marker = L.marker(latlng).addTo(map);
-    }
-
-    marker.bindPopup("Local selecionado para a denúncia").openPopup();
+    setMarker(targetMap, latlng, isMobileMap);
   };
 
-  map.on("click", async (event) => {
-    await updateLocation(event.latlng);
-  });
+  const initMobileMap = () => {
+    if (mobileMap || !mobileMapElement) return mobileMap;
+
+    mobileMap = L.map(mobileMapElement).setView(belemCenter, 13);
+    addTileLayer(mobileMap);
+
+    mobileMap.on("click", async (event) => {
+      await updateLocation(event.latlng, mobileMap, true, "Localização selecionada no mapa.");
+    });
+
+    return mobileMap;
+  };
+
+  const showMobileMap = () => {
+    if (!mobileQuery.matches || !mobileMapWrapper || !mobileMapElement) {
+      return null;
+    }
+
+    mobileMapWrapper.classList.add("is-visible");
+    const activeMap = initMobileMap();
+
+    window.setTimeout(() => {
+      activeMap.invalidateSize();
+    }, 0);
+
+    return activeMap;
+  };
+
+  if (map) {
+    map.on("click", async (event) => {
+      await updateLocation(event.latlng, map);
+    });
+  }
 
   if (currentLocationButton) {
     currentLocationButton.addEventListener("click", async () => {
+      const targetMap = showMobileMap() || map;
+      const isMobileMap = targetMap === mobileMap;
+
       if (!navigator.geolocation) {
         if (statusElement) {
-          statusElement.textContent = "Geolocalização não disponível neste navegador.";
+          statusElement.textContent = isMobileMap
+            ? "Geolocalização não disponível. Toque no mapa para selecionar."
+            : "Geolocalização não disponível neste navegador.";
         }
         return;
       }
@@ -112,12 +168,16 @@ document.addEventListener("DOMContentLoaded", () => {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const latlng = L.latLng(position.coords.latitude, position.coords.longitude);
-          map.setView(latlng, 16);
-          await updateLocation(latlng, "Localização atual capturada.");
+          if (targetMap) {
+            targetMap.setView(latlng, 16);
+          }
+          await updateLocation(latlng, targetMap, isMobileMap, "Localização atual capturada.");
         },
         () => {
           if (statusElement) {
-            statusElement.textContent = "Não foi possível capturar sua localização.";
+            statusElement.textContent = isMobileMap
+              ? "Não foi possível capturar sua localização. Toque no mapa para selecionar."
+              : "Não foi possível capturar sua localização.";
           }
         },
         {
