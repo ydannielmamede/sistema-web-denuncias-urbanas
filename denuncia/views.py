@@ -57,14 +57,11 @@ def criar_denuncia(request):
             'server_message_class': 'error',
         })
 
-    orgao_alvo = OrgaoAlvo.objects.filter(id_orgao_alvo=categoria_id).first()
-    if not orgao_alvo:
-        orgao_alvo = OrgaoAlvo.objects.first()
-
+    orgao_alvo = OrgaoAlvo.objects.filter(categoria=categoria).first()
     if not orgao_alvo:
         return render(request, 'denuncia/denuncia.html', {
             'categorias': categorias,
-            'server_message': 'Nenhum órgão alvo cadastrado no sistema.',
+            'server_message': 'Nenhum órgão alvo cadastrado para a categoria selecionada.',
             'server_message_class': 'error',
         })
 
