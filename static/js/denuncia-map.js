@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const belemCenter = [-1.455833, -48.503887];
-  const mobileQuery = window.matchMedia("(max-width: 768px)");
+  const mobileQuery = window.matchMedia("(max-width: 900px)");
   let map = null;
   let mobileMap = null;
   let marker = null;
