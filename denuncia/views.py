@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from categoria.models import Categoria
@@ -7,12 +8,49 @@ from orgao_alvo.models import OrgaoAlvo
 from .models import Denuncia
 
 
+def _get_categorias_com_orgao():
+    categorias = list(Categoria.objects.all().order_by('nome_categoria'))
+    orgaos_alvo = OrgaoAlvo.objects.select_related('categoria').all()
+    orgaos_por_categoria = {
+        orgao.categoria_id: orgao
+        for orgao in orgaos_alvo
+    }
+    for categoria in categorias:
+        categoria.orgao_alvo = orgaos_por_categoria.get(categoria.id_categoria)
+    return categorias
+
+
 def denuncia_page(request, server_message=None, server_message_class=''):
-    categorias = Categoria.objects.all().order_by('nome_categoria')
+    categorias = _get_categorias_com_orgao()
     return render(request, 'denuncia/denuncia.html', {
         'categorias': categorias,
         'server_message': server_message,
         'server_message_class': server_message_class,
+    })
+
+
+def listar_denuncias(request):
+    todas_denuncias = (
+        Denuncia.objects
+        .select_related('id_categoria', 'id_orgao_alvo', 'id_usuario')
+        .all()
+        .order_by('-data_hora')
+    )
+    todas_page = Paginator(todas_denuncias, 9).get_page(request.GET.get('todas_page'))
+
+    minhas_page = None
+    if request.user.is_authenticated:
+        minhas_denuncias = (
+            Denuncia.objects
+            .select_related('id_categoria', 'id_orgao_alvo', 'id_usuario')
+            .filter(id_usuario=request.user, anonimo=False)
+            .order_by('-data_hora')
+        )
+        minhas_page = Paginator(minhas_denuncias, 9).get_page(request.GET.get('minhas_page'))
+
+    return render(request, 'denuncia/listar_denuncias.html', {
+        'todas_denuncias': todas_page,
+        'minhas_denuncias': minhas_page,
     })
 
 
@@ -26,7 +64,7 @@ def criar_denuncia(request):
     localizacao = request.POST.get('localManual', '').strip()
     anonimo = request.POST.get('anonimo') == 'on'
 
-    categorias = Categoria.objects.all().order_by('nome_categoria')
+    categorias = _get_categorias_com_orgao()
     if not categoria_id:
         return render(request, 'denuncia/denuncia.html', {
             'categorias': categorias,

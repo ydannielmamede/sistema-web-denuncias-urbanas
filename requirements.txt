@@ -4,10 +4,12 @@ click==8.4.1
 colorama==0.4.6
 cssbeautifier==1.15.4
 Django==6.0.5
+dj-database-url==3.1.2 
 django-stubs==6.0.5
 django-stubs-ext==6.0.5
 djlint==1.36.4
 EditorConfig==0.17.1
+gunicorn==26.0.0 
 isort==8.0.1
 jsbeautifier==1.15.4
 json5==0.14.0
@@ -27,3 +29,6 @@ tqdm==4.67.3
 types-PyYAML==6.0.12.20260518
 typing_extensions==4.15.0
 tzdata==2026.2
+PyMySQL==1.1.1 
+python-decouple==3.8 
+whitenoise==6.12.0

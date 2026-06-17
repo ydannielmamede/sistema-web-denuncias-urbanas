@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Denúncias Urbanas</title>
@@ -41,7 +42,7 @@
 
                     <ul class="nav-links">
                         <li>
-                          <a class="nav-link active" href={% url 'index'%} aria-current="page">Início</a>
+                          <a class="nav-link active" href="{% url 'index'%}" aria-current="page">Início</a>
                         </li>
                         <li><a class="nav-link" href="{%url 'index'%}#categorias">Denúncias</a></li>
                         <li>
@@ -80,7 +81,7 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{% url 'index' %}" class="dropdown-item">
+                                        <a href="{% url 'denuncia:listar_denuncias' %}#minhas" class="dropdown-item">
                                             Minhas Denúncias
                                         </a>
                                     </li>

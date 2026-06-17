@@ -3,7 +3,7 @@ from django.utils import timezone
 from denuncia.models import Denuncia
 
 def index(request):
-    denuncias_recentes = Denuncia.objects.all().order_by('-data_hora')[:5]
+    denuncias_recentes = Denuncia.objects.select_related('id_categoria').order_by('-data_hora')[:5]
     total_denuncias = Denuncia.objects.count()
     resolvidas = Denuncia.objects.filter(status=Denuncia.Status.RESOLVIDA)
     total_resolvidas = resolvidas.count()

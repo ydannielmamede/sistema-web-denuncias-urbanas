@@ -6,6 +6,7 @@ class Categoria(models.Model):
     nome_categoria = models.CharField(max_length=45, null=False, unique=True)
     descricao_categoria = models.CharField(max_length=100, null=True)
     icone = models.CharField(max_length=10, null=True, blank=True, default='📍')
+    cor = models.CharField(max_length=7, null=True, blank=True, default='#F8C146')
 
     class Meta:
         db_table = 'categoria'

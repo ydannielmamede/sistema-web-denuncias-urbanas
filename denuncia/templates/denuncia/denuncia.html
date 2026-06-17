@@ -37,9 +37,31 @@
         >
           <option value="">Selecione uma categoria</option>
           {% for categoria in categorias %}
-            <option value="{{ categoria.id_categoria }}">{{ categoria.icone }} {{ categoria.nome_categoria }}</option>
+            <option
+              value="{{ categoria.id_categoria }}"
+              data-orgao-nome="{% if categoria.orgao_alvo %}{{ categoria.orgao_alvo.descricao|default_if_none:'' }}{% endif %}"
+              data-orgao-email="{% if categoria.orgao_alvo %}{{ categoria.orgao_alvo.email_orgao|default_if_none:'' }}{% endif %}"
+              data-orgao-telefone="{% if categoria.orgao_alvo %}{{ categoria.orgao_alvo.telefone|default_if_none:'' }}{% endif %}"
+            >{{ categoria.icone }} {{ categoria.nome_categoria }}</option>
           {% endfor %}
         </select>
+        <div id="orgaoAlvoInfo" class="orgao-alvo-info" hidden>
+          <p class="orgao-alvo-title">Órgão alvo</p>
+          <dl>
+            <div>
+              <dt>Nome</dt>
+              <dd id="orgaoAlvoNome">-</dd>
+            </div>
+            <div>
+              <dt>Email</dt>
+              <dd id="orgaoAlvoEmail">-</dd>
+            </div>
+            <div>
+              <dt>Telefone</dt>
+              <dd id="orgaoAlvoTelefone">-</dd>
+            </div>
+          </dl>
+        </div>
       </fieldset>
 
       <fieldset>
@@ -87,4 +109,37 @@
 {% block extra_js %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="{% static 'js/denuncia-map.js' %}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const categoriaSelect = document.getElementById("categoriaDenuncia");
+    const orgaoInfo = document.getElementById("orgaoAlvoInfo");
+    const orgaoNome = document.getElementById("orgaoAlvoNome");
+    const orgaoEmail = document.getElementById("orgaoAlvoEmail");
+    const orgaoTelefone = document.getElementById("orgaoAlvoTelefone");
+
+    if (!categoriaSelect || !orgaoInfo || !orgaoNome || !orgaoEmail || !orgaoTelefone) {
+      return;
+    }
+
+    const updateOrgaoInfo = () => {
+      const selectedOption = categoriaSelect.selectedOptions[0];
+      const nome = selectedOption?.dataset.orgaoNome || "";
+      const email = selectedOption?.dataset.orgaoEmail || "";
+      const telefone = selectedOption?.dataset.orgaoTelefone || "";
+
+      if (!nome && !email && !telefone) {
+        orgaoInfo.hidden = true;
+        return;
+      }
+
+      orgaoNome.textContent = nome || "Não informado";
+      orgaoEmail.textContent = email || "Não informado";
+      orgaoTelefone.textContent = telefone || "Não informado";
+      orgaoInfo.hidden = false;
+    };
+
+    categoriaSelect.addEventListener("change", updateOrgaoInfo);
+    updateOrgaoInfo();
+  });
+</script>
 {% endblock %}
