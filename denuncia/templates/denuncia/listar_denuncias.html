@@ -34,18 +34,20 @@
             <ul class="reports-list denuncias-grid" role="list">
                 {% for denuncia in todas_denuncias %}
                 <li>
-                    <div class="report-item denuncias-card">
-                        <div class="report-dot" style="background: {{ denuncia.id_categoria.cor|default:'#F8C146' }}"></div>
+                    <div class="report-item denuncias-card" style="border-left: 5px solid {{ denuncia.id_categoria.cor|default:'#f3e8d093' }}">
                         <div class="report-info">
+                            <div class="denuncias-card-top">
+                                <div class="report-category">{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</div>
+                                {% if denuncia.id_orgao_alvo %}<div class="report-target">{{ denuncia.id_orgao_alvo.descricao }}</div>{% endif %}
+                            </div>
                             <div class="report-title">{{ denuncia.mensagem }}</div>
                             <div class="report-meta">
-                                <span>{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</span>
-                                {% if denuncia.id_orgao_alvo %}<span>{{ denuncia.id_orgao_alvo.descricao }}</span>{% endif %}
                                 {% if denuncia.localizacao %}<span>{{ denuncia.localizacao }}</span>{% endif %}
                                 <span>{{ denuncia.data_hora|timesince }} atrás</span>
+                                <button class="denuncias-more" type="button">Ver mais</button>
+                                <span class="report-badge {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}">{{ denuncia.get_status_display }}</span>
                             </div>
                         </div>
-                        <span class="report-badge {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}">{{ denuncia.get_status_display }}</span>
                     </div>
                 </li>
                 {% empty %}
@@ -72,17 +74,19 @@
                     {% for denuncia in minhas_denuncias %}
                     <li>
                         <div class="report-item denuncias-card" style="border-left: 5px solid {{ denuncia.id_categoria.cor|default:'#f3e8d093' }}">
-                            <div class="report-dot" style="background: {{ denuncia.id_categoria.cor|default:'#F8C146' }}"></div>
                             <div class="report-info">
+                                <div class="denuncias-card-top">
+                                    <div class="report-category">{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</div>
+                                    {% if denuncia.id_orgao_alvo %}<div class="report-target">{{ denuncia.id_orgao_alvo.descricao }}</div>{% endif %}
+                                </div>
                                 <div class="report-title">{{ denuncia.mensagem }}</div>
                                 <div class="report-meta">
-                                    <span>{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</span>
-                                    {% if denuncia.id_orgao_alvo %}<span>{{ denuncia.id_orgao_alvo.descricao }}</span>{% endif %}
                                     {% if denuncia.localizacao %}<span>{{ denuncia.localizacao }}</span>{% endif %}
                                     <span>{{ denuncia.data_hora|timesince }} atrás</span>
+                                    <button class="denuncias-more" type="button">Ver mais</button>
+                                    <span class="report-badge {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}">{{ denuncia.get_status_display }}</span>
                                 </div>
                             </div>
-                            <span class="report-badge {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}">{{ denuncia.get_status_display }}</span>
                         </div>
                     </li>
                     {% empty %}
