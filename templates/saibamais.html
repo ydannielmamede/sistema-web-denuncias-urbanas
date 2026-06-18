@@ -1,60 +1,192 @@
-{%extends 'base.html'%}
-{%load static%}
+{% extends 'base.html' %}
+{% load static %}
 
-{%block content%}
-
-<body class="page-saibamais">
-  <main class="layout">
-    <!-- ESQUERDA -->
-    <section class="content">
-      <div class="saibamais-topbar">
-        <h1 class="saibamais-title">Saiba Mais</h1>
-        <!-- <button id="themeToggle">🌙</button> -->
+{% block content %}
+<div class="page-saibamais">
+  <section class="saibamais-hero">
+    <div class="container saibamais-hero-grid">
+      <div class="saibamais-hero-content">
+        <div class="tag">
+          <span class="tag-dot"></span>
+          Plataforma cidadã
+        </div>
+        <h1 class="saibamais-title">Saiba mais sobre o projeto</h1>
+        <p class="saibamais-lead">
+          Uma plataforma para aproximar cidadãos e soluções urbanas, permitindo registrar,
+          localizar e acompanhar denúncias sobre problemas que afetam a cidade.
+        </p>
+        <div class="saibamais-actions">
+          {% if user.is_authenticated %}
+          <a href="{% url 'denuncia:denuncia' %}" class="btn-primary">Registrar denúncia</a>
+          {% else %}
+          <a href="{% url 'usuario:login' %}" class="btn-primary">Entrar para denunciar</a>
+          {% endif %}
+          <a href="{% url 'index' %}#categorias" class="btn-outline">Ver categorias</a>
+        </div>
       </div>
 
-      <div class="card">
-        <h2>O que é uma denúncia urbana?</h2>
-        <p>
-          Uma denúncia urbana é um relato formal sobre problemas ou
-          irregularidades encontradas em áreas urbanas.
+      <div class="saibamais-hero-image">
+        <img src="{% static 'img/belem-do-para.jpg' %}" alt="Vista urbana de Belém do Pará" />
+      </div>
+    </div>
+  </section>
+
+  <section class="saibamais-section">
+    <div class="saibamais-section-tag">
+      <div class="tag">
+        <span class="tag-dot"></span>
+        Como funciona
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Registre sua denúncia em poucos passos</h2>
+        <p class="section-sub">
+          O processo foi pensado para ser simples, rápido e acessível em celulares e computadores.
         </p>
       </div>
 
-      <div class="card">
-        <h2>Como fazer uma denúncia urbana?</h2>
-        <p>
-          Você pode registrar diretamente pelo sistema ou entrar em contato
-          com autoridades locais.
+      <div class="saibamais-steps-grid">
+        <article class="saibamais-card saibamais-step-card">
+          <span class="saibamais-step-number">1</span>
+          <h3>Crie sua conta</h3>
+          <p>Faça login ou cadastre-se para registrar e acompanhar suas solicitações com segurança.</p>
+        </article>
+        <article class="saibamais-card saibamais-step-card">
+          <span class="saibamais-step-number">2</span>
+          <h3>Registre a denúncia</h3>
+          <p>Informe a categoria do problema, descreva a situação e adicione uma imagem se possível.</p>
+        </article>
+        <article class="saibamais-card saibamais-step-card">
+          <span class="saibamais-step-number">3</span>
+          <h3>Marque o local</h3>
+          <p>Use o mapa para indicar com precisão onde o problema urbano está acontecendo.</p>
+        </article>
+        <article class="saibamais-card saibamais-step-card">
+          <span class="saibamais-step-number">4</span>
+          <h3>Acompanhe o status</h3>
+          <p>Consulte o andamento da denúncia e acompanhe as atualizações pelo sistema.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="saibamais-section saibamais-section-alt">
+    <div class="saibamais-section-tag">
+      <div class="tag">
+        <span class="tag-dot"></span>
+        Categorias
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Tipos de denúncias urbanas</h2>
+        <p class="section-sub">
+          A plataforma organiza ocorrências comuns para facilitar o atendimento e a priorização.
         </p>
       </div>
 
-      <div class="card">
-        <h2>Tipos comuns</h2>
+      <div class="saibamais-category-grid">
+        <article class="saibamais-card saibamais-category-card luz"><h3>Iluminação pública</h3><p>Postes apagados, lâmpadas queimadas ou baixa iluminação em vias públicas.</p></article>
+        <article class="saibamais-card saibamais-category-card infra"><h3>Buracos na rua</h3><p>Danos em vias, calçadas e espaços de circulação que dificultam o deslocamento.</p></article>
+        <article class="saibamais-card saibamais-category-card limp"><h3>Coleta de lixo</h3><p>Lixo acumulado, descarte irregular ou problemas relacionados à limpeza urbana.</p></article>
+        <article class="saibamais-card saibamais-category-card transp"><h3>Calçadas danificadas</h3><p>Trechos quebrados, obstruídos ou sem acessibilidade para pedestres.</p></article>
+        <article class="saibamais-card saibamais-category-card form"><h3>Sinalização</h3><p>Placas ausentes, apagadas, danificadas ou sinalização viária insuficiente.</p></article>
+        <article class="saibamais-card saibamais-category-card agua"><h3>Vazamentos</h3><p>Problemas de água, esgoto ou outros vazamentos em áreas urbanas.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="saibamais-section">
+    <div class="container saibamais-benefits-grid">
+      <details class="saibamais-card saibamais-benefit-card">
+        <summary>Benefícios para o cidadão</summary>
+        <ul>
+          <li>Registro rápido pelo celular ou computador.</li>
+          <li>Localização exata do problema pelo mapa.</li>
+          <li>Possibilidade de anexar imagens.</li>
+          <li>Acompanhamento das denúncias enviadas.</li>
+          <li>Mais transparência no atendimento.</li>
+        </ul>
+      </details>
+      <details class="saibamais-card saibamais-benefit-card">
+        <summary>Benefícios para a gestão pública</summary>
+        <ul>
+          <li>Centralização das ocorrências urbanas.</li>
+          <li>Melhor organização das demandas da cidade.</li>
+          <li>Visualização geográfica dos problemas.</li>
+          <li>Priorização de áreas críticas.</li>
+          <li>Histórico das denúncias registradas.</li>
+        </ul>
+      </details>
+
+      <details class="saibamais-card saibamais-benefit-card saibamais-alert-card">
+        <summary>O que não deve ser denunciado?</summary>
         <p>
-          Buracos, iluminação, lixo, barulho, segurança e outros problemas
-          urbanos.
+          A plataforma não substitui canais de emergência. Em casos que exigem atendimento
+          imediato, procure os canais oficiais da sua cidade.
         </p>
+        <ul>
+          <li>Emergências médicas</li>
+          <li>Crimes em andamento</li>
+          <li>Incêndios</li>
+          <li>Situações de risco imediato</li>
+        </ul>
+      </details>
+
+      <details class="saibamais-card saibamais-benefit-card">
+        <summary>Privacidade e responsabilidade</summary>
+        <p>
+          As informações enviadas ajudam a identificar e acompanhar os problemas urbanos.
+          Imagens devem estar relacionadas à denúncia, e dados pessoais não devem ser expostos
+          sem necessidade.
+        </p>
+        <p>
+          Denúncias falsas, ofensivas ou sem relação com problemas urbanos podem ser removidas.
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <section class="saibamais-section">
+    <div class="saibamais-section-tag">
+      <div class="tag">
+        <span class="tag-dot"></span>
+        FAQ
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Perguntas frequentes</h2>
       </div>
 
-      <a href="index.html#categorias"><button class="btn-denuncia">Fazer Denúncia</button></a>
-    </section>
+      <div class="saibamais-faq-grid">
+        <article class="saibamais-card"><h3>Preciso criar conta para denunciar?</h3><p>Sim, para registrar e acompanhar suas denúncias com segurança.</p></article>
+        <article class="saibamais-card"><h3>Posso adicionar foto?</h3><p>Sim, imagens ajudam a identificar melhor o problema informado.</p></article>
+        <article class="saibamais-card"><h3>Posso acompanhar minha denúncia?</h3><p>Sim, o sistema permite acompanhar o status das denúncias enviadas.</p></article>
+        <article class="saibamais-card"><h3>Que tipo de problema posso denunciar?</h3><p>Problemas urbanos como buracos, iluminação pública, lixo acumulado, calçadas danificadas e vazamentos.</p></article>
+      </div>
+    </div>
+  </section>
 
-    <!-- DIREITA -->
-    <section class="image-side">
-      <img src="{% static 'img/belem-do-para.jpg' %}" alt="Cidade" />
-    </section>
-  </main>
-
-  <!-- <script> -->
-  <!--   const themeBtn = document.getElementById("themeToggle"); -->
-  <!---->
-  <!--   if (themeBtn) { -->
-  <!--     themeBtn.addEventListener("click", () => { -->
-  <!--       // Alterna a classe 'light' no body -->
-  <!--       document.body.classList.toggle("light"); -->
-  <!--     }); -->
-  <!--   } -->
-  <!-- </script> -->
-
-</body>
-{%endblock%}
+  <section class="saibamais-final-cta">
+    <div class="container">
+      <div class="saibamais-final-panel">
+        <h2>Viu um problema na cidade?</h2>
+        <p>Registre agora sua denúncia e ajude a melhorar o espaço urbano.</p>
+        <div class="saibamais-actions saibamais-actions-center">
+          {% if user.is_authenticated %}
+          <a href="{% url 'denuncia:denuncia' %}" class="btn-primary">Fazer denúncia</a>
+          {% else %}
+          <a href="{% url 'usuario:login' %}" class="btn-primary">Entrar para registrar</a>
+          <a href="{% url 'usuario:cadastro' %}" class="btn-outline">Criar conta</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

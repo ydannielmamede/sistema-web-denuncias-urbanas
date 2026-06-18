@@ -42,13 +42,14 @@
 
                     <ul class="nav-links">
                         <li>
-                          <a class="nav-link active" href="{% url 'index'%}" aria-current="page">Início</a>
+                          <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'index' %}" {% if request.resolver_match.url_name == 'index' %}aria-current="page"{% endif %}>Início</a>
                         </li>
-                        <li><a class="nav-link" href="{%url 'index'%}#categorias">Denúncias</a></li>
+                        <li><a class="nav-link" href="{% url 'index' %}#categorias">Denúncias</a></li>
                         <li>
-                          <a class="nav-link" href="{%url 'index'%}#como-funciona">Informações</a>
+                          <a class="nav-link" href="{% url 'index' %}#como-funciona">Informações</a>
                         </li>
-                        <li><a class="nav-link" href="{%url 'index'%}#recentes">Recentes</a></li>
+                        <li><a class="nav-link {% if request.resolver_match.url_name == 'saibamais' %}active{% endif %}" href="{% url 'saibamais' %}" {% if request.resolver_match.url_name == 'saibamais' %}aria-current="page"{% endif %}>Saiba Mais</a></li>
+                        <li><a class="nav-link" href="{% url 'index' %}#recentes">Recentes</a></li>
                     </ul>
 
                     <div class="nav-actions">
@@ -73,10 +74,11 @@
                                 </div>
 
                                 <ul class="dropdown-mobile-nav" aria-label="Navegação mobile">
-                                    <li><a class="dropdown-item" href="{% url 'index'%}">Início</a></li>
-                                    <li><a class="dropdown-item" href="{%url 'index'%}#categorias">Denúncias</a></li>
-                                    <li><a class="dropdown-item" href="{%url 'index'%}#como-funciona">Como Funciona</a></li>
-                                    <li><a class="dropdown-item" href="{%url 'index'%}#recentes">Recentes</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'index' %}">Início</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'index' %}#categorias">Denúncias</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'index' %}#como-funciona">Como Funciona</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'saibamais' %}">Saiba Mais</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'index' %}#recentes">Recentes</a></li>
                                 </ul>
 
                                 <ul class="dropdown-menu">
@@ -184,14 +186,15 @@
                 <nav aria-label="Links da plataforma">
                     <div class="footer-col-title">Plataforma</div>
                     <ul class="footer-links">
-                        <li><a href="#" class="footer-link">Início</a></li>
-                        <li><a href="#categorias" class="footer-link">Denúncias</a></li>
+                        <li><a href="{% url 'index' %}" class="footer-link">Início</a></li>
+                        <li><a href="{% url 'index' %}#categorias" class="footer-link">Denúncias</a></li>
                         <li>
-                            <a href="#como-funciona" class="footer-link">Como Funciona</a>
+                            <a href="{% url 'index' %}#como-funciona" class="footer-link">Como Funciona</a>
                         </li>
-                        <li><a href="#recentes" class="footer-link">Recentes</a></li>
-                        <li><a href="#" class="footer-link">Mapa de Ocorrências</a></li>
-                        <li><a href="#" class="footer-link">Estatísticas</a></li>
+                        <li><a href="{% url 'saibamais' %}" class="footer-link">Saiba Mais</a></li>
+                        <li><a href="{% url 'index' %}#recentes" class="footer-link">Recentes</a></li>
+                        <li><a href="{% url 'index' %}#mapa" class="footer-link">Mapa de Ocorrências</a></li>
+                        <li><a href="{% url 'index' %}#estatisticas" class="footer-link">Estatísticas</a></li>
                     </ul>
                 </nav>
 
