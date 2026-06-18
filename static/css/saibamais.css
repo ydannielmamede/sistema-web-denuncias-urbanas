@@ -1,174 +1,301 @@
 @import url(variables.css);
-* {
-  margin: 0;
-  padding: 0;
+
+.page-saibamais,
+.page-saibamais *,
+.page-saibamais *::before,
+.page-saibamais *::after {
   box-sizing: border-box;
 }
 
-/* =========================================
-           3. ESTILOS BASE
-           ========================================= */
-body.page-saibamais {
-  font-family: "Inter", sans-serif;
-  background: var(--dark1);
+.page-saibamais {
   color: var(--t1);
-  transition: var(--transition);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
 }
 
-/* =========================================
-           4. LAYOUT
-           ========================================= */
-.page-saibamais .layout {
-  display: flex;
-  flex: 1;
-  align-items: stretch;
-  gap: 0;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
+.page-saibamais .container {
+  position: relative;
+  z-index: 1;
 }
 
-.page-saibamais .content {
-  flex: 1;
-  padding: 3rem 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1.5rem;
+.saibamais-hero {
+  position: relative;
+  padding: 6rem 0 4rem;
+  background:
+    radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 32%),
+    linear-gradient(180deg, color-mix(in srgb, var(--dark2) 72%, transparent), var(--dark1));
 }
 
-.page-saibamais .saibamais-topbar {
-  display: flex;
+.saibamais-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto -15% -45% 45%;
+  height: 340px;
+  background: color-mix(in srgb, var(--accent3) 10%, transparent);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.saibamais-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
   align-items: center;
-  justify-content: space-between;
+  gap: 3rem;
+}
+
+.saibamais-hero-content {
+  max-width: 680px;
+}
+
+.saibamais-title {
+  margin: 1.25rem 0 1rem;
+  color: var(--accent);
+  font-size: clamp(2.4rem, 6vw, 4.7rem);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.saibamais-lead,
+.page-saibamais .section-sub,
+.saibamais-card p,
+.saibamais-alert-card p,
+.saibamais-final-panel p {
+  color: var(--t2);
+  line-height: 1.7;
+}
+
+.saibamais-lead {
+  max-width: 620px;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+}
+
+.saibamais-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 2rem;
+}
+
+.saibamais-actions-center {
+  justify-content: center;
+}
+
+.saibamais-hero-image {
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--dark2);
+  box-shadow: 0 24px 70px color-mix(in srgb, var(--black) 38%, transparent);
+}
+
+.saibamais-hero-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, color-mix(in srgb, var(--black) 40%, transparent));
+}
+
+.saibamais-hero-image img {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  display: block;
+  object-fit: cover;
+  filter: saturate(1.05) brightness(0.82);
+}
+
+.saibamais-section {
+  padding: 4.5rem 0;
+  background: var(--dark1);
+}
+
+.saibamais-section-alt {
+  background: color-mix(in srgb, var(--dark2) 52%, var(--dark1));
+}
+
+.saibamais-steps-grid,
+.saibamais-category-grid,
+.saibamais-faq-grid {
+  display: grid;
   gap: 1rem;
+  margin-top: 2rem;
+}
+
+.saibamais-steps-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.saibamais-category-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.saibamais-faq-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.saibamais-card,
+.saibamais-alert-card,
+.saibamais-final-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--dark2) 86%, transparent);
+  box-shadow: 0 16px 45px color-mix(in srgb, var(--black) 22%, transparent);
+}
+
+.saibamais-card,
+.saibamais-alert-card {
+  padding: 1.5rem;
+  transition: var(--transition);
+}
+
+.saibamais-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 34%, var(--border));
+  box-shadow: 0 20px 55px color-mix(in srgb, var(--accent3) 13%, transparent);
+}
+
+.saibamais-card h2,
+.saibamais-alert-card h2,
+.saibamais-final-panel h2 {
+  color: var(--t1);
+  letter-spacing: -0.03em;
+}
+
+.saibamais-card h3 {
+  margin-bottom: 0.65rem;
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+
+.saibamais-step-card {
+  position: relative;
+  padding-top: 4.75rem;
+}
+
+.saibamais-step-number {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: var(--black);
+  font-weight: 800;
+}
+
+.saibamais-benefits-grid,
+.saibamais-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.saibamais-benefit-card h2,
+.saibamais-alert-card h2 {
   margin-bottom: 1rem;
 }
 
-.page-saibamais .saibamais-title {
-  color: var(--accent);
-  font-size: clamp(1.75rem, 2.8vw, 2.5rem);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
-.page-saibamais .image-side {
-  flex: 1;
-  display: flex;
-  align-items: stretch;
-}
-
-.page-saibamais .image-side img {
-  width: 100%;
-  height: 100%;
-  min-height: 400px;
-  object-fit: cover;
-  filter: brightness(0.8);
-  margin-top: 0;
-}
-
-/* =========================================
-           5. COMPONENTES (Botões e Cards)
-           ========================================= */
-.page-saibamais #themeToggle {
-  background: transparent;
-  border: 1px solid var(--border);
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  color: var(--t1);
-  transition: var(--transition);
-  font-weight: 600;
-}
-
-.page-saibamais #themeToggle:hover {
-  background: var(--border);
-}
-
-.page-saibamais .card {
-  backdrop-filter: blur(10px);
-  background: var(--dark2);
-  padding: 1.5rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  box-shadow: 0 4px 6px color-mix(in srgb, var(--black) 30%, transparent);
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeUp 0.6s ease forwards;
-  transition: var(--transition);
-}
-
-/* Delay escalonado para múltiplos cards */
-.page-saibamais .card:nth-child(2) {
-  animation-delay: 0.1s;
-}
-
-.page-saibamais .card:nth-child(3) {
-  animation-delay: 0.2s;
-}
-
-.page-saibamais .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px color-mix(in srgb, var(--accent3) 15%, transparent);
-  /* Sombra da cor de destaque */
-}
-
-.page-saibamais .card h2 {
-  color: var(--accent);
-  margin-bottom: 0.5rem;
-}
-
-.page-saibamais .card p {
+.saibamais-benefit-card ul,
+.saibamais-alert-card ul {
+  display: grid;
+  gap: 0.75rem;
+  padding-left: 1.2rem;
+  color: var(--t2);
   line-height: 1.6;
 }
 
-.page-saibamais .btn-denuncia {
-  padding: 1rem;
-  border: none;
-  border-radius: var(--radius);
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color: var(--black);
-  font-size: 1.1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: var(--transition);
-  width: 100%;
-  margin-top: 0.5rem;
+.saibamais-benefit-card li::marker {
+  color: var(--accent);
 }
 
-.page-saibamais .btn-denuncia:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px color-mix(in srgb, var(--accent3) 40%, transparent);
+.saibamais-alert-card {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--danger) 16%, transparent), transparent),
+    color-mix(in srgb, var(--dark2) 88%, transparent);
+  border-color: color-mix(in srgb, var(--danger) 40%, var(--border));
 }
 
-/* =========================================
-           6. ANIMAÇÕES
-           ========================================= */
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
+.saibamais-alert-card li::marker {
+  color: var(--danger);
+}
+
+.saibamais-final-cta {
+  padding: 1rem 0 5rem;
+  background: var(--dark1);
+}
+
+.saibamais-final-panel {
+  padding: clamp(2rem, 5vw, 4rem);
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 42%),
+    var(--dark2);
+}
+
+.saibamais-final-panel h2 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+}
+
+.saibamais-final-panel p {
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1100px) {
+  .saibamais-steps-grid,
+  .saibamais-category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* =========================================
-           7. MEDIA QUERIES (Responsividade)
-           ========================================= */
 @media (max-width: 900px) {
-  .page-saibamais .layout {
-    flex-direction: column-reverse;
-    /* Coloca a imagem no topo no celular */
+  .saibamais-hero {
+    padding-top: 4rem;
   }
 
-  .page-saibamais .image-side {
-    flex: none;
-    height: 300px;
+  .saibamais-hero-grid,
+  .saibamais-benefits-grid,
+  .saibamais-info-grid,
+  .saibamais-faq-grid {
+    grid-template-columns: 1fr;
   }
 
-  .page-saibamais .content {
-    padding: 2rem 1.5rem;
+  .saibamais-hero-image,
+  .saibamais-hero-image img {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .saibamais-hero,
+  .saibamais-section {
+    padding: 3rem 0;
+  }
+
+  .saibamais-steps-grid,
+  .saibamais-category-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .saibamais-actions,
+  .saibamais-actions .btn-primary,
+  .saibamais-actions .btn-outline {
+    width: 100%;
+  }
+
+  .saibamais-actions .btn-primary,
+  .saibamais-actions .btn-outline {
+    justify-content: center;
+  }
+
+  .saibamais-card,
+  .saibamais-alert-card {
+    padding: 1.25rem;
   }
 }
