@@ -45,6 +45,20 @@ def listar_denuncias(request):
         .order_by('-data_hora')
     )
     todas_page = Paginator(todas_denuncias, 9).get_page(request.GET.get('todas_page'))
+    denuncias_mapa = [
+        {
+            'lat': float(denuncia.latitude),
+            'lng': float(denuncia.longitude),
+            'categoria': denuncia.id_categoria.nome_categoria,
+            'icone': denuncia.id_categoria.icone or '📍',
+            'cor': denuncia.id_categoria.cor or '#F8C146',
+            'status': denuncia.get_status_display(),
+            'localizacao': denuncia.localizacao or '',
+            'mensagem': denuncia.mensagem,
+        }
+        for denuncia in todas_denuncias
+        if denuncia.latitude is not None and denuncia.longitude is not None
+    ]
 
     minhas_page = None
     if request.user.is_authenticated:
@@ -62,6 +76,7 @@ def listar_denuncias(request):
         'categorias': categorias,
         'categoria_selecionada': categoria_id,
         'categoria_query': f'&categoria={categoria_id}' if filtro_categoria else '',
+        'denuncias_mapa': denuncias_mapa,
     })
 
 
@@ -172,34 +187,34 @@ def _set_denuncia_status(denuncia, status_code):
 
 
 def _is_staff_or_admin(user):
-    return user.is_authenticated and user.is_staff
+    return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
 @user_passes_test(_is_staff_or_admin, login_url='usuario:login')
 def marcar_status_pendente(request, id_denuncia):
     if request.method != 'POST':
-        return redirect('denuncia:denuncia')
+        return redirect('denuncia:listar_denuncias')
 
     denuncia = get_object_or_404(Denuncia, id_denuncia=id_denuncia)
     _set_denuncia_status(denuncia, Denuncia.Status.PENDENTE)
-    return redirect('denuncia:denuncia')
+    return redirect('denuncia:listar_denuncias')
 
 
 @user_passes_test(_is_staff_or_admin, login_url='usuario:login')
 def marcar_status_em_analise(request, id_denuncia):
     if request.method != 'POST':
-        return redirect('denuncia:denuncia')
+        return redirect('denuncia:listar_denuncias')
 
     denuncia = get_object_or_404(Denuncia, id_denuncia=id_denuncia)
     _set_denuncia_status(denuncia, Denuncia.Status.EM_ANALISE)
-    return redirect('denuncia:denuncia')
+    return redirect('denuncia:listar_denuncias')
 
 
 @user_passes_test(_is_staff_or_admin, login_url='usuario:login')
 def marcar_status_resolvida(request, id_denuncia):
     if request.method != 'POST':
-        return redirect('denuncia:denuncia')
+        return redirect('denuncia:listar_denuncias')
 
     denuncia = get_object_or_404(Denuncia, id_denuncia=id_denuncia)
     _set_denuncia_status(denuncia, Denuncia.Status.RESOLVIDA)
-    return redirect('denuncia:denuncia')
+    return redirect('denuncia:listar_denuncias')

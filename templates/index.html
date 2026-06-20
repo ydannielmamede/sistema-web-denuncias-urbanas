@@ -38,13 +38,13 @@
                 </svg>
                 Registrar Denúncia
               </a>
-              <a href="{% url 'saibamais' %}" class="btn-outline">
+              <a href="{% url 'denuncia:listar_denuncias' %}" class="btn-outline">
                 <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 8 12 12 14 14" />
+                  <polyline points="9 12 12 15 16 10" />
                 </svg>
-                Saiba Mais
+                Ver todas as denúncias
               </a>
             </div>
             <div class="hero-trust fade-up fade-up-4">
@@ -409,6 +409,9 @@
             </div>
           </li>
         </ol>
+        <div class="view-all-wrap">
+          <a href="{% url 'saibamais' %}" class="btn-ghost">Saiba mais</a>
+        </div>
       </div>
     </section>
 
