@@ -10,6 +10,8 @@ class Denuncia(models.Model):
     data_hora = models.DateTimeField(auto_now_add=True, null=False, unique=False, db_column='Data_hora')
     anonimo = models.BooleanField(default=False, null=False, unique=False, db_column='Anonimo')
     localizacao = models.CharField(max_length=100, null=True, unique=False, db_column='Localizacao')
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, db_column='Latitude')
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, db_column='Longitude')
     id_categoria = models.ForeignKey('categoria.Categoria', on_delete=models.CASCADE, db_column='CATEGORIA_id_categoria')
     id_orgao_alvo = models.ForeignKey('orgao_alvo.OrgaoAlvo', on_delete=models.CASCADE, db_column='ORGAO_ALVO_id_orgao_alvo')
     id_usuario = models.ForeignKey(

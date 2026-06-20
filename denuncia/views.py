@@ -1,3 +1,5 @@
+from decimal import Decimal, InvalidOperation
+
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
@@ -30,10 +32,16 @@ def denuncia_page(request, server_message=None, server_message_class=''):
 
 
 def listar_denuncias(request):
+    categoria_id = request.GET.get('categoria', '').strip()
+    categorias = Categoria.objects.all().order_by('nome_categoria')
+    filtro_categoria = {}
+    if categoria_id.isdigit() and categorias.filter(id_categoria=categoria_id).exists():
+        filtro_categoria['id_categoria_id'] = categoria_id
+
     todas_denuncias = (
         Denuncia.objects
         .select_related('id_categoria', 'id_orgao_alvo', 'id_usuario')
-        .all()
+        .filter(**filtro_categoria)
         .order_by('-data_hora')
     )
     todas_page = Paginator(todas_denuncias, 9).get_page(request.GET.get('todas_page'))
@@ -43,7 +51,7 @@ def listar_denuncias(request):
         minhas_denuncias = (
             Denuncia.objects
             .select_related('id_categoria', 'id_orgao_alvo', 'id_usuario')
-            .filter(id_usuario=request.user, anonimo=False)
+            .filter(id_usuario=request.user, anonimo=False, **filtro_categoria)
             .order_by('-data_hora')
         )
         minhas_page = Paginator(minhas_denuncias, 9).get_page(request.GET.get('minhas_page'))
@@ -51,6 +59,9 @@ def listar_denuncias(request):
     return render(request, 'denuncia/listar_denuncias.html', {
         'todas_denuncias': todas_page,
         'minhas_denuncias': minhas_page,
+        'categorias': categorias,
+        'categoria_selecionada': categoria_id,
+        'categoria_query': f'&categoria={categoria_id}' if filtro_categoria else '',
     })
 
 
@@ -62,6 +73,8 @@ def criar_denuncia(request):
     categoria_id = request.POST.get('categoria', '').strip()
     mensagem = request.POST.get('mensagem', '').strip()
     localizacao = request.POST.get('localManual', '').strip()
+    latitude = request.POST.get('latitude') or None
+    longitude = request.POST.get('longitude') or None
     anonimo = request.POST.get('anonimo') == 'on'
 
     categorias = _get_categorias_com_orgao()
@@ -95,6 +108,30 @@ def criar_denuncia(request):
             'server_message_class': 'error',
         })
 
+    try:
+        latitude = Decimal(latitude) if latitude else None
+        longitude = Decimal(longitude) if longitude else None
+    except InvalidOperation:
+        return render(request, 'denuncia/denuncia.html', {
+            'categorias': categorias,
+            'server_message': 'Selecione uma localização válida no mapa.',
+            'server_message_class': 'error',
+        })
+
+    if latitude is not None and not Decimal('-90') <= latitude <= Decimal('90'):
+        return render(request, 'denuncia/denuncia.html', {
+            'categorias': categorias,
+            'server_message': 'Selecione uma latitude válida no mapa.',
+            'server_message_class': 'error',
+        })
+
+    if longitude is not None and not Decimal('-180') <= longitude <= Decimal('180'):
+        return render(request, 'denuncia/denuncia.html', {
+            'categorias': categorias,
+            'server_message': 'Selecione uma longitude válida no mapa.',
+            'server_message_class': 'error',
+        })
+
     orgao_alvo = OrgaoAlvo.objects.filter(categoria=categoria).first()
     if not orgao_alvo:
         return render(request, 'denuncia/denuncia.html', {
@@ -113,6 +150,8 @@ def criar_denuncia(request):
         foto_video=foto_video,
         anonimo=anonimo,
         localizacao=localizacao,
+        latitude=latitude,
+        longitude=longitude,
         id_categoria=categoria,
         id_orgao_alvo=orgao_alvo,
         id_usuario=None if anonimo else request.user,

@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const mobileMapWrapper = document.getElementById("mobileLocationMapWrapper");
   const mobileMapElement = document.getElementById("mobileLocationMap");
   const locationInput = document.getElementById("localManual");
+  const latitudeInput = document.getElementById("latitudeDenuncia");
+  const longitudeInput = document.getElementById("longitudeDenuncia");
   const statusElement = document.getElementById("statusLocalizacao");
   const currentLocationButton = document.getElementById("usarLocalizacaoAtual");
 
@@ -83,6 +85,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const lat = latlng.lat.toFixed(6);
     const lng = latlng.lng.toFixed(6);
 
+    if (latitudeInput && longitudeInput) {
+      latitudeInput.value = lat;
+      longitudeInput.value = lng;
+    }
+
+    setMarker(targetMap, latlng, isMobileMap);
+
     if (statusElement) {
       statusElement.textContent = "Convertendo coordenadas...";
     }
@@ -109,8 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     }
-
-    setMarker(targetMap, latlng, isMobileMap);
   };
 
   const initMobileMap = () => {

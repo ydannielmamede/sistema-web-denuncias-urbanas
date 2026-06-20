@@ -21,6 +21,16 @@
             <p class="section-sub">Veja todas as ocorrências registradas e acompanhe suas próprias denúncias identificadas.</p>
         </div>
 
+        <form class="denuncias-filter" method="get">
+            <label for="categoria">Filtrar por categoria</label>
+            <select id="categoria" name="categoria" onchange="this.form.submit()">
+                <option value="">Todas</option>
+                {% for categoria in categorias %}
+                    <option value="{{ categoria.id_categoria }}" {% if categoria_selecionada == categoria.id_categoria|stringformat:'s' %}selected{% endif %}>{{ categoria.icone }} {{ categoria.nome_categoria }}</option>
+                {% endfor %}
+            </select>
+        </form>
+
         <div class="denuncias-tabs" role="tablist" aria-label="Filtros de denúncias">
             <button class="denuncias-tab is-active" type="button" id="tab-todas" role="tab" aria-selected="true" aria-controls="panel-todas" data-tab="todas">
                 Todas as denúncias
@@ -37,15 +47,17 @@
                     <div class="report-item denuncias-card" style="border-left: 5px solid {{ denuncia.id_categoria.cor|default:'#f3e8d093' }}">
                         <div class="report-info">
                             <div class="denuncias-card-top">
-                                <div class="report-category">{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</div>
-                                {% if denuncia.id_orgao_alvo %}<div class="report-target">{{ denuncia.id_orgao_alvo.descricao }}</div>{% endif %}
-                            </div>
-                            <div class="report-title">{{ denuncia.mensagem }}</div>
-                            <div class="report-meta">
-                                {% if denuncia.localizacao %}<span>{{ denuncia.localizacao }}</span>{% endif %}
-                                <span>{{ denuncia.data_hora|timesince }} atrás</span>
-                                <button class="denuncias-more" type="button">Ver mais</button>
+                                <div class="denuncias-card-heading">
+                                    <div class="report-category">{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</div>
+                                    {% if denuncia.id_orgao_alvo %}<div class="report-target">{{ denuncia.id_orgao_alvo.descricao }}</div>{% endif %}
+                                </div>
                                 <span class="report-badge {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}">{{ denuncia.get_status_display }}</span>
+                            </div>
+                            <div class="report-title">{{ denuncia.mensagem|truncatechars:64 }}</div>
+                            <div class="report-meta">
+                                <span>{{ denuncia.localizacao|default:'&nbsp;' }}</span>
+                                <span class="denuncias-date-row"><span>{{ denuncia.data_hora|date:"d/m/y H:i" }}</span><span>{{ denuncia.data_hora|timesince }} atrás</span></span>
+                                <button class="denuncias-more" type="button">Ver mais</button>
                             </div>
                         </div>
                     </div>
@@ -61,7 +73,7 @@
                     {% if page_number == todas_denuncias.number %}
                         <span class="denuncias-page is-active" aria-current="page">{{ page_number }}</span>
                     {% else %}
-                        <a class="denuncias-page" href="?todas_page={{ page_number }}#todas">{{ page_number }}</a>
+                        <a class="denuncias-page" href="?todas_page={{ page_number }}{{ categoria_query }}#todas">{{ page_number }}</a>
                     {% endif %}
                 {% endfor %}
             </nav>
@@ -76,15 +88,17 @@
                         <div class="report-item denuncias-card" style="border-left: 5px solid {{ denuncia.id_categoria.cor|default:'#f3e8d093' }}">
                             <div class="report-info">
                                 <div class="denuncias-card-top">
-                                    <div class="report-category">{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</div>
-                                    {% if denuncia.id_orgao_alvo %}<div class="report-target">{{ denuncia.id_orgao_alvo.descricao }}</div>{% endif %}
-                                </div>
-                                <div class="report-title">{{ denuncia.mensagem }}</div>
-                                <div class="report-meta">
-                                    {% if denuncia.localizacao %}<span>{{ denuncia.localizacao }}</span>{% endif %}
-                                    <span>{{ denuncia.data_hora|timesince }} atrás</span>
-                                    <button class="denuncias-more" type="button">Ver mais</button>
+                                    <div class="denuncias-card-heading">
+                                        <div class="report-category">{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</div>
+                                        {% if denuncia.id_orgao_alvo %}<div class="report-target">{{ denuncia.id_orgao_alvo.descricao }}</div>{% endif %}
+                                    </div>
                                     <span class="report-badge {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}">{{ denuncia.get_status_display }}</span>
+                                </div>
+                                <div class="report-title">{{ denuncia.mensagem|truncatechars:64 }}</div>
+                                <div class="report-meta">
+                                    <span>{{ denuncia.localizacao|default:'&nbsp;' }}</span>
+                                    <span class="denuncias-date-row"><span>{{ denuncia.data_hora|date:"d/m/y H:i" }}</span><span>{{ denuncia.data_hora|timesince }} atrás</span></span>
+                                    <button class="denuncias-more" type="button">Ver mais</button>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +114,7 @@
                         {% if page_number == minhas_denuncias.number %}
                             <span class="denuncias-page is-active" aria-current="page">{{ page_number }}</span>
                         {% else %}
-                            <a class="denuncias-page" href="?minhas_page={{ page_number }}#minhas">{{ page_number }}</a>
+                            <a class="denuncias-page" href="?minhas_page={{ page_number }}{{ categoria_query }}#minhas">{{ page_number }}</a>
                         {% endif %}
                     {% endfor %}
                 </nav>
