@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+{% endblock %}
+
 {% block content %}
     <!-- ═══════════════════════════════════════════════════
        HERO
@@ -516,72 +520,8 @@
         </div>
       </div>
     </section>
-
-  <div class="modal" id="modalFormulario" aria-hidden="true">
-    <div class="modal-content formulario-denuncia-modal" role="dialog" aria-modal="true"
-      aria-labelledby="tituloModalDenuncia">
-      <button type="button" class="close" id="fecharModalFormulario" aria-label="Fechar modal">
-        &times;
-      </button>
-      <h2 id="tituloModalDenuncia">Registrar denúncia</h2>
-      <p class="modal-subtitle">
-        Envie sua ocorrência com categoria, localização e anexos.
-      </p>
-
-      <form id="formularioDenuncia" novalidate>
-        <div class="form-group">
-          <label class="form-label" for="categoriaDenuncia">Categoria</label>
-          <select id="categoriaDenuncia" name="categoria" required>
-            <option value="">Selecione uma categoria</option>
-            <option value="falta de luz">Falta de luz</option>
-            <option value="falta de agua">Falta de água</option>
-            <option value="infraestrutura">Infraestrutura</option>
-            <option value="meio ambiente">Meio ambiente</option>
-            <option value="transporte">Transporte</option>
-            <option value="limpeza urbana">Limpeza urbana</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="mensagemDenuncia">Mensagem</label>
-          <textarea id="mensagemDenuncia" name="mensagem" rows="5" placeholder="Descreva o problema encontrado"
-            required></textarea>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Localização</label>
-          <div class="location-row">
-            <button type="button" class="btn-location" id="usarLocalizacaoAtual">
-              Usar localização atual
-            </button>
-            <span id="statusLocalizacao" class="location-status" aria-live="polite">Nenhuma localização
-              capturada.</span>
-          </div>
-          <input type="text" id="localManual" name="localManual" aria-label="Endereço manual"
-            placeholder="Rua, bairro, ponto de referência ou complemento" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="midiaDenuncia">Fotos e/ou vídeos</label>
-          <input type="file" id="midiaDenuncia" name="midia" accept="image/*,video/*" multiple />
-        </div>
-
-        <div class="form-group">
-          <span id="label-anonimo" class="form-label">Modo anônimo</span>
-          <div class="toggle-row">
-            <input type="checkbox" id="botaoTipoDenuncia" class="toggle-input" aria-labelledby="label-anonimo" />
-            <label for="botaoTipoDenuncia" class="toggle-switch">
-              <span class="toggle-thumb" aria-hidden="true"></span>
-            </label>
-            <p id="tipoDenunciaStatus" class="toggle-status">
-              Modo anônimo desativado
-            </p>
-          </div>
-        </div>
-        <button type="submit" class="btn-submit">Enviar denúncia</button>
-        <div id="mensagemSucesso" aria-live="polite" role="status"></div>
-        <input type="hidden" id="tipoDenunciaInput" name="tipoDenuncia" value="identificada" />
-      </form>
-    </div>
-  </div>
   {% endblock %}
+
+  {% block extra_js %}
+    <script src="{% static 'js/denuncias.js'%}"></script>
+  {% endblock extra_js %}
