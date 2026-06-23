@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+{% endblock %}
+
 {% block content %}
     <!-- ═══════════════════════════════════════════════════
        HERO
@@ -38,13 +42,13 @@
                 </svg>
                 Registrar Denúncia
               </a>
-              <a href="{% url 'saibamais' %}" class="btn-outline">
+              <a href="{% url 'denuncia:listar_denuncias' %}" class="btn-outline">
                 <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 8 12 12 14 14" />
+                  <polyline points="9 12 12 15 16 10" />
                 </svg>
-                Saiba Mais
+                Ver todas as denúncias
               </a>
             </div>
             <div class="hero-trust fade-up fade-up-4">
@@ -409,6 +413,9 @@
             </div>
           </li>
         </ol>
+        <div class="view-all-wrap">
+          <a href="{% url 'saibamais' %}" class="btn-ghost">Saiba mais</a>
+        </div>
       </div>
     </section>
 
@@ -513,72 +520,8 @@
         </div>
       </div>
     </section>
-
-  <div class="modal" id="modalFormulario" aria-hidden="true">
-    <div class="modal-content formulario-denuncia-modal" role="dialog" aria-modal="true"
-      aria-labelledby="tituloModalDenuncia">
-      <button type="button" class="close" id="fecharModalFormulario" aria-label="Fechar modal">
-        &times;
-      </button>
-      <h2 id="tituloModalDenuncia">Registrar denúncia</h2>
-      <p class="modal-subtitle">
-        Envie sua ocorrência com categoria, localização e anexos.
-      </p>
-
-      <form id="formularioDenuncia" novalidate>
-        <div class="form-group">
-          <label class="form-label" for="categoriaDenuncia">Categoria</label>
-          <select id="categoriaDenuncia" name="categoria" required>
-            <option value="">Selecione uma categoria</option>
-            <option value="falta de luz">Falta de luz</option>
-            <option value="falta de agua">Falta de água</option>
-            <option value="infraestrutura">Infraestrutura</option>
-            <option value="meio ambiente">Meio ambiente</option>
-            <option value="transporte">Transporte</option>
-            <option value="limpeza urbana">Limpeza urbana</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="mensagemDenuncia">Mensagem</label>
-          <textarea id="mensagemDenuncia" name="mensagem" rows="5" placeholder="Descreva o problema encontrado"
-            required></textarea>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Localização</label>
-          <div class="location-row">
-            <button type="button" class="btn-location" id="usarLocalizacaoAtual">
-              Usar localização atual
-            </button>
-            <span id="statusLocalizacao" class="location-status" aria-live="polite">Nenhuma localização
-              capturada.</span>
-          </div>
-          <input type="text" id="localManual" name="localManual" aria-label="Endereço manual"
-            placeholder="Rua, bairro, ponto de referência ou complemento" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="midiaDenuncia">Fotos e/ou vídeos</label>
-          <input type="file" id="midiaDenuncia" name="midia" accept="image/*,video/*" multiple />
-        </div>
-
-        <div class="form-group">
-          <span id="label-anonimo" class="form-label">Modo anônimo</span>
-          <div class="toggle-row">
-            <input type="checkbox" id="botaoTipoDenuncia" class="toggle-input" aria-labelledby="label-anonimo" />
-            <label for="botaoTipoDenuncia" class="toggle-switch">
-              <span class="toggle-thumb" aria-hidden="true"></span>
-            </label>
-            <p id="tipoDenunciaStatus" class="toggle-status">
-              Modo anônimo desativado
-            </p>
-          </div>
-        </div>
-        <button type="submit" class="btn-submit">Enviar denúncia</button>
-        <div id="mensagemSucesso" aria-live="polite" role="status"></div>
-        <input type="hidden" id="tipoDenunciaInput" name="tipoDenuncia" value="identificada" />
-      </form>
-    </div>
-  </div>
   {% endblock %}
+
+  {% block extra_js %}
+    <script src="{% static 'js/denuncias.js'%}"></script>
+  {% endblock extra_js %}

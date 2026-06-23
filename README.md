@@ -62,4 +62,7 @@ O sistema permitirá que essas ocorrências sejam direcionadas aos órgãos púb
 
 ## 7. Tecnologias (Stack)
 - **Frontend:** HTML, CSS, JavaScript
-- **Backend:** #
+- **Backend:** python (Django)
+- **Banco de Dados:** MySQL
+- **APIs:** openstreetmap
+- **Deploy:** railway

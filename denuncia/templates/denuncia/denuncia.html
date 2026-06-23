@@ -21,6 +21,11 @@
   <section class="denuncia-form-panel">
     <form class="login-form" id="formularioDenuncia" method="POST" action="{% url 'denuncia:criar_denuncia' %}" enctype="multipart/form-data" novalidate>
       {% csrf_token %}
+      {% if server_message %}
+        <div id="mensagemSucesso" class="form-message {{ server_message_class }}" aria-live="polite" role="status">
+          {{ server_message }}
+        </div>
+      {% endif %}
       <div class="login-header">
         <h2>Registrar Denúncia</h2>
         <p>Envie sua ocorrência com categoria, localização e anexos. Sua participação é importante!</p>
@@ -79,10 +84,12 @@
           <div id="mobileLocationMap" class="mobile-location-map"></div>
         </div>
         <input type="text" id="localManual" name="localManual" placeholder="Clique no mapa ou informe rua, bairro e ponto de referência" />
+        <input type="hidden" id="latitudeDenuncia" name="latitude" />
+        <input type="hidden" id="longitudeDenuncia" name="longitude" />
       </fieldset>
 
       <fieldset>
-        <label for="midiaDenuncia">Fotos e/ou vídeos</label>
+        <label for="midiaDenuncia">Fotos e/ou vídeos (até 3)</label>
         <input type="file" id="midiaDenuncia" name="midia" accept="image/*,video/*" multiple />
       </fieldset>
 
@@ -98,9 +105,6 @@
       </fieldset>
 
       <button type="submit" class="login-btn btn">Enviar denúncia</button>
-      <div id="mensagemSucesso" class="{{ server_message_class }}" aria-live="polite" role="status">
-        {{ server_message }}
-      </div>
     </form>
   </section>
 </div>
