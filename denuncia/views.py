@@ -155,14 +155,27 @@ def criar_denuncia(request):
             'server_message_class': 'error',
         })
 
-    foto_video = None
     midia_files = request.FILES.getlist('midia')
-    if midia_files:
-        foto_video = midia_files[0]
+    if len(midia_files) > 3:
+        return render(request, 'denuncia/denuncia.html', {
+            'categorias': categorias,
+            'server_message': 'Envie no máximo 3 fotos ou vídeos.',
+            'server_message_class': 'error',
+        })
+    if any(not arquivo.content_type.startswith(('image/', 'video/')) for arquivo in midia_files):
+        return render(request, 'denuncia/denuncia.html', {
+            'categorias': categorias,
+            'server_message': 'Envie apenas fotos ou vídeos.',
+            'server_message_class': 'error',
+        })
+
+    midias = midia_files + [None, None, None]
 
     Denuncia.objects.create(
         mensagem=mensagem,
-        foto_video=foto_video,
+        foto_video=midias[0],
+        foto_video_2=midias[1],
+        foto_video_3=midias[2],
         anonimo=anonimo,
         localizacao=localizacao,
         latitude=latitude,

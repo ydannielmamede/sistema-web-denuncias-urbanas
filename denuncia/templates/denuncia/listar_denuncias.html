@@ -93,7 +93,7 @@
                                     data-status="{{ denuncia.get_status_display }}"
                                     data-anonimo="{% if denuncia.anonimo %}Sim{% else %}Não{% endif %}"
                                     data-usuario="{% if denuncia.id_usuario and not denuncia.anonimo %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
-                                    data-midia="{% if denuncia.foto_video %}{{ denuncia.foto_video.url }}{% endif %}"
+                                    data-midia="{% for midia in denuncia.midias %}{{ midia.url }}{% if not forloop.last %}|{% endif %}{% endfor %}"
                                 >Ver mais</button>
                             </div>
                         </div>
@@ -160,7 +160,7 @@
                                     data-status="{{ denuncia.get_status_display }}"
                                     data-anonimo="{% if denuncia.anonimo %}Sim{% else %}Não{% endif %}"
                                     data-usuario="{% if denuncia.id_usuario and not denuncia.anonimo %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
-                                    data-midia="{% if denuncia.foto_video %}{{ denuncia.foto_video.url }}{% endif %}"
+                                    data-midia="{% for midia in denuncia.midias %}{{ midia.url }}{% if not forloop.last %}|{% endif %}{% endfor %}"
                                 >Ver mais</button>
                                 </div>
                             </div>
@@ -380,7 +380,7 @@
             setText(modalFields.anonimo, button.dataset.anonimo);
             setText(modalFields.usuario, button.dataset.usuario);
             setText(modalFields.mensagem, button.dataset.mensagem);
-            mediaItems = button.dataset.midia ? [button.dataset.midia] : [];
+            mediaItems = button.dataset.midia ? button.dataset.midia.split('|').filter(Boolean) : [];
             mediaIndex = 0;
             renderMedia();
             detailModal.style.display = 'flex';

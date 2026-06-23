@@ -7,6 +7,8 @@ class Denuncia(models.Model):
     id_denuncia = models.AutoField(primary_key=True, null=False, db_column='id_denuncia')
     mensagem = models.CharField(max_length=255, null=False, unique=False, db_column='Mensagem')
     foto_video = models.FileField(upload_to='denuncias/', max_length=100, null=True, blank=True, db_column='Foto_video')
+    foto_video_2 = models.FileField(upload_to='denuncias/', max_length=100, null=True, blank=True, db_column='Foto_video_2')
+    foto_video_3 = models.FileField(upload_to='denuncias/', max_length=100, null=True, blank=True, db_column='Foto_video_3')
     data_hora = models.DateTimeField(auto_now_add=True, null=False, unique=False, db_column='Data_hora')
     anonimo = models.BooleanField(default=False, null=False, unique=False, db_column='Anonimo')
     localizacao = models.CharField(max_length=100, null=True, unique=False, db_column='Localizacao')
@@ -41,6 +43,9 @@ class Denuncia(models.Model):
         db_table = 'denuncia'
         verbose_name = 'Denuncia'
         verbose_name_plural = 'Denuncias'
+
+    def midias(self):
+        return [midia for midia in (self.foto_video, self.foto_video_2, self.foto_video_3) if midia]
 
     def __str__(self):
         return self.mensagem
