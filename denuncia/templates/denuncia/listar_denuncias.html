@@ -82,14 +82,13 @@
                                 <button
                                     class="denuncias-more"
                                     type="button"
-                                    data-denuncia-id="{{ denuncia.id_denuncia }}"
                                     data-mensagem="{{ denuncia.mensagem }}"
                                     data-categoria="{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}"
                                     data-orgao="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.descricao }}{% endif %}"
                                     data-localizacao="{{ denuncia.localizacao|default_if_none:'' }}"
                                     data-latitude="{{ denuncia.latitude|default_if_none:'' }}"
                                     data-longitude="{{ denuncia.longitude|default_if_none:'' }}"
-                                    data-data="{{ denuncia.data_hora|date:'d/m/Y H:i' }}"
+                                    data-data="{{ denuncia.data_hora }}"
                                     data-status="{{ denuncia.get_status_display }}"
                                     data-anonimo="{% if denuncia.anonimo %}Sim{% else %}Não{% endif %}"
                                     data-usuario="{% if denuncia.id_usuario and not denuncia.anonimo %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
@@ -149,14 +148,13 @@
                                     <button
                                     class="denuncias-more"
                                     type="button"
-                                    data-denuncia-id="{{ denuncia.id_denuncia }}"
                                     data-mensagem="{{ denuncia.mensagem }}"
                                     data-categoria="{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}"
                                     data-orgao="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.descricao }}{% endif %}"
                                     data-localizacao="{{ denuncia.localizacao|default_if_none:'' }}"
                                     data-latitude="{{ denuncia.latitude|default_if_none:'' }}"
                                     data-longitude="{{ denuncia.longitude|default_if_none:'' }}"
-                                    data-data="{{ denuncia.data_hora|date:'d/m/Y H:i' }}"
+                                    data-data="{{ denuncia.data_hora }}"
                                     data-status="{{ denuncia.get_status_display }}"
                                     data-anonimo="{% if denuncia.anonimo %}Sim{% else %}Não{% endif %}"
                                     data-usuario="{% if denuncia.id_usuario and not denuncia.anonimo %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
@@ -196,10 +194,14 @@
 <div class="modal" id="denunciaDetalheModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="denunciaDetalheTitulo">
     <div class="modal-content denuncia-detail-modal">
         <button class="close" id="fecharDenunciaDetalhe" type="button" aria-label="Fechar">&times;</button>
+        <div class="denuncia-media-carousel" id="modalDenunciaMediaCarousel" hidden>
+            <button class="denuncia-carousel-btn" id="denunciaMediaPrev" type="button" aria-label="Mídia anterior">‹</button>
+            <div class="denuncia-carousel-stage" id="denunciaMediaStage"></div>
+            <button class="denuncia-carousel-btn" id="denunciaMediaNext" type="button" aria-label="Próxima mídia">›</button>
+        </div>
         <h1 id="denunciaDetalheTitulo">Detalhes da denúncia</h1>
 
         <div class="denuncia-detail-grid">
-            <p><strong>ID:</strong> <span id="modalDenunciaId"></span></p>
             <p><strong>Categoria:</strong> <span id="modalDenunciaCategoria"></span></p>
             <p><strong>Órgão alvo:</strong> <span id="modalDenunciaOrgao"></span></p>
             <p><strong>Status:</strong> <span id="modalDenunciaStatus"></span></p>
@@ -213,12 +215,6 @@
         <div class="denuncia-detail-message">
             <strong>Mensagem:</strong>
             <p id="modalDenunciaMensagem"></p>
-        </div>
-
-        <div class="denuncia-media-carousel" id="modalDenunciaMediaCarousel" hidden>
-            <button class="denuncia-carousel-btn" id="denunciaMediaPrev" type="button" aria-label="Mídia anterior">‹</button>
-            <div class="denuncia-carousel-stage" id="denunciaMediaStage"></div>
-            <button class="denuncia-carousel-btn" id="denunciaMediaNext" type="button" aria-label="Próxima mídia">›</button>
         </div>
         <p class="denuncia-media-empty" id="modalDenunciaSemMidia">Nenhuma mídia registrada.</p>
     </div>
@@ -316,7 +312,6 @@
         const mediaNext = document.getElementById('denunciaMediaNext');
         const mediaEmpty = document.getElementById('modalDenunciaSemMidia');
         const modalFields = {
-            id: document.getElementById('modalDenunciaId'),
             categoria: document.getElementById('modalDenunciaCategoria'),
             orgao: document.getElementById('modalDenunciaOrgao'),
             status: document.getElementById('modalDenunciaStatus'),
@@ -369,7 +364,6 @@
         }
 
         function openDetailModal(button) {
-            setText(modalFields.id, button.dataset.denunciaId);
             setText(modalFields.categoria, button.dataset.categoria);
             setText(modalFields.orgao, button.dataset.orgao);
             setText(modalFields.status, button.dataset.status);

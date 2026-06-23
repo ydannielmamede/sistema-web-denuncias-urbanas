@@ -2,3 +2,5 @@
 *.pyc
 .venv/
 venv/
+media/denuncias/*
+!media/denuncias/.gitkeep
