@@ -3,6 +3,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/denuncias-list.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal.css' %}">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 {% endblock %}
 
@@ -78,7 +79,22 @@
                             <div class="report-meta">
                                 <span>{{ denuncia.localizacao|default:'&nbsp;' }}</span>
                                 <span class="denuncias-date-row"><span>{{ denuncia.data_hora|date:"d/m/y H:i" }}</span><span>{{ denuncia.data_hora|timesince }} atrás</span></span>
-                                <button class="denuncias-more" type="button">Ver mais</button>
+                                <button
+                                    class="denuncias-more"
+                                    type="button"
+                                    data-denuncia-id="{{ denuncia.id_denuncia }}"
+                                    data-mensagem="{{ denuncia.mensagem }}"
+                                    data-categoria="{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}"
+                                    data-orgao="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.descricao }}{% endif %}"
+                                    data-localizacao="{{ denuncia.localizacao|default_if_none:'' }}"
+                                    data-latitude="{{ denuncia.latitude|default_if_none:'' }}"
+                                    data-longitude="{{ denuncia.longitude|default_if_none:'' }}"
+                                    data-data="{{ denuncia.data_hora|date:'d/m/Y H:i' }}"
+                                    data-status="{{ denuncia.get_status_display }}"
+                                    data-anonimo="{% if denuncia.anonimo %}Sim{% else %}Não{% endif %}"
+                                    data-usuario="{% if denuncia.id_usuario and not denuncia.anonimo %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
+                                    data-midia="{% if denuncia.foto_video %}{{ denuncia.foto_video.url }}{% endif %}"
+                                >Ver mais</button>
                             </div>
                         </div>
                     </div>
@@ -130,7 +146,22 @@
                                 <div class="report-meta">
                                     <span>{{ denuncia.localizacao|default:'&nbsp;' }}</span>
                                     <span class="denuncias-date-row"><span>{{ denuncia.data_hora|date:"d/m/y H:i" }}</span><span>{{ denuncia.data_hora|timesince }} atrás</span></span>
-                                    <button class="denuncias-more" type="button">Ver mais</button>
+                                    <button
+                                    class="denuncias-more"
+                                    type="button"
+                                    data-denuncia-id="{{ denuncia.id_denuncia }}"
+                                    data-mensagem="{{ denuncia.mensagem }}"
+                                    data-categoria="{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}"
+                                    data-orgao="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.descricao }}{% endif %}"
+                                    data-localizacao="{{ denuncia.localizacao|default_if_none:'' }}"
+                                    data-latitude="{{ denuncia.latitude|default_if_none:'' }}"
+                                    data-longitude="{{ denuncia.longitude|default_if_none:'' }}"
+                                    data-data="{{ denuncia.data_hora|date:'d/m/Y H:i' }}"
+                                    data-status="{{ denuncia.get_status_display }}"
+                                    data-anonimo="{% if denuncia.anonimo %}Sim{% else %}Não{% endif %}"
+                                    data-usuario="{% if denuncia.id_usuario and not denuncia.anonimo %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
+                                    data-midia="{% if denuncia.foto_video %}{{ denuncia.foto_video.url }}{% endif %}"
+                                >Ver mais</button>
                                 </div>
                             </div>
                         </div>
@@ -161,6 +192,37 @@
         </div>
     </div>
 </section>
+
+<div class="modal" id="denunciaDetalheModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="denunciaDetalheTitulo">
+    <div class="modal-content denuncia-detail-modal">
+        <button class="close" id="fecharDenunciaDetalhe" type="button" aria-label="Fechar">&times;</button>
+        <h1 id="denunciaDetalheTitulo">Detalhes da denúncia</h1>
+
+        <div class="denuncia-detail-grid">
+            <p><strong>ID:</strong> <span id="modalDenunciaId"></span></p>
+            <p><strong>Categoria:</strong> <span id="modalDenunciaCategoria"></span></p>
+            <p><strong>Órgão alvo:</strong> <span id="modalDenunciaOrgao"></span></p>
+            <p><strong>Status:</strong> <span id="modalDenunciaStatus"></span></p>
+            <p><strong>Data:</strong> <span id="modalDenunciaData"></span></p>
+            <p><strong>Localização:</strong> <span id="modalDenunciaLocalizacao"></span></p>
+            <p><strong>Coordenadas:</strong> <span id="modalDenunciaCoordenadas"></span></p>
+            <p><strong>Anônima:</strong> <span id="modalDenunciaAnonimo"></span></p>
+            <p><strong>Usuário:</strong> <span id="modalDenunciaUsuario"></span></p>
+        </div>
+
+        <div class="denuncia-detail-message">
+            <strong>Mensagem:</strong>
+            <p id="modalDenunciaMensagem"></p>
+        </div>
+
+        <div class="denuncia-media-carousel" id="modalDenunciaMediaCarousel" hidden>
+            <button class="denuncia-carousel-btn" id="denunciaMediaPrev" type="button" aria-label="Mídia anterior">‹</button>
+            <div class="denuncia-carousel-stage" id="denunciaMediaStage"></div>
+            <button class="denuncia-carousel-btn" id="denunciaMediaNext" type="button" aria-label="Próxima mídia">›</button>
+        </div>
+        <p class="denuncia-media-empty" id="modalDenunciaSemMidia">Nenhuma mídia registrada.</p>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
@@ -244,6 +306,119 @@
                 select.form.action = option.dataset.url;
                 select.form.submit();
             });
+        });
+
+        const detailModal = document.getElementById('denunciaDetalheModal');
+        const closeDetailModal = document.getElementById('fecharDenunciaDetalhe');
+        const mediaCarousel = document.getElementById('modalDenunciaMediaCarousel');
+        const mediaStage = document.getElementById('denunciaMediaStage');
+        const mediaPrev = document.getElementById('denunciaMediaPrev');
+        const mediaNext = document.getElementById('denunciaMediaNext');
+        const mediaEmpty = document.getElementById('modalDenunciaSemMidia');
+        const modalFields = {
+            id: document.getElementById('modalDenunciaId'),
+            categoria: document.getElementById('modalDenunciaCategoria'),
+            orgao: document.getElementById('modalDenunciaOrgao'),
+            status: document.getElementById('modalDenunciaStatus'),
+            data: document.getElementById('modalDenunciaData'),
+            localizacao: document.getElementById('modalDenunciaLocalizacao'),
+            coordenadas: document.getElementById('modalDenunciaCoordenadas'),
+            anonimo: document.getElementById('modalDenunciaAnonimo'),
+            usuario: document.getElementById('modalDenunciaUsuario'),
+            mensagem: document.getElementById('modalDenunciaMensagem'),
+        };
+        let mediaItems = [];
+        let mediaIndex = 0;
+
+        function setText(element, value, fallback = 'Não informado') {
+            element.textContent = value || fallback;
+        }
+
+        function renderMedia() {
+            mediaStage.innerHTML = '';
+            if (!mediaItems.length) {
+                mediaCarousel.hidden = true;
+                mediaEmpty.hidden = false;
+                return;
+            }
+
+            mediaCarousel.hidden = false;
+            mediaEmpty.hidden = true;
+            const filename = mediaItems[mediaIndex];
+            const lower = filename.toLowerCase();
+            const isImage = /\.(jpe?g|png|gif|webp)$/i.test(lower);
+            const isVideo = /\.(mp4|webm|ogg)$/i.test(lower);
+
+            if (isImage) {
+                const image = document.createElement('img');
+                image.src = filename;
+                image.alt = 'Mídia da denúncia';
+                mediaStage.appendChild(image);
+            } else if (isVideo) {
+                const video = document.createElement('video');
+                video.src = filename;
+                video.controls = true;
+                mediaStage.appendChild(video);
+            } else {
+                mediaStage.textContent = filename;
+            }
+
+            const hasMultiple = mediaItems.length > 1;
+            mediaPrev.disabled = !hasMultiple;
+            mediaNext.disabled = !hasMultiple;
+        }
+
+        function openDetailModal(button) {
+            setText(modalFields.id, button.dataset.denunciaId);
+            setText(modalFields.categoria, button.dataset.categoria);
+            setText(modalFields.orgao, button.dataset.orgao);
+            setText(modalFields.status, button.dataset.status);
+            setText(modalFields.data, button.dataset.data);
+            setText(modalFields.localizacao, button.dataset.localizacao);
+            const coordenadas = [button.dataset.latitude, button.dataset.longitude].filter(Boolean).join(', ');
+            setText(modalFields.coordenadas, coordenadas);
+            setText(modalFields.anonimo, button.dataset.anonimo);
+            setText(modalFields.usuario, button.dataset.usuario);
+            setText(modalFields.mensagem, button.dataset.mensagem);
+            mediaItems = button.dataset.midia ? [button.dataset.midia] : [];
+            mediaIndex = 0;
+            renderMedia();
+            detailModal.style.display = 'flex';
+            detailModal.setAttribute('aria-hidden', 'false');
+            closeDetailModal.focus();
+        }
+
+        function closeModal() {
+            detailModal.style.display = 'none';
+            detailModal.setAttribute('aria-hidden', 'true');
+        }
+
+        document.querySelectorAll('.denuncias-more').forEach((button) => {
+            button.addEventListener('click', function () {
+                openDetailModal(button);
+            });
+        });
+
+        closeDetailModal.addEventListener('click', closeModal);
+        detailModal.addEventListener('click', function (event) {
+            if (event.target === detailModal) {
+                closeModal();
+            }
+        });
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && detailModal.getAttribute('aria-hidden') === 'false') {
+                closeModal();
+            }
+        });
+        mediaPrev.addEventListener('click', function () {
+            if (!mediaItems.length) return;
+            mediaIndex = (mediaIndex - 1 + mediaItems.length) % mediaItems.length;
+            renderMedia();
+        });
+        mediaNext.addEventListener('click', function () {
+            if (!mediaItems.length) return;
+            mediaIndex = (mediaIndex + 1) % mediaItems.length;
+            renderMedia();
         });
 
         if (window.location.hash === '#minhas') {

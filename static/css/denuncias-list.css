@@ -513,6 +513,91 @@
   }
 }
 
+#denunciaDetalheModal {
+  z-index: 10001;
+}
+
+.denuncia-detail-modal {
+  padding: 32px;
+}
+
+.denuncia-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 18px;
+  margin: 18px 0;
+}
+
+.denuncia-detail-grid p,
+.denuncia-detail-message p,
+.denuncia-media-empty {
+  color: var(--t2);
+}
+
+.denuncia-detail-grid strong,
+.denuncia-detail-message strong {
+  color: var(--t1);
+}
+
+.denuncia-detail-message {
+  margin-top: 18px;
+}
+
+.denuncia-detail-message p {
+  margin-top: 8px;
+  white-space: pre-wrap;
+}
+
+.denuncia-media-carousel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.denuncia-carousel-stage {
+  min-height: 120px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--dark3);
+  color: var(--t2);
+  padding: 18px;
+  text-align: center;
+}
+
+.denuncia-carousel-stage img,
+.denuncia-carousel-stage video {
+  max-width: 100%;
+  max-height: 360px;
+  border-radius: var(--radius-sm);
+}
+
+.denuncia-carousel-btn {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--dark3);
+  color: var(--t1);
+  cursor: pointer;
+}
+
+.denuncia-carousel-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .denuncia-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .denuncia-detail-modal {
+    padding: 24px;
+  }
+}
+
 section {
 padding: 0px;
 }

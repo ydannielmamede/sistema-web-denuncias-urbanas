@@ -158,7 +158,7 @@ def criar_denuncia(request):
     foto_video = None
     midia_files = request.FILES.getlist('midia')
     if midia_files:
-        foto_video = midia_files[0].name
+        foto_video = midia_files[0]
 
     Denuncia.objects.create(
         mensagem=mensagem,
