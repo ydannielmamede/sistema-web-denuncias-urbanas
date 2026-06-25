@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import os
 from pathlib import Path
-from decouple import config 
+from decouple import config
 
 import dj_database_url
 
@@ -23,22 +23,31 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secre
-SECRET_KEY = config('SECRET_KEY') 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = config(
+    'SECRET_KEY',
+    default='django-insecure-dev-only-key-change-me-in-production-7#f8!k2pz9xq',
+)
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',') 
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS',
+    default='localhost,127.0.0.1,0.0.0.0',
+).split(',')
 
-if not DEBUG: 
+if not DEBUG:
+    ALLOWED_HOSTS += ['.railway.app']
 
-    ALLOWED_HOSTS += ['.railway.app'] 
 
- 
 
-CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://localhost,http://127.0.0.1').split(',') 
+CSRF_TRUSTED_ORIGINS = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='http://localhost,http://127.0.0.1',
+).split(',')
 
-if not DEBUG: 
+if not DEBUG:
     CSRF_TRUSTED_ORIGINS += ['https://*.railway.app'] 
 
 # Application definition
@@ -90,30 +99,28 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = { 
+# Em desenvolvimento (DEBUG=True), usa SQLite local — não exige nenhum
+# servidor de banco instalado. Em produção, defina DATABASE_URL no
+# Railway (ex.: mysql://user:pass@host:port/db) para usar MySQL/Postgres.
 
-    'default': { 
+DATABASE_URL = config('DATABASE_URL', default='')
 
-        'ENGINE': 'django.db.backends.mysql', 
-
-        'NAME': config('DB_NAME'), 
-
-        'USER': config('DB_USER'), 
-
-        'PASSWORD': config('DB_PASSWORD'), 
-
-        'HOST': config('DB_HOST'), 
-
-        'PORT': config('DB_PORT'), 
-
-        'OPTIONS': { 
-
-            'ssl': {'ssl_mode': 'REQUIRED'} 
-
-        }, 
-
-    } 
-}
+if DEBUG and not DATABASE_URL:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL or f"mysql://{config('DB_USER')}:{config('DB_PASSWORD')}@{config('DB_HOST')}:{config('DB_PORT')}/{config('DB_NAME')}",
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=not DEBUG,
+        )
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -158,14 +165,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 WHITENOISE_MANIFEST_STRICT = False 
-
-STORAGES = { 
-
-    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"}, 
-
-    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"}, 
-
-} 
 
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

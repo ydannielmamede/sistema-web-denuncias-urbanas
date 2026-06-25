@@ -664,7 +664,7 @@ section {
 @media (max-width: 1024px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    gap: 32px 30px;
   }
 }
 
@@ -777,7 +777,8 @@ section {
   }
 
   .footer-grid {
-    gap: 32px;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 26px;
   }
 
   .footer-bottom {
@@ -792,7 +793,8 @@ section {
 
 @media (max-width: 500px) {
   .footer-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 22px;
   }
 }
 
@@ -850,7 +852,7 @@ section {
 
   .footer-grid {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 24px 22px;
+    gap: 24px 18px;
     text-align: left;
   }
 
