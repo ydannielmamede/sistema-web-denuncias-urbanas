@@ -4,3 +4,15 @@
 venv/
 media/denuncias/*
 !media/denuncias/.gitkeep
+
+# Variáveis de ambiente locais (NUNCA commitar .env real)
+.env
+.env.*
+!.env.example
+
+# Banco SQLite local gerado em dev
+db.sqlite3
+db.sqlite3-journal
+
+# Arquivos estáticos coletados
+staticfiles/
