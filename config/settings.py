@@ -16,6 +16,16 @@ from decouple import config
 
 import dj_database_url
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config(
+    'EMAIL_HOST_PASSWORD', default=''
+)  # use senha de app, não a senha normal
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -103,24 +113,31 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # servidor de banco instalado. Em produção, defina DATABASE_URL no
 # Railway (ex.: mysql://user:pass@host:port/db) para usar MySQL/Postgres.
 
-DATABASE_URL = config('DATABASE_URL', default='')
+DATABASES = {
 
-if DEBUG and not DATABASE_URL:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=DATABASE_URL or f"mysql://{config('DB_USER')}:{config('DB_PASSWORD')}@{config('DB_HOST')}:{config('DB_PORT')}/{config('DB_NAME')}",
-            conn_max_age=600,
-            conn_health_checks=True,
-            ssl_require=not DEBUG,
-        )
-    }
+'default': {
+
+'ENGINE': 'django.db.backends.mysql',
+
+'NAME': config('DB_NAME', default='denuncias_db'),
+
+'USER': config('DB_USER', default='root'),
+
+'PASSWORD': config('DB_PASSWORD', default=''),
+
+'HOST': config('DB_HOST', default='localhost'),
+
+'PORT': config('DB_PORT', default='3306'),
+
+'OPTIONS': {
+
+'ssl': {'ssl_mode': 'REQUIRED'}
+
+},
+
+}
+
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

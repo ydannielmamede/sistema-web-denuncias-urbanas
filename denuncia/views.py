@@ -2,6 +2,7 @@ from decimal import Decimal, InvalidOperation
 
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
+from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404, redirect, render
 
 from categoria.models import Categoria
@@ -186,6 +187,34 @@ def criar_denuncia(request):
         id_orgao_alvo=orgao_alvo,
         id_usuario=None if anonimo else request.user,
     )
+    email = EmailMessage(
+        subject=f'Nova denúncia: {categoria.nome_categoria}',
+        body=f'Uma nova denúncia foi registrada.\n\nMensagem: {mensagem}\nLocal: {localizacao}',
+        from_email=None,  # usa o DEFAULT_FROM_EMAIL
+        to=[orgao_alvo.email_orgao],
+    )
+
+    for arquivo in (a for a in fotos if a):
+        arquivo.seek(0)
+        email.attach(arquivo.name, arquivo.read(), arquivo.content_type)
+
+    if not orgao_alvo.email_orgao:
+        return render(request, 'denuncia/denuncia.html', {
+            'categorias': categorias,
+            'server_message': 'Categoria sem e-mail de órgão cadastrado.',
+            'server_message_class': 'error',
+        })
+
+    try:
+        email.send(fail_silently=False)
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).exception('Falha ao enviar e-mail: %s', exc)
+        return render(request, 'denuncia/denuncia.html', {
+            'categorias': categorias,
+            'server_message': f'Denúncia registrada, mas o e-mail falhou: {exc}',
+            'server_message_class': 'error',
+        })
 
     return render(request, 'denuncia/denuncia.html', {
         'categorias': categorias,
