@@ -47,7 +47,7 @@ class Denuncia(models.Model):
         verbose_name_plural = 'Denuncias'
 
     def midias(self):
-        return [midia for midia in (self.foto_video, self.foto_video_2, self.foto_video_3) if midia]
+        return [midia for midia in (self.foto_1, self.foto_2, self.foto_3, self.foto_4, self.foto_5) if midia]
 
     def __str__(self):
         return self.mensagem

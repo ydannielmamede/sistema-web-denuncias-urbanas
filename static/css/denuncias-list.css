@@ -597,9 +597,9 @@
   align-items: center;
   justify-content: center;
   min-height: 300px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.035);
+  /* border: 1px solid var(--border); */
+  /* border-radius: var(--radius); */
+  /* background: rgba(255, 255, 255, 0.035); */
   color: var(--t2);
   padding: 12px;
   text-align: center;

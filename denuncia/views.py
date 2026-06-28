@@ -15,11 +15,11 @@ def _get_categorias_com_orgao():
     categorias = list(Categoria.objects.all().order_by('nome_categoria'))
     orgaos_alvo = OrgaoAlvo.objects.select_related('categoria').all()
     orgaos_por_categoria = {
-        orgao.categoria_id: orgao
+        orgao.categoria.id_categoria: orgao
         for orgao in orgaos_alvo
     }
     for categoria in categorias:
-        categoria.orgao_alvo = orgaos_por_categoria.get(categoria.id_categoria)
+        setattr(categoria, 'orgao_alvo', orgaos_por_categoria.get(categoria.id_categoria))
     return categorias
 
 
@@ -53,7 +53,7 @@ def listar_denuncias(request):
             'categoria': denuncia.id_categoria.nome_categoria,
             'icone': denuncia.id_categoria.icone or '📍',
             'cor': denuncia.id_categoria.cor or '#F8C146',
-            'status': denuncia.get_status_display(),
+            'status': Denuncia.Status(denuncia.status).label,
             'localizacao': denuncia.localizacao or '',
             'mensagem': denuncia.mensagem,
         }
