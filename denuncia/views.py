@@ -2,6 +2,7 @@ from decimal import Decimal, InvalidOperation
 
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
+from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404, redirect, render
 
 from categoria.models import Categoria
@@ -14,11 +15,11 @@ def _get_categorias_com_orgao():
     categorias = list(Categoria.objects.all().order_by('nome_categoria'))
     orgaos_alvo = OrgaoAlvo.objects.select_related('categoria').all()
     orgaos_por_categoria = {
-        orgao.categoria_id: orgao
+        orgao.categoria.id_categoria: orgao
         for orgao in orgaos_alvo
     }
     for categoria in categorias:
-        categoria.orgao_alvo = orgaos_por_categoria.get(categoria.id_categoria)
+        setattr(categoria, 'orgao_alvo', orgaos_por_categoria.get(categoria.id_categoria))
     return categorias
 
 
@@ -52,7 +53,7 @@ def listar_denuncias(request):
             'categoria': denuncia.id_categoria.nome_categoria,
             'icone': denuncia.id_categoria.icone or '📍',
             'cor': denuncia.id_categoria.cor or '#F8C146',
-            'status': denuncia.get_status_display(),
+            'status': Denuncia.Status(denuncia.status).label,
             'localizacao': denuncia.localizacao or '',
             'mensagem': denuncia.mensagem,
         }
@@ -155,27 +156,29 @@ def criar_denuncia(request):
             'server_message_class': 'error',
         })
 
-    midia_files = request.FILES.getlist('midia')
-    if len(midia_files) > 3:
+    fotos = request.FILES.getlist('midia')
+    if len(fotos) > 5:
         return render(request, 'denuncia/denuncia.html', {
             'categorias': categorias,
-            'server_message': 'Envie no máximo 3 fotos ou vídeos.',
+            'server_message': 'Envie no máximo 5 fotos.',
             'server_message_class': 'error',
         })
-    if any(not arquivo.content_type.startswith(('image/', 'video/')) for arquivo in midia_files):
+    if any(not arquivo.content_type.startswith('image/') for arquivo in fotos):
         return render(request, 'denuncia/denuncia.html', {
             'categorias': categorias,
-            'server_message': 'Envie apenas fotos ou vídeos.',
+            'server_message': 'Envie apenas fotos.',
             'server_message_class': 'error',
         })
 
-    midias = midia_files + [None, None, None]
+    fotos = (fotos + [None] * 5)[:5]
 
     Denuncia.objects.create(
         mensagem=mensagem,
-        foto_video=midias[0],
-        foto_video_2=midias[1],
-        foto_video_3=midias[2],
+        foto_1=fotos[0],
+        foto_2=fotos[1],
+        foto_3=fotos[2],
+        foto_4=fotos[3],
+        foto_5=fotos[4],
         anonimo=anonimo,
         localizacao=localizacao,
         latitude=latitude,
@@ -184,6 +187,34 @@ def criar_denuncia(request):
         id_orgao_alvo=orgao_alvo,
         id_usuario=None if anonimo else request.user,
     )
+    email = EmailMessage(
+        subject=f'Nova denúncia: {categoria.nome_categoria}',
+        body=f'Uma nova denúncia foi registrada.\n\nMensagem: {mensagem}\nLocal: {localizacao}',
+        from_email=None,  # usa o DEFAULT_FROM_EMAIL
+        to=[orgao_alvo.email_orgao],
+    )
+
+    for arquivo in (a for a in fotos if a):
+        arquivo.seek(0)
+        email.attach(arquivo.name, arquivo.read(), arquivo.content_type)
+
+    if not orgao_alvo.email_orgao:
+        return render(request, 'denuncia/denuncia.html', {
+            'categorias': categorias,
+            'server_message': 'Categoria sem e-mail de órgão cadastrado.',
+            'server_message_class': 'error',
+        })
+
+    try:
+        email.send(fail_silently=False)
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).exception('Falha ao enviar e-mail: %s', exc)
+        return render(request, 'denuncia/denuncia.html', {
+            'categorias': categorias,
+            'server_message': f'Denúncia registrada, mas o e-mail falhou: {exc}',
+            'server_message_class': 'error',
+        })
 
     return render(request, 'denuncia/denuncia.html', {
         'categorias': categorias,

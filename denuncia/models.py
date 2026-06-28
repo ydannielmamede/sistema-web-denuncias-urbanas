@@ -6,9 +6,11 @@ from django.db import models
 class Denuncia(models.Model):
     id_denuncia = models.AutoField(primary_key=True, null=False, db_column='id_denuncia')
     mensagem = models.CharField(max_length=255, null=False, unique=False, db_column='Mensagem')
-    foto_video = models.FileField(upload_to='denuncias/', max_length=100, null=True, blank=True, db_column='Foto_video')
-    foto_video_2 = models.FileField(upload_to='denuncias/', max_length=100, null=True, blank=True, db_column='Foto_video_2')
-    foto_video_3 = models.FileField(upload_to='denuncias/', max_length=100, null=True, blank=True, db_column='Foto_video_3')
+    foto_1 = models.ImageField(upload_to='denuncias/', max_length=100, null=True, blank=True, db_column='Foto_1')
+    foto_2 = models.ImageField(upload_to='denuncias/', max_length=100, null=True, blank=True, db_column='Foto_2')
+    foto_3 = models.ImageField(upload_to='denuncias/', max_length=100, null=True, blank=True, db_column='Foto_3')
+    foto_4 = models.ImageField(upload_to='denuncias/', max_length=100, null=True, blank=True, db_column='Foto_4')
+    foto_5 = models.ImageField(upload_to='denuncias/', max_length=100, null=True, blank=True, db_column='Foto_5')
     data_hora = models.DateTimeField(auto_now_add=True, null=False, unique=False, db_column='Data_hora')
     anonimo = models.BooleanField(default=False, null=False, unique=False, db_column='Anonimo')
     localizacao = models.CharField(max_length=100, null=True, unique=False, db_column='Localizacao')
@@ -45,7 +47,7 @@ class Denuncia(models.Model):
         verbose_name_plural = 'Denuncias'
 
     def midias(self):
-        return [midia for midia in (self.foto_video, self.foto_video_2, self.foto_video_3) if midia]
+        return [midia for midia in (self.foto_1, self.foto_2, self.foto_3, self.foto_4, self.foto_5) if midia]
 
     def __str__(self):
         return self.mensagem
