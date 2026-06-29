@@ -85,13 +85,15 @@
                                     data-mensagem="{{ denuncia.mensagem }}"
                                     data-categoria="{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}"
                                     data-orgao="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.descricao }}{% endif %}"
+                                    data-orgao-email="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.email_orgao|default_if_none:'' }}{% endif %}"
+                                    data-orgao-telefone="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.telefone|default_if_none:'' }}{% endif %}"
                                     data-localizacao="{{ denuncia.localizacao|default_if_none:'' }}"
                                     data-latitude="{{ denuncia.latitude|default_if_none:'' }}"
                                     data-longitude="{{ denuncia.longitude|default_if_none:'' }}"
                                     data-data="{{ denuncia.data_hora }}"
                                     data-status="{{ denuncia.get_status_display }}"
                                     data-anonimo="{% if denuncia.anonimo %}Sim{% else %}Não{% endif %}"
-                                    data-usuario="{% if denuncia.id_usuario and not denuncia.anonimo %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
+                                    data-usuario="{% if denuncia.anonimo %}Enviado anonimamente{% elif denuncia.id_usuario %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
                                     data-midia="{% for midia in denuncia.midias %}{{ midia.url }}{% if not forloop.last %}|{% endif %}{% endfor %}"
                                 >Ver mais</button>
                             </div>
@@ -151,13 +153,15 @@
                                     data-mensagem="{{ denuncia.mensagem }}"
                                     data-categoria="{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}"
                                     data-orgao="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.descricao }}{% endif %}"
+                                    data-orgao-email="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.email_orgao|default_if_none:'' }}{% endif %}"
+                                    data-orgao-telefone="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.telefone|default_if_none:'' }}{% endif %}"
                                     data-localizacao="{{ denuncia.localizacao|default_if_none:'' }}"
                                     data-latitude="{{ denuncia.latitude|default_if_none:'' }}"
                                     data-longitude="{{ denuncia.longitude|default_if_none:'' }}"
                                     data-data="{{ denuncia.data_hora }}"
                                     data-status="{{ denuncia.get_status_display }}"
                                     data-anonimo="{% if denuncia.anonimo %}Sim{% else %}Não{% endif %}"
-                                    data-usuario="{% if denuncia.id_usuario and not denuncia.anonimo %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
+                                    data-usuario="{% if denuncia.anonimo %}Enviado anonimamentes{% elif denuncia.id_usuario %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
                                     data-midia="{% for midia in denuncia.midias %}{{ midia.url }}{% if not forloop.last %}|{% endif %}{% endfor %}"
                                 >Ver mais</button>
                                 </div>
@@ -201,21 +205,20 @@
         </div>
         <h1 id="denunciaDetalheTitulo">Detalhes da denúncia</h1>
 
-        <div class="denuncia-detail-grid">
-            <p><strong>Categoria:</strong> <span id="modalDenunciaCategoria"></span></p>
-            <p><strong>Órgão alvo:</strong> <span id="modalDenunciaOrgao"></span></p>
-            <p><strong>Status:</strong> <span id="modalDenunciaStatus"></span></p>
-            <p><strong>Data:</strong> <span id="modalDenunciaData"></span></p>
-            <p><strong>Localização:</strong> <span id="modalDenunciaLocalizacao"></span></p>
-            <p><strong>Coordenadas:</strong> <span id="modalDenunciaCoordenadas"></span></p>
-            <p><strong>Anônima:</strong> <span id="modalDenunciaAnonimo"></span></p>
-            <p><strong>Usuário:</strong> <span id="modalDenunciaUsuario"></span></p>
-        </div>
-
         <div class="denuncia-detail-message">
             <strong>Mensagem:</strong>
             <p id="modalDenunciaMensagem"></p>
         </div>
+
+        <div class="denuncia-detail-grid">
+            <p><strong>Localização:</strong> <span id="modalDenunciaLocalizacao"></span></p>
+            <p><strong>Órgão alvo:</strong> <span id="modalDenunciaOrgao"></span></p>
+            <p><strong>Status:</strong> <span id="modalDenunciaStatus"></span></p>
+            <p><strong>Data:</strong> <span id="modalDenunciaData"></span></p>
+            <p><strong>Categoria:</strong> <span id="modalDenunciaCategoria"></span></p>
+            <p><strong>Usuário:</strong> <span id="modalDenunciaUsuario"></span></p>
+        </div>
+
         <p class="denuncia-media-empty" id="modalDenunciaSemMidia">Nenhuma mídia registrada.</p>
     </div>
 </div>
@@ -317,8 +320,6 @@
             status: document.getElementById('modalDenunciaStatus'),
             data: document.getElementById('modalDenunciaData'),
             localizacao: document.getElementById('modalDenunciaLocalizacao'),
-            coordenadas: document.getElementById('modalDenunciaCoordenadas'),
-            anonimo: document.getElementById('modalDenunciaAnonimo'),
             usuario: document.getElementById('modalDenunciaUsuario'),
             mensagem: document.getElementById('modalDenunciaMensagem'),
         };
@@ -365,13 +366,15 @@
 
         function openDetailModal(button) {
             setText(modalFields.categoria, button.dataset.categoria);
-            setText(modalFields.orgao, button.dataset.orgao);
+            const orgao = [
+                button.dataset.orgao,
+                button.dataset.orgaoEmail && `E-mail: ${button.dataset.orgaoEmail}`,
+                button.dataset.orgaoTelefone && `Telefone: ${button.dataset.orgaoTelefone}`,
+            ].filter(Boolean).join('\n');
+            setText(modalFields.orgao, orgao);
             setText(modalFields.status, button.dataset.status);
             setText(modalFields.data, button.dataset.data);
             setText(modalFields.localizacao, button.dataset.localizacao);
-            const coordenadas = [button.dataset.latitude, button.dataset.longitude].filter(Boolean).join(', ');
-            setText(modalFields.coordenadas, coordenadas);
-            setText(modalFields.anonimo, button.dataset.anonimo);
             setText(modalFields.usuario, button.dataset.usuario);
             setText(modalFields.mensagem, button.dataset.mensagem);
             mediaItems = button.dataset.midia ? button.dataset.midia.split('|').filter(Boolean) : [];

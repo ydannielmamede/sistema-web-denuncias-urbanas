@@ -104,7 +104,7 @@
         </div>
       </fieldset>
 
-      <button type="submit" class="login-btn btn">Enviar denúncia</button>
+      <button type="submit" class="login-btn btn" id="botaoEnviarDenuncia">Enviar denúncia</button>
     </form>
   </section>
 </div>
@@ -144,6 +144,14 @@
 
     categoriaSelect.addEventListener("change", updateOrgaoInfo);
     updateOrgaoInfo();
+
+    const formularioDenuncia = document.getElementById("formularioDenuncia");
+    const botaoEnviarDenuncia = document.getElementById("botaoEnviarDenuncia");
+
+    formularioDenuncia?.addEventListener("submit", () => {
+      botaoEnviarDenuncia.disabled = true;
+      botaoEnviarDenuncia.textContent = "Enviando...";
+    });
   });
 </script>
 {% endblock %}

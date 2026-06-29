@@ -542,7 +542,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
-  margin: 18px 0;
+  margin: 12px 0 18px;
 }
 
 .denuncia-detail-grid p,
@@ -564,13 +564,21 @@
   font-size: 12px;
 }
 
+.denuncia-detail-grid span {
+  white-space: pre-wrap;
+}
+
 .denuncia-detail-message {
-  margin-top: 18px;
+  border-color: rgba(255, 195, 0, 0.28);
+  background: rgba(255, 195, 0, 0.08);
+  color: var(--t1);
 }
 
 .denuncia-detail-message p {
   margin: 8px 0 0;
   color: var(--t1);
+  font-size: 17px;
+  line-height: 1.55;
   white-space: pre-wrap;
 }
 
