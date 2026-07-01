@@ -64,10 +64,15 @@ if not DEBUG:
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
+    "django.contrib.sites",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     "denuncia",
     "categoria",
     "orgao_alvo",
@@ -78,6 +83,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -117,9 +123,9 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": config("DB_NAME", default="denuncias_db"),
         "USER": config("DB_USER", default="root"),
-        "PASSWORD": config("DB_PASSWORD", default=""),
-        "HOST": config("DB_HOST", default="localhost"),
-        "PORT": config("DB_PORT", default="3306"),
+        "PASSWORD": config("DB_PASSWORD", default="dannielmamede!"),
+        "HOST": config("DB_HOST", default="127.0.0.1"),
+        "PORT": config("DB_PORT", default="3307"),
         "OPTIONS": {"ssl": {"ssl_mode": "REQUIRED"}},
     }
 }
@@ -143,7 +149,32 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = "usuario.Usuario"
-ROOT_URLCONF = "config.urls"
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": config("GOOGLE_CLIENT_ID", default=""),
+            "secret": config("GOOGLE_CLIENT_SECRET", default=""),
+            "key": "",
+        },
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {"access_type": "online"},
+        "VERIFIED_EMAIL": True,
+    },
+}
+
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_ADAPTER = "usuario.adapter.CustomAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "usuario.adapter.CustomSocialAccountAdapter"
 
 WSGI_APPLICATION = "config.wsgi.application"
 
@@ -178,9 +209,9 @@ if not DEBUG:
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_URL = "login"
+LOGIN_URL = "usuario:login"
 
-LOGIN_REDIRECT_URL = "dashboard"
+LOGIN_REDIRECT_URL = "index"
 
 LOGOUT_REDIRECT_URL = "index"
 

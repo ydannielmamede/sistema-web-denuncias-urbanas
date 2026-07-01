@@ -34,6 +34,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="saibamais.html"),
         name="saibamais",
     ),
+    path("accounts/", include("allauth.urls")),
     path("usuario/", include("usuario.urls")),
 ]
 
