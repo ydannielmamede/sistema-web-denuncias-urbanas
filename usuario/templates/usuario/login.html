@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -97,11 +98,11 @@
       </div>
 
       <div class="social-login">
-        <button type="button" class="social-btn google-btn">
+        <a href="{% provider_login_url 'google' action='reauthenticate' %}" class="social-btn google-btn" rel="nofollow">
           <span class="social-icon google-icon"></span>
           Google
-        </button>
-        <button type="button" class="social-btn github-btn">
+        </a>
+        <button type="button" class="social-btn github-btn" disabled aria-disabled="true" title="Em breve">
           <span class="social-icon github-icon"></span>
           GitHub
         </button>
