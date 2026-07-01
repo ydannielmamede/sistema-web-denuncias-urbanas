@@ -1,6 +1,8 @@
 from decimal import Decimal, InvalidOperation
+import hashlib
 
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404, redirect, render
@@ -167,6 +169,24 @@ def criar_denuncia(request):
         return render(request, 'denuncia/denuncia.html', {
             'categorias': categorias,
             'server_message': 'Envie apenas fotos.',
+            'server_message_class': 'error',
+        })
+
+    chave_deduplicacao = hashlib.sha256(
+        '|'.join((
+            str(request.user.pk),
+            categoria_id,
+            mensagem,
+            localizacao,
+            str(latitude),
+            str(longitude),
+            str(anonimo),
+        )).encode()
+    ).hexdigest()
+    if not cache.add(f'denuncia:{chave_deduplicacao}', True, timeout=60):
+        return render(request, 'denuncia/denuncia.html', {
+            'categorias': categorias,
+            'server_message': 'Esta denúncia já está sendo registrada.',
             'server_message_class': 'error',
         })
 
