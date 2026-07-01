@@ -1,5 +1,6 @@
 from decimal import Decimal, InvalidOperation
 import hashlib
+import threading
 
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.cache import cache
@@ -225,16 +226,14 @@ def criar_denuncia(request):
             'server_message_class': 'error',
         })
 
-    try:
-        email.send(fail_silently=False)
-    except Exception as exc:
-        import logging
-        logging.getLogger(__name__).exception('Falha ao enviar e-mail: %s', exc)
-        return render(request, 'denuncia/denuncia.html', {
-            'categorias': categorias,
-            'server_message': f'Denúncia registrada, mas o e-mail falhou: {exc}',
-            'server_message_class': 'error',
-        })
+    def enviar_email_denuncia():
+        try:
+            email.send(fail_silently=False)
+        except Exception as exc:
+            import logging
+            logging.getLogger(__name__).exception('Falha ao enviar e-mail: %s', exc)
+
+    threading.Thread(target=enviar_email_denuncia, daemon=True).start()
 
     return render(request, 'denuncia/denuncia.html', {
         'categorias': categorias,
