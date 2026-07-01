@@ -123,9 +123,9 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": config("DB_NAME", default="denuncias_db"),
         "USER": config("DB_USER", default="root"),
-        "PASSWORD": config("DB_PASSWORD", default="dannielmamede!"),
+        "PASSWORD": config("DB_PASSWORD", default=""),
         "HOST": config("DB_HOST", default="127.0.0.1"),
-        "PORT": config("DB_PORT", default="3307"),
+        "PORT": config("DB_PORT", default="3306"),
         "OPTIONS": {"ssl": {"ssl_mode": "REQUIRED"}},
     }
 }
@@ -175,6 +175,7 @@ ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_ADAPTER = "usuario.adapter.CustomAccountAdapter"
 SOCIALACCOUNT_ADAPTER = "usuario.adapter.CustomSocialAccountAdapter"
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 WSGI_APPLICATION = "config.wsgi.application"
 

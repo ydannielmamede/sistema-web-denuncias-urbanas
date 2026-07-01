@@ -98,7 +98,7 @@
       </div>
 
       <div class="social-login">
-        <a href="{% provider_login_url 'google' %}" class="social-btn google-btn">
+        <a href="{% provider_login_url 'google' action='reauthenticate' %}" class="social-btn google-btn" rel="nofollow">
           <span class="social-icon google-icon"></span>
           Google
         </a>
