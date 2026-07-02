@@ -174,6 +174,10 @@ SOCIALACCOUNT_PROVIDERS = {
 ACCOUNT_LOGIN_METHODS = {"email"}
 ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = config(
+    "ACCOUNT_DEFAULT_HTTP_PROTOCOL",
+    default="https" if os.environ.get("RAILWAY_ENVIRONMENT") else "http",
+)
 ACCOUNT_ADAPTER = "usuario.adapter.CustomAccountAdapter"
 SOCIALACCOUNT_ADAPTER = "usuario.adapter.CustomSocialAccountAdapter"
 SOCIALACCOUNT_LOGIN_ON_GET = True
