@@ -9,10 +9,10 @@
 }
 
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
   background: var(--dark1);
   color: var(--t1);
-  line-height: 1.6;
+  line-height: var(--lh-body);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -84,11 +84,13 @@ main::before {
 }
 
 .map-header h2 {
-  font-size: 2rem;
+  color: var(--h2-color);
+  font-family: var(--font-sans);
+  font-size: var(--fs-section);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: var(--lh-title);
+  letter-spacing: -0.02em;
   margin-bottom: 10px;
-  color: var(--t1);
 }
 
 .map-header p {
@@ -145,11 +147,13 @@ form.login-form {
 }
 
 .login-header h2 {
-  font-size: 2rem;
+  color: var(--h2-color);
+  font-family: var(--font-sans);
+  font-size: var(--fs-section);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: var(--lh-title);
+  letter-spacing: -0.02em;
   margin-bottom: 10px;
-  color: var(--t1);
 }
 
 .login-header p {

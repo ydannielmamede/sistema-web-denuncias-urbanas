@@ -12,10 +12,10 @@
 }
 
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
   background: var(--dark1);
   color: var(--t1);
-  line-height: 1.6;
+  line-height: var(--lh-body);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -140,11 +140,13 @@ form {
    FORM HEADING
 ═══════════════════════════════════════════════════ */
 form h2 {
-  font-size: 18px;
-  font-weight: 700;
+  color: var(--h2-color);
+  font-family: var(--font-sans);
+  font-size: var(--fs-card);
+  font-weight: 800;
+  line-height: var(--lh-title);
   margin-bottom: 24px;
-  color: var(--t1);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   position: relative;
   padding-bottom: 12px;
 }
@@ -164,7 +166,7 @@ form h2::after {
   left: 0;
   width: 32px;
   height: 3px;
-  background: var(--accent);
+  background: var(--h2-accent);
   border-radius: 2px;
 }
 
