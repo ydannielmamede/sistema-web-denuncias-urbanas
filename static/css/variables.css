@@ -48,5 +48,10 @@
   --radius: 12px;
   --radius-sm: 8px;
   --radius-lg: 18px;
+  --interaction-glow: 0 0 0 1px rgba(255, 195, 0, 0.28), 0 18px 45px rgba(0, 0, 0, 0.35);
+  --card-hover-y: -4px;
+  --status-pendente: var(--accent);
+  --status-analise: var(--blue);
+  --status-resolvida: var(--green);
   --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
