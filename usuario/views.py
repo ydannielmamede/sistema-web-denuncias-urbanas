@@ -30,7 +30,7 @@ def cadastrar_usuario(request):
 
         # Validações locais
         # Verifica se todos os campos obrigatórios foram preenchidos
-        if not all([nome, email, cpf, telefone, nascimento, senha]):
+        if not all([nome, email, nascimento, senha]):
             messages.error(request, "Preencha todos os campos.")
             return render(request, "usuario/cadastro.html", contexto)
 
@@ -51,7 +51,7 @@ def cadastrar_usuario(request):
             return render(request, "usuario/cadastro.html", contexto)
 
         # Verifica se o CPF já está cadastrado
-        if Usuario.objects.filter(cpf=cpf).exists():
+        if cpf and Usuario.objects.filter(cpf=cpf).exists():
             messages.error(request, "CPF já cadastrado.")
             return render(request, "usuario/cadastro.html", contexto)
 
@@ -61,10 +61,10 @@ def cadastrar_usuario(request):
             email=email,
             password=senha,  # já faz o hash automaticamente
             first_name=nome,
-            cpf=cpf,
-            telefone=telefone,
+            cpf=cpf or None,
+            telefone=telefone or None,
             nascimento=nascimento,
-            genero=genero,
+            genero=genero or None,
         )
 
         # Exibe mensagem de sucesso e redireciona para a página de login
