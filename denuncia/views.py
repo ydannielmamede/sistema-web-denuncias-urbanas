@@ -6,7 +6,13 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.core.mail import EmailMessage
+from django.db.models import Count, Q
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils import timezone
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.timesince import timesince
 
 from categoria.models import Categoria
 from orgao_alvo.models import OrgaoAlvo
@@ -253,31 +259,182 @@ def _is_staff_or_admin(user):
     return user.is_authenticated and (user.is_staff or user.is_superuser)
 
 
+def _status_counts(qs):
+    return qs.aggregate(
+        total=Count('id_denuncia'),
+        pendentes=Count('id_denuncia', filter=Q(status=Denuncia.Status.PENDENTE)),
+        em_analise=Count('id_denuncia', filter=Q(status=Denuncia.Status.EM_ANALISE)),
+        resolvidas=Count('id_denuncia', filter=Q(status=Denuncia.Status.RESOLVIDA)),
+    )
+
+
+@user_passes_test(_is_staff_or_admin, login_url='usuario:login')
+def dashboard(request):
+    qs = Denuncia.objects.all()
+    counts = _status_counts(qs)
+    denuncias_qs = qs.select_related('id_categoria', 'id_orgao_alvo', 'id_usuario').order_by('-data_hora')
+    denuncias_page = Paginator(denuncias_qs, 5).get_page(request.GET.get('page'))
+    # Garante que a tabela exiba sempre 5 linhas: preenche com placeholders
+    # quando a página tem menos denúncias, evitando que as existentes estiquem.
+    denuncias_vazias = range(5 - len(denuncias_page))
+    atividades = []
+    for denuncia in denuncias_qs[:4]:
+        autor = denuncia.id_usuario.username if denuncia.id_usuario else 'Anônimo'
+        atividades.append({
+            'avatar_inicial': (autor[:1] or 'A').upper(),
+            'cor': '#3b82f6' if denuncia.id_usuario else '#a855f7',
+            'nome': autor,
+            'desc': f'Nova denúncia - {denuncia.id_categoria.nome_categoria}',
+            'tempo': f'{timesince(denuncia.data_hora)} atrás',
+        })
+
+    return render(request, 'denuncia/dashboard.html', {
+        **counts,
+        'denuncias_page': denuncias_page,
+        'denuncias_vazias': denuncias_vazias,
+        'atividades': atividades,
+    })
+
+
+@user_passes_test(_is_staff_or_admin, login_url='usuario:login')
+def dashboard_denuncias_page(request):
+    """Retorna só as linhas + paginação para atualizar a tabela via fetch."""
+    qs = (
+        Denuncia.objects
+        .select_related('id_categoria', 'id_orgao_alvo', 'id_usuario')
+        .order_by('-data_hora')
+    )
+    page = Paginator(qs, 5).get_page(request.GET.get('page'))
+    rows = [
+        {
+            'id': d.id_denuncia,
+            'mensagem': d.mensagem,
+            'categoria': d.id_categoria.nome_categoria,
+            'localizacao': d.localizacao or '—',
+            'data': d.data_hora.strftime('%d/%m'),
+            'status': d.status,
+            'urls': {
+                'pendente': reverse('denuncia:marcar_status_pendente', args=[d.id_denuncia]),
+                'em_analise': reverse('denuncia:marcar_status_em_analise', args=[d.id_denuncia]),
+                'resolvida': reverse('denuncia:marcar_status_resolvida', args=[d.id_denuncia]),
+            },
+        }
+        for d in page
+    ]
+    pagination = [
+        {'num': p, 'active': p == page.number}
+        for p in page.paginator.page_range
+    ]
+    return JsonResponse({
+        'rows': rows,
+        'pagination': pagination,
+        'total': page.paginator.count,
+        'showing': len(rows),
+        'current': page.number,
+    })
+
+
+@user_passes_test(_is_staff_or_admin, login_url='usuario:login')
+def dashboard_dados(request):
+    qs = Denuncia.objects.all()
+    year = timezone.localdate().year
+    mensal_por_mes = {}
+    for data_hora, status in qs.filter(data_hora__year=year).values_list('data_hora', 'status'):
+        if data_hora is None:
+            continue
+        bucket = mensal_por_mes.setdefault(data_hora.month, {'abertas': 0, 'resolvidas': 0})
+        bucket['abertas'] += 1
+        bucket['resolvidas'] += int(status == Denuncia.Status.RESOLVIDA)
+    por_categoria = (
+        qs.values('id_categoria__nome_categoria')
+        .annotate(total=Count('id_denuncia'))
+        .order_by('-total')[:8]
+    )
+    counts = _status_counts(qs)
+
+    return JsonResponse({
+        'counts': counts,
+        'mensal': [
+            {
+                'mes': f'{year}-{month:02d}',
+                'abertas': mensal_por_mes.get(month, {}).get('abertas', 0),
+                'resolvidas': mensal_por_mes.get(month, {}).get('resolvidas', 0),
+            }
+            for month in range(1, 13)
+        ],
+        'por_categoria': list(por_categoria),
+        'status': {
+            'P': counts['pendentes'],
+            'A': counts['em_analise'],
+            'R': counts['resolvidas'],
+        },
+    })
+
+
+def _status_redirect(request):
+    next_url = request.META.get('HTTP_REFERER')
+    if next_url and url_has_allowed_host_and_scheme(next_url, {request.get_host()}):
+        return redirect(next_url)
+    return redirect(reverse('denuncia:dashboard'))
+
+
 @user_passes_test(_is_staff_or_admin, login_url='usuario:login')
 def marcar_status_pendente(request, id_denuncia):
     if request.method != 'POST':
-        return redirect('denuncia:listar_denuncias')
+        return redirect('denuncia:dashboard')
 
     denuncia = get_object_or_404(Denuncia, id_denuncia=id_denuncia)
     _set_denuncia_status(denuncia, Denuncia.Status.PENDENTE)
-    return redirect('denuncia:listar_denuncias')
+    if request.headers.get('X-Requested-With') == 'fetch':
+        return _dashboard_status_json()
+    return _status_redirect(request)
 
 
 @user_passes_test(_is_staff_or_admin, login_url='usuario:login')
 def marcar_status_em_analise(request, id_denuncia):
     if request.method != 'POST':
-        return redirect('denuncia:listar_denuncias')
+        return redirect('denuncia:dashboard')
 
     denuncia = get_object_or_404(Denuncia, id_denuncia=id_denuncia)
     _set_denuncia_status(denuncia, Denuncia.Status.EM_ANALISE)
-    return redirect('denuncia:listar_denuncias')
+    if request.headers.get('X-Requested-With') == 'fetch':
+        return _dashboard_status_json()
+    return _status_redirect(request)
 
 
 @user_passes_test(_is_staff_or_admin, login_url='usuario:login')
 def marcar_status_resolvida(request, id_denuncia):
     if request.method != 'POST':
-        return redirect('denuncia:listar_denuncias')
+        return redirect('denuncia:dashboard')
 
     denuncia = get_object_or_404(Denuncia, id_denuncia=id_denuncia)
     _set_denuncia_status(denuncia, Denuncia.Status.RESOLVIDA)
-    return redirect('denuncia:listar_denuncias')
+    if request.headers.get('X-Requested-With') == 'fetch':
+        return _dashboard_status_json()
+    return _status_redirect(request)
+
+
+def _dashboard_status_json():
+    """Devolve contagens e a série mensal (ano atual) para o JS atualizar
+    os cards e o chart do dashboard sem reload."""
+    qs = Denuncia.objects.all()
+    year = timezone.localdate().year
+    mensal_por_mes = {}
+    for data_hora, status in qs.filter(data_hora__year=year).values_list('data_hora', 'status'):
+        if data_hora is None:
+            continue
+        bucket = mensal_por_mes.setdefault(data_hora.month, {'abertas': 0, 'resolvidas': 0})
+        bucket['abertas'] += 1
+        bucket['resolvidas'] += int(status == Denuncia.Status.RESOLVIDA)
+    counts = _status_counts(qs)
+    return JsonResponse({
+        'counts': counts,
+        'mensal': [
+            {
+                'mes': f'{year}-{month:02d}',
+                'abertas': mensal_por_mes.get(month, {}).get('abertas', 0),
+                'resolvidas': mensal_por_mes.get(month, {}).get('resolvidas', 0),
+            }
+            for month in range(1, 13)
+        ],
+    })

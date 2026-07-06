@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.utils import timezone
 from denuncia.models import Denuncia
 
+
 def index(request):
+    if request.user.is_authenticated and (request.user.is_staff or request.user.is_superuser):
+        return redirect('denuncia:dashboard')
+
     denuncias_recentes = Denuncia.objects.select_related('id_categoria').order_by('-data_hora')[:5]
     total_denuncias = Denuncia.objects.count()
     resolvidas = Denuncia.objects.filter(status=Denuncia.Status.RESOLVIDA)
