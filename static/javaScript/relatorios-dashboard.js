@@ -54,6 +54,7 @@ function fetchJSON(url, options = {}) {
 
 // Página atual da tabela de denúncias (para refresh e mudança de status).
 let currentPage = 1;
+let activeDashStatus = "";
 
 // ═══════════════════════════════════════════════════
 //          REFRESH / PAGINATION / STATUS (SPA)
@@ -121,7 +122,7 @@ function buildTableRow(row) {
     <td class="td-muted">${row.data}</td>
     <td>
       <form method="post" class="status-form">
-        <select class="badge status-select ${row.status === "P" ? "badge-yellow" : row.status === "A" ? "badge-blue" : "badge-green"}" onchange="this.form.action=this.value; this.form.submit()">
+        <select class="badge status-select ${row.status === "P" ? "badge-yellow" : row.status === "A" ? "badge-blue" : "badge-green"}">
           <option value="${row.urls.pendente}" ${row.status === "P" ? "selected" : ""}>Pendente</option>
           <option value="${row.urls.em_analise}" ${row.status === "A" ? "selected" : ""}>Em andamento</option>
           <option value="${row.urls.resolvida}" ${row.status === "R" ? "selected" : ""}>Resolvido</option>
@@ -155,14 +156,6 @@ function renderTableRows(payload) {
   const info = document.getElementById("dashTableInfo");
   if (info) info.textContent = `Mostrando ${payload.showing} de ${payload.total} resultados`;
 
-  // Reaplica o filtro ativo depois de re-renderizar
-  const activeTab = document.querySelector("#dashFilterTabs .filter-tab.active");
-  if (activeTab && activeTab.dataset.filter !== "Todos") {
-    document.querySelectorAll("#dashTableBody tr[data-status]").forEach((tr) => {
-      tr.style.display = tr.dataset.status === activeTab.dataset.filter ? "" : "none";
-    });
-  }
-
   // Paginação sem reload
   const pagination = document.querySelector(".pagination");
   if (pagination && payload.pagination) {
@@ -179,7 +172,9 @@ function renderTableRows(payload) {
 }
 
 function loadTablePage(page) {
-  return fetchJSON(`/denuncia/dashboard/denuncias/?page=${encodeURIComponent(page)}`).then(renderTableRows);
+  const params = new URLSearchParams({ page });
+  if (activeDashStatus) params.set("status", activeDashStatus);
+  return fetchJSON(`/denuncia/dashboard/denuncias/?${params}`).then(renderTableRows);
 }
 
 // Botão "Atualizar" do topo: refaz só os dados, sem reload
@@ -234,16 +229,9 @@ document.getElementById("settingsThemeToggle")?.addEventListener("click", () => 
 document.getElementById("dashFilterTabs")?.addEventListener("click", (e) => {
   const tab = e.target.closest(".filter-tab");
   if (!tab) return;
-  const filter = tab.dataset.filter;
+  activeDashStatus = tab.dataset.filter || "";
   document.querySelectorAll("#dashFilterTabs .filter-tab").forEach((t) => t.classList.toggle("active", t === tab));
-  let visible = 0;
-  document.querySelectorAll("#dashTableBody tr[data-status]").forEach((row) => {
-    const show = filter === "Todos" || row.dataset.status === filter;
-    row.style.display = show ? "" : "none";
-    if (show) visible++;
-  });
-  const info = document.getElementById("dashTableInfo");
-  if (info) info.textContent = `Mostrando ${visible} resultado${visible === 1 ? "" : "s"}`;
+  loadTablePage(1).catch((err) => console.error("Falha ao filtrar denúncias:", err));
 });
 
 // ═══════════════════════════════════════════════════

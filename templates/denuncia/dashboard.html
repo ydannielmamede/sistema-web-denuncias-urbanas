@@ -154,7 +154,7 @@
             <div class="user-role">Admin</div>
           </div>
         </div>
-        <button class="logout-btn">
+        <a class="logout-btn" href="{% url 'usuario:logout' %}">
           <svg
             width="14"
             height="14"
@@ -168,7 +168,7 @@
             <line x1="21" y1="12" x2="9" y2="12" />
           </svg>
           Logout
-        </button>
+        </a>
       </div>
     </aside>
 
@@ -472,16 +472,16 @@
           <div class="card">
             <div class="table-toolbar">
               <div class="filter-tabs" id="dashFilterTabs">
-                <button class="filter-tab active" data-filter="Todos">
+                <button class="filter-tab active" data-filter="">
                   Todos
                 </button>
-                <button class="filter-tab" data-filter="Pendente">
+                <button class="filter-tab" data-filter="P">
                   Pendente
                 </button>
-                <button class="filter-tab" data-filter="Em andamento">
+                <button class="filter-tab" data-filter="A">
                   Em andamento
                 </button>
-                <button class="filter-tab" data-filter="Resolvido">
+                <button class="filter-tab" data-filter="R">
                   Resolvido
                 </button>
               </div>
@@ -532,7 +532,7 @@
                     <td>
                       <form method="post" class="status-form">
                         {% csrf_token %}
-                        <select class="badge status-select {% if d.status == 'P' %}badge-yellow{% elif d.status == 'A' %}badge-blue{% else %}badge-green{% endif %}" onchange="this.form.action=this.value; this.form.submit()">
+                        <select class="badge status-select {% if d.status == 'P' %}badge-yellow{% elif d.status == 'A' %}badge-blue{% else %}badge-green{% endif %}">
                           <option value="{% url 'denuncia:marcar_status_pendente' d.id_denuncia %}" {% if d.status == 'P' %}selected{% endif %}>Pendente</option>
                           <option value="{% url 'denuncia:marcar_status_em_analise' d.id_denuncia %}" {% if d.status == 'A' %}selected{% endif %}>Em andamento</option>
                           <option value="{% url 'denuncia:marcar_status_resolvida' d.id_denuncia %}" {% if d.status == 'R' %}selected{% endif %}>Resolvido</option>

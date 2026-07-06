@@ -304,6 +304,10 @@ def dashboard_denuncias_page(request):
         .select_related('id_categoria', 'id_orgao_alvo', 'id_usuario')
         .order_by('-data_hora')
     )
+    status = request.GET.get('status')
+    if status in Denuncia.Status.values:
+        qs = qs.filter(status=status)
+
     page = Paginator(qs, 5).get_page(request.GET.get('page'))
     rows = [
         {
