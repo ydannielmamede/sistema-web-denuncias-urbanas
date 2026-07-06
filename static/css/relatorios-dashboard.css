@@ -685,6 +685,12 @@ svg {
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  min-width: 0;
+}
+
+.act-copy {
+  flex: 1;
+  min-width: 0;
 }
 
 .act-avatar {
@@ -699,6 +705,13 @@ svg {
   justify-content: center;
   flex-shrink: 0;
   margin-top: 1px;
+}
+
+.act-name,
+.act-desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .act-name {

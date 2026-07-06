@@ -454,9 +454,9 @@
                   {% for a in atividades %}
                     <div class="activity-item">
                       <div class="act-avatar" style="background: {{ a.cor }}">{{ a.avatar_inicial }}</div>
-                      <div>
+                      <div class="act-copy">
                         <div class="act-name">{{ a.nome }}</div>
-                        <div class="act-desc">{{ a.desc }}</div>
+                        <div class="act-desc" title="{{ a.desc }}">{{ a.desc }}</div>
                       </div>
                       <span class="act-time">{{ a.tempo }}</span>
                     </div>
