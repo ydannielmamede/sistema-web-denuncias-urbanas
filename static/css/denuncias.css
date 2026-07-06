@@ -9,10 +9,10 @@
 }
 
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
   background: var(--dark1);
   color: var(--t1);
-  line-height: 1.6;
+  line-height: var(--lh-body);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -84,11 +84,13 @@ main::before {
 }
 
 .map-header h2 {
-  font-size: 2rem;
+  color: var(--h2-color);
+  font-family: var(--font-sans);
+  font-size: var(--fs-section);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: var(--lh-title);
+  letter-spacing: -0.02em;
   margin-bottom: 10px;
-  color: var(--t1);
 }
 
 .map-header p {
@@ -140,16 +142,102 @@ form.login-form {
   }
 }
 
+.form-steps {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+
+.form-steps li {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 0 26px 0 20px;
+  border: 1px solid var(--border);
+  background: var(--dark4);
+  color: var(--t3);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 14px) 0,
+    100% 50%,
+    calc(100% - 14px) 100%,
+    0 100%,
+    14px 50%
+  );
+}
+
+.form-steps li + li {
+  margin-left: -1px;
+}
+
+.form-steps li:last-child {
+  padding-right: 20px;
+}
+
+.step-num {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--dark5);
+  color: var(--t3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.step-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.form-steps li.done {
+  background: var(--dark5);
+  color: var(--t1);
+  border-color: var(--border2);
+}
+
+.form-steps li.done .step-num {
+  background: var(--accent);
+  color: var(--black);
+}
+
+.form-steps li.active {
+  background: var(--accent);
+  color: var(--black);
+  border-color: rgba(255, 195, 0, 0.32);
+}
+
+.form-steps li.active .step-num {
+  background: var(--black);
+  color: var(--accent);
+}
+
 .login-header {
   margin-bottom: 26px;
 }
 
 .login-header h2 {
-  font-size: 2rem;
+  color: var(--h2-color);
+  font-family: var(--font-sans);
+  font-size: var(--fs-section);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: var(--lh-title);
+  letter-spacing: -0.02em;
   margin-bottom: 10px;
-  color: var(--t1);
 }
 
 .login-header p {
@@ -206,6 +294,19 @@ textarea:focus {
   border-color: rgba(255, 195, 0, 0.4);
   background: var(--dark5);
   box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.1);
+}
+
+.field-hint {
+  margin: 8px 0 0;
+  color: var(--t3);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.field-hint::before {
+  content: "•";
+  color: var(--accent);
+  margin-right: 6px;
 }
 
 .orgao-alvo-info {
@@ -400,6 +501,15 @@ textarea:focus {
 }
 
 @media (max-width: 900px) {
+  .form-steps {
+    flex-wrap: wrap;
+  }
+
+  .form-steps li {
+    flex: 1 1 auto;
+    min-width: 110px;
+  }
+
   main {
     align-items: center;
   }
@@ -467,6 +577,20 @@ textarea:focus {
 }
 
 @media (max-width: 540px) {
+  .step-label {
+    display: none;
+  }
+
+  .form-steps li {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0 20px 0 16px;
+  }
+
+  .form-steps li:last-child {
+    padding-right: 16px;
+  }
+
   main {
     padding: 24px 16px;
   }

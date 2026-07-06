@@ -179,8 +179,16 @@
 .saibamais-card h2,
 .saibamais-alert-card h2,
 .saibamais-final-panel h2 {
-  color: var(--t1);
-  letter-spacing: -0.03em;
+  color: var(--h2-color);
+  font-family: var(--font-sans);
+  font-weight: 800;
+  line-height: var(--lh-title);
+  letter-spacing: -0.02em;
+}
+
+.saibamais-card h2,
+.saibamais-alert-card h2 {
+  font-size: var(--fs-card);
 }
 
 .saibamais-card h3 {
@@ -366,7 +374,7 @@ details.saibamais-alert-card li::before {
 
 .saibamais-final-panel h2 {
   margin-bottom: 0.75rem;
-  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-size: var(--fs-hero);
 }
 
 .saibamais-final-panel p {

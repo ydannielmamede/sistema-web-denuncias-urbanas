@@ -1,4 +1,18 @@
 :root {
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --fs-hero: clamp(36px, 6vw, 64px);
+  --fs-section: clamp(24px, 3vw, 36px);
+  --fs-subtitle: clamp(18px, 2vw, 22px);
+  --fs-card: 22px;
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-tag: 12px;
+  --lh-tight: 1.1;
+  --lh-title: 1.2;
+  --lh-body: 1.6;
+  --h2-color: var(--t1);
+  --h2-accent: var(--accent);
+
   --black: #0a0c0e;
   --dark1: #111417;
   --dark2: #181c20;
@@ -34,5 +48,10 @@
   --radius: 12px;
   --radius-sm: 8px;
   --radius-lg: 18px;
+  --interaction-glow: 0 0 0 1px rgba(255, 195, 0, 0.28), 0 18px 45px rgba(0, 0, 0, 0.35);
+  --card-hover-y: -4px;
+  --status-pendente: var(--accent);
+  --status-analise: var(--blue);
+  --status-resolvida: var(--green);
   --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
