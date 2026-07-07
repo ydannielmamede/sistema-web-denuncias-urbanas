@@ -233,8 +233,8 @@
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 34px 28px 30px;
+  /* border: 1px solid rgba(255, 255, 255, 0.08); */
+  padding: 38px 28px 30px;
   cursor: pointer;
   transition:
     transform var(--transition),
@@ -242,8 +242,8 @@
     border-color var(--transition);
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  min-height: 250px;
+  gap: 20px;
+  min-height: 270px;
   flex: 1;
   height: 100%;
   justify-content: flex-start;
@@ -298,31 +298,180 @@
 }
 
 .cat-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.22);
+  width: 76px;
+  height: 76px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.32);
   backdrop-filter: blur(100px);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  border: 1px solid rgba(255, 255, 255, 0.32);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.28),
+    0 0 0 4px rgba(255, 255, 255, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
   transition:
     background var(--transition),
-    transform var(--transition);
+    transform var(--transition),
+    box-shadow var(--transition);
 }
 
 .cat-icon img {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
+  filter:
+    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35))
+    brightness(1.08);
+  transition: transform var(--transition), filter var(--transition);
+}
+
+/* Anel colorido por categoria (usa a cor clara do gradiente) */
+.cat-card.luz .cat-icon {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.28),
+    0 0 0 4px rgba(255, 195, 0, 0.22),
+    0 0 28px rgba(255, 195, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.cat-card.agua .cat-icon {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.28),
+    0 0 0 4px rgba(56, 189, 248, 0.22),
+    0 0 28px rgba(56, 189, 248, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.cat-card.form .cat-icon {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.28),
+    0 0 0 4px rgba(74, 222, 128, 0.22),
+    0 0 28px rgba(74, 222, 128, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.cat-card.anon .cat-icon {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.28),
+    0 0 0 4px rgba(167, 139, 250, 0.22),
+    0 0 28px rgba(167, 139, 250, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.cat-card.infra .cat-icon {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.28),
+    0 0 0 4px rgba(251, 146, 60, 0.22),
+    0 0 28px rgba(251, 146, 60, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.cat-card.meio .cat-icon {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.28),
+    0 0 0 4px rgba(45, 212, 191, 0.22),
+    0 0 28px rgba(45, 212, 191, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.cat-card.transp .cat-icon {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.28),
+    0 0 0 4px rgba(240, 171, 252, 0.22),
+    0 0 28px rgba(240, 171, 252, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.cat-card.limp .cat-icon {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.28),
+    0 0 0 4px rgba(217, 119, 6, 0.22),
+    0 0 28px rgba(217, 119, 6, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 .cat-card:hover .cat-icon {
-  background: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.42);
+  transform: scale(1.12) translateY(-2px);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 5px rgba(255, 255, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* Hover mantém o anel da categoria, mais intenso */
+.cat-card.luz:hover .cat-icon {
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 5px rgba(255, 195, 0, 0.32),
+    0 0 40px rgba(255, 195, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.cat-card.agua:hover .cat-icon {
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 5px rgba(56, 189, 248, 0.32),
+    0 0 40px rgba(56, 189, 248, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.cat-card.form:hover .cat-icon {
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 5px rgba(74, 222, 128, 0.32),
+    0 0 40px rgba(74, 222, 128, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.cat-card.anon:hover .cat-icon {
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 5px rgba(167, 139, 250, 0.32),
+    0 0 40px rgba(167, 139, 250, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.cat-card.infra:hover .cat-icon {
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 5px rgba(251, 146, 60, 0.32),
+    0 0 40px rgba(251, 146, 60, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.cat-card.meio:hover .cat-icon {
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 5px rgba(45, 212, 191, 0.32),
+    0 0 40px rgba(45, 212, 191, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.cat-card.transp:hover .cat-icon {
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 5px rgba(240, 171, 252, 0.32),
+    0 0 40px rgba(240, 171, 252, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.cat-card.limp:hover .cat-icon {
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 5px rgba(217, 119, 6, 0.32),
+    0 0 40px rgba(217, 119, 6, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.cat-card:hover .cat-icon img {
   transform: scale(1.05);
+  filter:
+    drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45))
+    brightness(1.15);
 }
 
 .cat-title {
@@ -907,9 +1056,14 @@
   }
 
   .cat-icon {
-    width: 48px;
-    height: 48px;
-    font-size: 24px;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+  }
+
+  .cat-icon img {
+    width: 42px;
+    height: 42px;
   }
 
   .cat-title {
@@ -999,9 +1153,14 @@
   }
 
   .cat-icon {
-    width: 44px;
-    height: 44px;
-    font-size: 22px;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+  }
+
+  .cat-icon img {
+    width: 34px;
+    height: 34px;
   }
 
   .step-card {
@@ -1077,9 +1236,14 @@
   }
 
   .cat-icon {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+  }
+
+  .cat-icon img {
+    width: 30px;
+    height: 30px;
   }
 
   .cat-title {

@@ -27,13 +27,14 @@
         </div>
       {% endif %}
       <div class="login-header">
+        <h2>Registrar Denúncia</h2>
+        <p>Envie sua ocorrência com categoria, localização e anexos. Sua participação é importante!</p>
+
         <ol class="form-steps" aria-label="Etapas da denúncia">
           <li data-step="1" class="active"><span class="step-num" aria-hidden="true">1</span><span class="step-label">Categoria</span></li>
           <li data-step="2"><span class="step-num" aria-hidden="true">2</span><span class="step-label">Localização</span></li>
           <li data-step="3"><span class="step-num" aria-hidden="true">3</span><span class="step-label">Detalhes</span></li>
         </ol>
-        <h2>Registrar Denúncia</h2>
-        <p>Envie sua ocorrência com categoria, localização e anexos. Sua participação é importante!</p>
       </div>
 
       <fieldset data-step="1">
@@ -49,6 +50,7 @@
           {% for categoria in categorias %}
             <option
               value="{{ categoria.id_categoria }}"
+              {% if categoria_selecionada == categoria.nome_categoria %}selected{% endif %}
               data-orgao-nome="{% if categoria.orgao_alvo %}{{ categoria.orgao_alvo.descricao|default_if_none:'' }}{% endif %}"
               data-orgao-email="{% if categoria.orgao_alvo %}{{ categoria.orgao_alvo.email_orgao|default_if_none:'' }}{% endif %}"
               data-orgao-telefone="{% if categoria.orgao_alvo %}{{ categoria.orgao_alvo.telefone|default_if_none:'' }}{% endif %}"

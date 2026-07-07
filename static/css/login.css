@@ -47,7 +47,7 @@ main {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(340px, 2fr);
   align-items: stretch;
-  /* gap: 40px; */
+  gap: 40px;
 }
 
 main::before {

@@ -186,12 +186,12 @@
                 <nav aria-label="Links das categorias">
                     <div class="footer-col-title">Categorias</div>
                     <ul class="footer-links">
-                        <li><a href="#" class="footer-link">💡 Iluminação</a></li>
-                        <li><a href="#" class="footer-link">💧 Abastecimento</a></li>
-                        <li><a href="#" class="footer-link">🚧 Infraestrutura</a></li>
-                        <li><a href="#" class="footer-link">🌳 Meio Ambiente</a></li>
-                        <li><a href="#" class="footer-link">🚌 Transporte</a></li>
-                        <li><a href="#" class="footer-link">🗑️ Limpeza Urbana</a></li>
+                        <li><a href="{% url 'denuncia:denuncia' %}?categoria=Iluminação" class="footer-link">💡 Iluminação</a></li>
+                        <li><a href="{% url 'denuncia:denuncia' %}?categoria=Abastecimento" class="footer-link">💧 Abastecimento</a></li>
+                        <li><a href="{% url 'denuncia:denuncia' %}?categoria=Infraestrutura" class="footer-link">🚧 Infraestrutura</a></li>
+                        <li><a href="{% url 'denuncia:denuncia' %}?categoria=Meio Ambiente" class="footer-link">🌳 Meio Ambiente</a></li>
+                        <li><a href="{% url 'denuncia:denuncia' %}?categoria=Transporte" class="footer-link">🚌 Transporte</a></li>
+                        <li><a href="{% url 'denuncia:denuncia' %}?categoria=Limpeza Urbana" class="footer-link">🗑️ Limpeza Urbana</a></li>
                     </ul>
                 </nav>
 
