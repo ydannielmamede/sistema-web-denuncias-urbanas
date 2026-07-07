@@ -31,11 +31,25 @@ class Denuncia(models.Model):
         EM_ANALISE = 'A', 'Em análise'
         RESOLVIDA = 'R', 'Resolvida'
 
+    class Prioridade(models.TextChoices):
+        BAIXA = 'B', 'Baixa'
+        MEDIA = 'M', 'Média'
+        ALTA = 'A', 'Alta'
+        CRITICA = 'C', 'Crítica'
+
     status = models.CharField(
         max_length=1,
         choices=Status.choices,
         default=Status.PENDENTE,
         db_column='Status',
+        null=False,
+        blank=False,
+    )
+    prioridade = models.CharField(
+        max_length=1,
+        choices=Prioridade.choices,
+        default=Prioridade.MEDIA,
+        db_column='Prioridade',
         null=False,
         blank=False,
     )
