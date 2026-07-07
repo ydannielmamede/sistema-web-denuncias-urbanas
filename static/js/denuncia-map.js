@@ -118,6 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     }
+    document.dispatchEvent(new Event("denuncia:location-updated"));
   };
 
   const initMobileMap = () => {
