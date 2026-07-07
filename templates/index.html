@@ -199,7 +199,7 @@
         <ul class="cat-grid" role="list">
           <li>
             <div class="cat-card luz">
-              <div class="cat-icon">💡</div>
+              <div class="cat-icon"><img src="{% static 'img/ui-iluminacao.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="cat-title">Iluminação</div>
               <div class="cat-desc">
                 Relate falta de iluminação pública ou postes danificados em
@@ -218,7 +218,7 @@
 
           <li>
             <div class="cat-card agua">
-              <div class="cat-icon">💧</div>
+              <div class="cat-icon"><img src="{% static 'img/ui-agua.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="cat-title">Abastecimento</div>
               <div class="cat-desc">
                 Denuncie interrupções no abastecimento de água ou vazamentos.
@@ -236,7 +236,7 @@
 
           <li>
             <div class="cat-card form">
-              <div class="cat-icon">📋</div>
+              <div class="cat-icon"><img src="{% static 'img/ui-formulario.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="cat-title">Gerar Nova Denúncia</div>
               <div class="cat-desc">
                 Registre uma ocorrência com sua identificação para acompanhar
@@ -256,7 +256,7 @@
           <li>
             <div class="cat-card anon">
               <span class="cat-badge">Privado</span>
-              <div class="cat-icon">🔒</div>
+              <div class="cat-icon"><img src="{% static 'img/ui-cadeado.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="cat-title">Nova Denúncia Anônima</div>
               <div class="cat-desc">
                 Envie sua denúncia sem necessidade de identificação pessoal.
@@ -274,7 +274,7 @@
 
           <li>
             <div class="cat-card infra">
-              <div class="cat-icon">🚧</div>
+              <div class="cat-icon"><img src="{% static 'img/ui-infraestrutura.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="cat-title">Infraestrutura</div>
               <div class="cat-desc">Buracos, calçadas, vias danificadas.</div>
               <a href="{% url 'denuncia:criar_denuncia' %}" class="cat-btn" data-categoria="infraestrutura" data-modo="identificada">
@@ -290,7 +290,7 @@
 
           <li>
             <div class="cat-card meio">
-              <div class="cat-icon">🌳</div>
+              <div class="cat-icon"><img src="{% static 'img/ui-meioambiente.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="cat-title">Meio Ambiente</div>
               <div class="cat-desc">
                 Desmatamento, descarte irregular, poluição.
@@ -308,7 +308,7 @@
 
           <li>
             <div class="cat-card transp">
-              <div class="cat-icon">🚌</div>
+              <div class="cat-icon"><img src="{% static 'img/ui-transporte.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="cat-title">Transporte</div>
               <div class="cat-desc">
                 Ônibus, semáforos, sinalização viária.
@@ -326,7 +326,7 @@
 
           <li>
             <div class="cat-card limp">
-              <div class="cat-icon">🗑️</div>
+              <div class="cat-icon"><img src="{% static 'img/ui-lixo.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="cat-title">Limpeza Urbana</div>
               <div class="cat-desc">
                 Lixo acumulado, limpeza de logradouros.
@@ -370,7 +370,7 @@
           <li>
             <div class="step-card">
               <div class="step-num">1</div>
-              <div class="step-icon">📍</div>
+              <div class="step-icon"><img src="{% static 'img/ui-localizacao.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="step-title">Localize o problema</div>
               <div class="step-desc">
                 Identifique o local exato da ocorrência usando o mapa
@@ -381,7 +381,7 @@
           <li>
             <div class="step-card">
               <div class="step-num">2</div>
-              <div class="step-icon">📸</div>
+              <div class="step-icon"><img src="{% static 'img/ui-foto.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="step-title">Documente</div>
               <div class="step-desc">
                 Tire fotos ou grave um vídeo do problema para facilitar a
@@ -392,7 +392,7 @@
           <li>
             <div class="step-card">
               <div class="step-num">3</div>
-              <div class="step-icon">📨</div>
+              <div class="step-icon"><img src="{% static 'img/ui-enviar.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="step-title">Envie a denúncia</div>
               <div class="step-desc">
                 Preencha as informações, escolha a categoria e envie. Leva
@@ -403,7 +403,7 @@
           <li>
             <div class="step-card">
               <div class="step-num">4</div>
-              <div class="step-icon">✅</div>
+              <div class="step-icon"><img src="{% static 'img/ui-resolvido.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="step-title">Acompanhe</div>
               <div class="step-desc">
                 Receba notificações sobre o andamento e veja quando o problema
