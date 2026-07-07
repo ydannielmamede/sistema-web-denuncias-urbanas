@@ -143,59 +143,48 @@ form.login-form {
 }
 
 .form-steps {
+  position: relative;
   display: flex;
-  flex-wrap: nowrap;
-  gap: 0;
+  justify-content: space-between;
+  gap: 18px;
   margin: 0 0 22px;
   padding: 0;
   list-style: none;
 }
 
+.form-steps::before {
+  content: "";
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  bottom: 10px;
+  height: 2px;
+  background: var(--border2);
+}
+
 .form-steps li {
   flex: 1 1 0;
   min-width: 0;
-  min-height: 38px;
-  display: inline-flex;
+  display: flex;
+  flex-direction: column-reverse;
   align-items: center;
-  justify-content: flex-start;
   gap: 8px;
-  padding: 0 26px 0 20px;
-  border: 1px solid var(--border);
-  background: var(--dark4);
   color: var(--t3);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  white-space: nowrap;
-  clip-path: polygon(
-    0 0,
-    calc(100% - 14px) 0,
-    100% 50%,
-    calc(100% - 14px) 100%,
-    0 100%,
-    14px 50%
-  );
-}
-
-.form-steps li + li {
-  margin-left: -1px;
-}
-
-.form-steps li:last-child {
-  padding-right: 20px;
+  text-transform: lowercase;
 }
 
 .step-num {
-  flex: 0 0 auto;
+  position: relative;
+  z-index: 1;
   width: 22px;
   height: 22px;
+  border: 2px solid var(--t2);
   border-radius: 50%;
-  background: var(--dark5);
-  color: var(--t3);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 800;
+  background: var(--dark3);
+  color: transparent;
+  font-size: 0;
 }
 
 .step-label {
@@ -204,26 +193,29 @@ form.login-form {
   min-width: 0;
 }
 
-.form-steps li.done {
-  background: var(--dark5);
+.form-steps li.done,
+.form-steps li.active {
   color: var(--t1);
-  border-color: var(--border2);
 }
 
 .form-steps li.done .step-num {
-  background: var(--accent);
-  color: var(--black);
+  background: var(--green);
+  border-color: var(--green);
 }
 
-.form-steps li.active {
-  background: var(--accent);
+.form-steps li.done .step-num::before {
+  content: "✓";
+  position: absolute;
+  inset: -2px 0 0;
+  display: grid;
+  place-items: center;
   color: var(--black);
-  border-color: rgba(255, 195, 0, 0.32);
+  font-size: 14px;
+  font-weight: 900;
 }
 
 .form-steps li.active .step-num {
-  background: var(--black);
-  color: var(--accent);
+  border-color: var(--accent);
 }
 
 .login-header {
@@ -501,15 +493,6 @@ textarea:focus {
 }
 
 @media (max-width: 900px) {
-  .form-steps {
-    flex-wrap: wrap;
-  }
-
-  .form-steps li {
-    flex: 1 1 auto;
-    min-width: 110px;
-  }
-
   main {
     align-items: center;
   }
@@ -577,18 +560,12 @@ textarea:focus {
 }
 
 @media (max-width: 540px) {
-  .step-label {
-    display: none;
+  .form-steps {
+    gap: 10px;
   }
 
   .form-steps li {
-    flex: 1 1 0;
-    min-width: 0;
-    padding: 0 20px 0 16px;
-  }
-
-  .form-steps li:last-child {
-    padding-right: 16px;
+    font-size: 11px;
   }
 
   main {

@@ -180,27 +180,21 @@
     const atualizarStepper = () => {
       if (!stepItems.length) return;
 
-      // Determina a maior etapa completada (1-based). 0 = nada preenchido.
-      let maiorConcluida = 0;
-      for (let n = 1; n <= 3; n += 1) {
-        if (etapaCompleta(n)) maiorConcluida = n;
-        else break;
-      }
-
-      // Etapa ativa = próxima pendente; se todas concluídas, fica na última.
-      const etapaAtiva = Math.min(maiorConcluida + 1, 3);
+      const primeiraPendente = [...stepItems].find((li) => !etapaCompleta(Number(li.dataset.step)));
+      const etapaAtiva = Number(primeiraPendente?.dataset.step || stepItems[stepItems.length - 1].dataset.step);
 
       stepItems.forEach((li) => {
         const n = Number(li.dataset.step);
-        li.classList.remove("active", "done");
-        if (n < etapaAtiva) li.classList.add("done");
-        else if (n === etapaAtiva) li.classList.add("active");
+        const completa = etapaCompleta(n);
+        li.classList.toggle("done", completa);
+        li.classList.toggle("active", !completa && n === etapaAtiva);
       });
     };
 
     if (formularioDenuncia) {
       formularioDenuncia.addEventListener("input", atualizarStepper);
       formularioDenuncia.addEventListener("change", atualizarStepper);
+      document.addEventListener("denuncia:location-updated", atualizarStepper);
       atualizarStepper();
     }
   });
