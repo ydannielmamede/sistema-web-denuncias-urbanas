@@ -2,7 +2,13 @@
    HERO
 ═══════════════════════════════════════════════════ */
 .hero {
-  background: var(--dark2);
+  background-color: var(--dark2);
+  background-image:
+    linear-gradient(120deg, rgba(5, 8, 12, 0.92) 0%, rgba(5, 8, 12, 0.7) 45%, rgba(5, 8, 12, 0.85) 100%),
+    url('../img/background.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   position: relative;
   overflow: hidden;
   padding: 80px 0 90px;
@@ -46,8 +52,8 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 48px;
+  grid-template-columns: 1fr 540px;
+  gap: 72px;
   align-items: center;
 }
 
@@ -71,8 +77,8 @@
 .hero-desc {
   font-size: var(--fs-subtitle);
   color: var(--t2);
-  line-height: 1.55;
-  max-width: 420px;
+  line-height: 1.65;
+  max-width: 620px;
   margin-bottom: 32px;
 }
 
@@ -87,7 +93,7 @@
   background: var(--dark3);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 28px;
+  padding: 36px;
   position: relative;
   overflow: hidden;
 }
@@ -202,7 +208,7 @@
 .cat-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 24px;
   align-items: stretch;
 }
 
@@ -228,7 +234,7 @@
   overflow: hidden;
   border-radius: var(--radius-lg);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 28px 22px 24px;
+  padding: 34px 28px 30px;
   cursor: pointer;
   transition:
     transform var(--transition),
@@ -236,8 +242,8 @@
     border-color var(--transition);
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  min-height: 220px;
+  gap: 18px;
+  min-height: 250px;
   flex: 1;
   height: 100%;
   justify-content: flex-start;
@@ -314,16 +320,16 @@
 }
 
 .cat-title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   margin: 0;
   line-height: 1.25;
 }
 
 .cat-desc {
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.55;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.65;
   margin: 0;
   flex: 1 1 auto;
 }
@@ -378,7 +384,7 @@
 .steps {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  gap: 32px;
   position: relative;
   align-items: stretch;
 }
@@ -402,9 +408,9 @@
 .step-card {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
   text-align: center;
-  padding: 28px 20px;
+  padding: 34px 26px;
   background: var(--dark3);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -443,15 +449,15 @@
 }
 
 .step-title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   margin-bottom: 8px;
 }
 
 .step-desc {
-  font-size: 15px;
-  color: var(--t3);
-  line-height: 1.6;
+  font-size: 16px;
+  color: var(--t2);
+  line-height: 1.65;
   flex: 1 1 auto;
 }
 
@@ -477,14 +483,14 @@
 .reports-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .report-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
+  gap: 20px;
+  padding: 20px 24px;
   background: var(--dark3);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -512,14 +518,14 @@
 }
 
 .report-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
 }
 
 .report-meta {
-  font-size: 13px;
-  color: var(--t3);
+  font-size: 14px;
+  color: var(--t2);
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
@@ -618,17 +624,17 @@
 }
 
 .band-num {
-  font-size: 38px;
+  font-size: 44px;
   font-weight: 900;
   color: #111;
   letter-spacing: -0.03em;
 }
 
 .band-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.6);
-  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.68);
+  margin-top: 6px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }

@@ -54,7 +54,8 @@ img {
 }
 
 .container {
-  max-width: 1180px;
+  width: 90%;
+  max-width: none;
   margin: 0 auto;
   padding: 0 24px;
 }
@@ -192,13 +193,22 @@ h2::before {
 }
 
 .logo-mark {
-  width: 34px;
-  height: 34px;
-  background: var(--accent);
+  width: 48px;
+  height: 48px;
+  background: #0f172a;
   border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  padding: 0;
+}
+
+.logo-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .logo-mark svg {
