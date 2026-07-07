@@ -21,11 +21,7 @@
                 <div class="nav-inner">
                   <a href="{% url 'index'%}" class="nav-logo">
                         <div class="logo-mark">
-                            <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                <circle cx="12" cy="10" r="3" />
-                            </svg>
+                            <img src="{% static 'img/download.png' %}" alt="Logo do site" />
                         </div>
                         <div class="logo-text-wrap">
                             <div class="logo-main">Denúncias</div>
@@ -122,11 +118,7 @@
                 <div class="footer-brand">
                   <a href="{% url 'index' %}" class="nav-logo" style="display: inline-flex">
                         <div class="logo-mark">
-                            <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                <circle cx="12" cy="10" r="3" />
-                            </svg>
+                            <img src="{% static 'img/download.png' %}" alt="Logo do site" />
                         </div>
                         <div class="logo-text-wrap">
                             <div class="logo-main">Denúncias</div>
@@ -194,12 +186,12 @@
                 <nav aria-label="Links das categorias">
                     <div class="footer-col-title">Categorias</div>
                     <ul class="footer-links">
-                        <li><a href="#" class="footer-link">💡 Iluminação</a></li>
-                        <li><a href="#" class="footer-link">💧 Abastecimento</a></li>
-                        <li><a href="#" class="footer-link">🚧 Infraestrutura</a></li>
-                        <li><a href="#" class="footer-link">🌳 Meio Ambiente</a></li>
-                        <li><a href="#" class="footer-link">🚌 Transporte</a></li>
-                        <li><a href="#" class="footer-link">🗑️ Limpeza Urbana</a></li>
+                        <li><a href="{% url 'denuncia:denuncia' %}?categoria=Iluminação" class="footer-link">💡 Iluminação</a></li>
+                        <li><a href="{% url 'denuncia:denuncia' %}?categoria=Abastecimento" class="footer-link">💧 Abastecimento</a></li>
+                        <li><a href="{% url 'denuncia:denuncia' %}?categoria=Infraestrutura" class="footer-link">🚧 Infraestrutura</a></li>
+                        <li><a href="{% url 'denuncia:denuncia' %}?categoria=Meio Ambiente" class="footer-link">🌳 Meio Ambiente</a></li>
+                        <li><a href="{% url 'denuncia:denuncia' %}?categoria=Transporte" class="footer-link">🚌 Transporte</a></li>
+                        <li><a href="{% url 'denuncia:denuncia' %}?categoria=Limpeza Urbana" class="footer-link">🗑️ Limpeza Urbana</a></li>
                     </ul>
                 </nav>
 

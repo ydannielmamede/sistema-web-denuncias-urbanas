@@ -32,10 +32,12 @@ def _get_categorias_com_orgao():
     return categorias
 
 
+@login_required(login_url='usuario:login')
 def denuncia_page(request, server_message=None, server_message_class=''):
     categorias = _get_categorias_com_orgao()
     return render(request, 'denuncia/denuncia.html', {
         'categorias': categorias,
+        'categoria_selecionada': request.GET.get('categoria', ''),
         'server_message': server_message,
         'server_message_class': server_message_class,
     })

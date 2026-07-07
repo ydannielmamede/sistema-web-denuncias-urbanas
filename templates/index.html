@@ -33,7 +33,7 @@
               Informe a categoria, marque o local e acompanhe o andamento da denúncia. Sua participação ajuda a cidade a agir mais rápido.
             </p>
             <div class="hero-btns fade-up fade-up-3">
-              <a href="{% url 'denuncia:criar_denuncia' %}" class="btn-primary" role="button">
+              <a href="{% url 'denuncia:denuncia' %}" class="btn-primary" role="button">
                 <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
@@ -41,7 +41,7 @@
                 </svg>
                 Registrar Denúncia
               </a>
-              <a href="#recentes" class="btn-outline">
+              <a href="{% url 'denuncia:listar_denuncias' %}" class="btn-outline">
                 <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10" />
@@ -199,13 +199,13 @@
         <ul class="cat-grid" role="list">
           <li>
             <div class="cat-card luz">
-              <div class="cat-icon">💡</div>
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Iluminação" class="cat-icon"><img src="{% static 'img/ui-iluminacao.png.png' %}" alt="Iluminação"></a>
               <div class="cat-title">Iluminação</div>
               <div class="cat-desc">
                 Relate falta de iluminação pública ou postes danificados em
                 sua região.
               </div>
-              <a href="{% url 'denuncia:criar_denuncia' %}" class="cat-btn" data-categoria="falta de luz" data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Iluminação" class="cat-btn" data-categoria="Iluminação" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
@@ -218,12 +218,12 @@
 
           <li>
             <div class="cat-card agua">
-              <div class="cat-icon">💧</div>
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Abastecimento" class="cat-icon"><img src="{% static 'img/ui-agua.png.png' %}" alt="Abastecimento"></a>
               <div class="cat-title">Abastecimento</div>
               <div class="cat-desc">
                 Denuncie interrupções no abastecimento de água ou vazamentos.
               </div>
-              <a href="{% url 'denuncia:criar_denuncia' %}" class="cat-btn" data-categoria="falta de agua" data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Abastecimento" class="cat-btn" data-categoria="Abastecimento" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
@@ -236,13 +236,13 @@
 
           <li>
             <div class="cat-card form">
-              <div class="cat-icon">📋</div>
+              <div class="cat-icon"><img src="{% static 'img/ui-formulario.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="cat-title">Gerar Nova Denúncia</div>
               <div class="cat-desc">
                 Registre uma ocorrência com sua identificação para acompanhar
                 o status.
               </div>
-              <a href="{% url 'denuncia:criar_denuncia' %}" class="cat-btn" data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}" class="cat-btn" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
@@ -256,12 +256,12 @@
           <li>
             <div class="cat-card anon">
               <span class="cat-badge">Privado</span>
-              <div class="cat-icon">🔒</div>
+              <div class="cat-icon"><img src="{% static 'img/ui-cadeado.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="cat-title">Nova Denúncia Anônima</div>
               <div class="cat-desc">
                 Envie sua denúncia sem necessidade de identificação pessoal.
               </div>
-              <a href="{% url 'denuncia:criar_denuncia' %}" class="cat-btn" data-modo="anonima">
+              <a href="{% url 'denuncia:denuncia' %}" class="cat-btn" data-modo="anonima">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
@@ -274,10 +274,10 @@
 
           <li>
             <div class="cat-card infra">
-              <div class="cat-icon">🚧</div>
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Infraestrutura" class="cat-icon"><img src="{% static 'img/ui-infraestrutura.png.png' %}" alt="Infraestrutura"></a>
               <div class="cat-title">Infraestrutura</div>
               <div class="cat-desc">Buracos, calçadas, vias danificadas.</div>
-              <a href="{% url 'denuncia:criar_denuncia' %}" class="cat-btn" data-categoria="infraestrutura" data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Infraestrutura" class="cat-btn" data-categoria="Infraestrutura" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
@@ -290,12 +290,12 @@
 
           <li>
             <div class="cat-card meio">
-              <div class="cat-icon">🌳</div>
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Meio Ambiente" class="cat-icon"><img src="{% static 'img/ui-meioambiente.png.png' %}" alt="Meio Ambiente"></a>
               <div class="cat-title">Meio Ambiente</div>
               <div class="cat-desc">
                 Desmatamento, descarte irregular, poluição.
               </div>
-              <a href="{% url 'denuncia:criar_denuncia' %}" class="cat-btn" data-categoria="meio ambiente" data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Meio Ambiente" class="cat-btn" data-categoria="Meio Ambiente" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
@@ -308,12 +308,12 @@
 
           <li>
             <div class="cat-card transp">
-              <div class="cat-icon">🚌</div>
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Transporte" class="cat-icon"><img src="{% static 'img/ui-transporte.png.png' %}" alt="Transporte"></a>
               <div class="cat-title">Transporte</div>
               <div class="cat-desc">
                 Ônibus, semáforos, sinalização viária.
               </div>
-              <a href="{% url 'denuncia:criar_denuncia' %}" class="cat-btn" data-categoria="transporte" data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Transporte" class="cat-btn" data-categoria="Transporte" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
@@ -326,12 +326,12 @@
 
           <li>
             <div class="cat-card limp">
-              <div class="cat-icon">🗑️</div>
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Limpeza Urbana" class="cat-icon"><img src="{% static 'img/ui-lixo.png.png' %}" alt="Limpeza Urbana"></a>
               <div class="cat-title">Limpeza Urbana</div>
               <div class="cat-desc">
                 Lixo acumulado, limpeza de logradouros.
               </div>
-              <a href="{% url 'denuncia:criar_denuncia' %}" class="cat-btn" data-categoria="limpeza urbana" data-modo="identificada">
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Limpeza Urbana" class="cat-btn" data-categoria="Limpeza Urbana" data-modo="identificada">
                 <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2.5">
                   <line x1="12" y1="5" x2="12" y2="19" />
@@ -370,7 +370,7 @@
           <li>
             <div class="step-card">
               <div class="step-num">1</div>
-              <div class="step-icon">📍</div>
+              <div class="step-icon"><img src="{% static 'img/ui-localizacao.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="step-title">Localize o problema</div>
               <div class="step-desc">
                 Identifique o local exato da ocorrência usando o mapa
@@ -381,7 +381,7 @@
           <li>
             <div class="step-card">
               <div class="step-num">2</div>
-              <div class="step-icon">📸</div>
+              <div class="step-icon"><img src="{% static 'img/ui-foto.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="step-title">Documente</div>
               <div class="step-desc">
                 Tire fotos ou grave um vídeo do problema para facilitar a
@@ -392,7 +392,7 @@
           <li>
             <div class="step-card">
               <div class="step-num">3</div>
-              <div class="step-icon">📨</div>
+              <div class="step-icon"><img src="{% static 'img/ui-enviar.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="step-title">Envie a denúncia</div>
               <div class="step-desc">
                 Preencha as informações, escolha a categoria e envie. Leva
@@ -403,7 +403,7 @@
           <li>
             <div class="step-card">
               <div class="step-num">4</div>
-              <div class="step-icon">✅</div>
+              <div class="step-icon"><img src="{% static 'img/ui-resolvido.png.png' %}" alt="" aria-hidden="true"></div>
               <div class="step-title">Acompanhe</div>
               <div class="step-desc">
                 Receba notificações sobre o andamento e veja quando o problema
@@ -506,7 +506,7 @@
             </p>
           </div>
           <div class="cta-btn">
-            <a href="{% url 'denuncia:criar_denuncia' %}" class="btn-primary" style="white-space: nowrap">
+            <a href="{% url 'denuncia:denuncia' %}" class="btn-primary" style="white-space: nowrap">
               <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2.5">
                 <line x1="12" y1="5" x2="12" y2="19" />
