@@ -42,8 +42,8 @@
   --g-anon: linear-gradient(135deg, #1d1630 0%, #5b3aa4 58%, #a78bfa 100%);
   --g-infra: linear-gradient(135deg, #2b1608 0%, #9a3f13 58%, #fb923c 100%);
   --g-meio: linear-gradient(135deg, #06251d 0%, #0f766e 58%, #2dd4bf 100%);
-  --g-transp: linear-gradient(135deg, #111f38 0%, #2563eb 58%, #60a5fa 100%);
-  --g-limp: linear-gradient(135deg, #271427 0%, #9333ea 58%, #f0abfc 100%);
+  --g-transp: linear-gradient(135deg, #271427 0%, #9333ea 58%, #f0abfc 100%);
+  --g-limp: linear-gradient(135deg, #241408 0%, #8b4513 58%, #d97706 100%);
 
   --radius: 12px;
   --radius-sm: 8px;
