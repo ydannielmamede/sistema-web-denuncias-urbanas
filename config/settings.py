@@ -16,16 +16,17 @@ from decouple import config
 
 import dj_database_url
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_TIMEOUT = config("EMAIL_TIMEOUT", default=10, cast=int)
-EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
-EMAIL_HOST_PASSWORD = config(
-    "EMAIL_HOST_PASSWORD", default=""
-)  # use senha de app, não a senha normal
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# Envio de e-mails desativado.
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_TIMEOUT = config("EMAIL_TIMEOUT", default=10, cast=int)
+# EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
+# EMAIL_HOST_PASSWORD = config(
+#     "EMAIL_HOST_PASSWORD", default=""
+# )  # use senha de app, não a senha normal
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -126,7 +127,7 @@ DATABASES = {
         "USER": config("DB_USER", default="root"),
         "PASSWORD": config("DB_PASSWORD", default=""),
         "HOST": config("DB_HOST", default="127.0.0.1"),
-        "PORT": config("DB_PORT", default="3306"),
+        "PORT": config("DB_PORT", default="3307"),
         "OPTIONS": {"ssl": {"ssl_mode": "REQUIRED"}},
     }
 }
