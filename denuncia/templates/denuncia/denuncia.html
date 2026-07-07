@@ -179,6 +179,11 @@
       return false;
     };
 
+    const limparCoordenadas = () => {
+      if (latEl) latEl.value = "";
+      if (lngEl) lngEl.value = "";
+    };
+
     const atualizarStepper = () => {
       if (!stepItems.length) return;
 
@@ -191,12 +196,23 @@
         li.classList.toggle("done", completa);
         li.classList.toggle("active", !completa && n === etapaAtiva);
       });
+
+      const todosCompletos = [...stepItems].every((li) => etapaCompleta(Number(li.dataset.step)));
+      stepItems[0]?.parentElement?.classList.toggle("complete", todosCompletos);
     };
 
     if (formularioDenuncia) {
       formularioDenuncia.addEventListener("input", atualizarStepper);
       formularioDenuncia.addEventListener("change", atualizarStepper);
       document.addEventListener("denuncia:location-updated", atualizarStepper);
+
+      // Apagar o texto de localização zera também as coordenadas ocultas,
+      // para que o step 2 volte a ficar pendente.
+      localEl?.addEventListener("input", () => {
+        if (!localEl.value) limparCoordenadas();
+        atualizarStepper();
+      });
+
       atualizarStepper();
     }
   });

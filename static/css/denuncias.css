@@ -147,9 +147,12 @@ form.login-form {
   display: flex;
   justify-content: space-between;
   gap: 18px;
-  margin: 0 0 22px;
-  padding: 0;
+  margin: 18px 0 0;
+  padding: 18px 16px 14px;
   list-style: none;
+  background: rgba(255, 195, 0, 0.04);
+  border: 1px solid rgba(255, 195, 0, 0.28);
+  border-radius: var(--radius);
 }
 
 .form-steps::before {
@@ -157,7 +160,7 @@ form.login-form {
   position: absolute;
   left: 16%;
   right: 16%;
-  bottom: 10px;
+  bottom: 26px;
   height: 2px;
   background: var(--border2);
 }
@@ -216,6 +219,35 @@ form.login-form {
 
 .form-steps li.active .step-num {
   border-color: var(--accent);
+}
+
+.form-steps.complete {
+  background: rgba(34, 197, 94, 0.05);
+  border-color: rgba(34, 197, 94, 0.32);
+}
+
+.form-steps.complete::before {
+  background: var(--green);
+}
+
+.form-steps.complete .step-num {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.form-steps.complete li .step-num::before {
+  content: "✓";
+  position: absolute;
+  inset: -2px 0 0;
+  display: grid;
+  place-items: center;
+  color: var(--black);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.form-steps.complete .step-label {
+  color: var(--green);
 }
 
 .login-header {
