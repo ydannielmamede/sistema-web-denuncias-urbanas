@@ -8,6 +8,15 @@
   padding: 0;
 }
 
+h1 {
+  color: var(--accent);
+}
+
+h1::after {
+  content: ".";
+  color: var(--white);
+}
+
 body {
   font-family: var(--font-sans);
   font-size: var(--fs-body);
@@ -54,10 +63,10 @@ img {
 }
 
 .container {
-  width: 90%;
+  width: 95%;
   max-width: none;
   margin: 0 auto;
-  padding: 0 24px;
+  /* padding: 0 24px; */
 }
 
 .accent {
@@ -826,7 +835,7 @@ h2::before {
 
 @media (max-width: 425px) {
   .container {
-    padding: 0 16px;
+    padding: 0;
   }
 
   .nav-logo {

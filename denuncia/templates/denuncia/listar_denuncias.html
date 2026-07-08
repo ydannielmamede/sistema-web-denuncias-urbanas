@@ -5,20 +5,14 @@
 <link rel="stylesheet" href="{% static 'css/denuncias-list.css' %}">
 <link rel="stylesheet" href="{% static 'css/modal.css' %}">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 {% endblock %}
 
 {% block content %}
 <section class="denuncias-list-page" aria-labelledby="denuncias-list-title">
     <div class="container">
         <div class="section-header denuncias-list-header">
-            <div class="tag" style="margin-bottom: 14px">
-                <svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M8 12h8" />
-                    <path d="M12 8v8" />
-                </svg>
-                Acompanhamento
-            </div>
             <h1 id="denuncias-list-title" class="section-title">Denúncias</h1>
             <p class="section-sub">Veja todas as ocorrências registradas e acompanhe suas próprias denúncias identificadas.</p>
         </div>
@@ -52,138 +46,58 @@
         </div>
 
         <div class="denuncias-panel is-active" id="panel-todas" role="tabpanel" aria-labelledby="tab-todas" data-panel="todas">
-            <ul class="reports-list denuncias-grid" role="list">
-                {% for denuncia in todas_denuncias %}
-                <li>
-                    <div class="report-item denuncias-card" style="border-left: 5px solid {{ denuncia.id_categoria.cor|default:'#f3e8d093' }}">
-                        <div class="report-info">
-                            <div class="denuncias-card-top">
-                                <div class="denuncias-card-heading">
-                                    <div class="report-category">{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</div>
-                                    {% if denuncia.id_orgao_alvo %}<div class="report-target">{{ denuncia.id_orgao_alvo.descricao }}</div>{% endif %}
-                                </div>
-                                {% if user.is_staff or user.is_superuser %}
-                                    <form class="denuncias-status-form" method="post">
-                                        {% csrf_token %}
-                                        <select class="report-badge denuncias-status-select {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}" aria-label="Alterar status da denúncia">
-                                            <option value="P" data-url="{% url 'denuncia:marcar_status_pendente' denuncia.id_denuncia %}" {% if denuncia.status == 'P' %}selected{% endif %}>Pendente</option>
-                                            <option value="A" data-url="{% url 'denuncia:marcar_status_em_analise' denuncia.id_denuncia %}" {% if denuncia.status == 'A' %}selected{% endif %}>Em análise</option>
-                                            <option value="R" data-url="{% url 'denuncia:marcar_status_resolvida' denuncia.id_denuncia %}" {% if denuncia.status == 'R' %}selected{% endif %}>Resolvida</option>
-                                        </select>
-                                    </form>
-                                    {% else %}
-                                    <span class="report-badge {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}">{{ denuncia.get_status_display }}</span>
-                                    {% endif %}
-                            </div>
-                            <div class="report-title">{{ denuncia.mensagem|truncatechars:64 }}</div>
-                            <div class="report-meta">
-                                <span>{{ denuncia.localizacao|default:'&nbsp;' }}</span>
-                                <span class="denuncias-date-row"><span>{{ denuncia.data_hora|date:"d/m/y H:i" }}</span><span>{{ denuncia.data_hora|timesince }} atrás</span></span>
-                                <button
-                                    class="denuncias-more"
-                                    type="button"
-                                    data-mensagem="{{ denuncia.mensagem }}"
-                                    data-categoria="{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}"
-                                    data-orgao="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.descricao }}{% endif %}"
-                                    data-orgao-email="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.email_orgao|default_if_none:'' }}{% endif %}"
-                                    data-orgao-telefone="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.telefone|default_if_none:'' }}{% endif %}"
-                                    data-localizacao="{{ denuncia.localizacao|default_if_none:'' }}"
-                                    data-latitude="{{ denuncia.latitude|default_if_none:'' }}"
-                                    data-longitude="{{ denuncia.longitude|default_if_none:'' }}"
-                                    data-data="{{ denuncia.data_hora }}"
-                                    data-status="{{ denuncia.get_status_display }}"
-                                    data-anonimo="{% if denuncia.anonimo %}Sim{% else %}Não{% endif %}"
-                                    data-usuario="{% if denuncia.anonimo %}Enviado anonimamente{% elif denuncia.id_usuario %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
-                                    data-midia="{% for midia in denuncia.midias %}{{ midia.url }}{% if not forloop.last %}|{% endif %}{% endfor %}"
-                                >Ver mais</button>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                {% empty %}
-                <li class="denuncias-empty">Nenhuma denúncia registrada até o momento.</li>
-                {% endfor %}
-            </ul>
-
-            {% if todas_denuncias.has_other_pages %}
-            <nav class="denuncias-pagination" aria-label="Paginação de todas as denúncias">
-                {% for page_number in todas_denuncias.paginator.page_range %}
-                    {% if page_number == todas_denuncias.number %}
-                        <span class="denuncias-page is-active" aria-current="page">{{ page_number }}</span>
-                    {% else %}
-                        <a class="denuncias-page" href="?todas_page={{ page_number }}{{ categoria_query }}#todas">{{ page_number }}</a>
+            <div class="denuncias-panel-body" data-painel="todas">
+                {% if todas_denuncias %}
+                    <ul class="reports-list denuncias-grid" role="list" data-painel="todas">
+                        {% for denuncia in todas_denuncias %}
+                            <li>{% include 'denuncia/partials/_denuncia_card.html' with denuncia=denuncia %}</li>
+                        {% endfor %}
+                    </ul>
+                    {% if todas_denuncias.has_other_pages %}
+                    <nav class="denuncias-pagination" data-painel="todas" aria-label="Paginação de todas as denúncias">
+                        {% for page_number in todas_denuncias.paginator.page_range %}
+                            {% if page_number == todas_denuncias.number %}
+                                <span class="denuncias-page is-active" aria-current="page">{{ page_number }}</span>
+                            {% else %}
+                                <a class="denuncias-page" href="?todas_page={{ page_number }}{{ categoria_query }}#todas" data-page="{{ page_number }}" data-painel="todas">{{ page_number }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </nav>
                     {% endif %}
-                {% endfor %}
-            </nav>
-            {% endif %}
+                {% else %}
+                    <ul class="reports-list denuncias-grid" role="list" data-painel="todas">
+                        <li class="denuncias-empty">Nenhuma denúncia registrada até o momento.</li>
+                    </ul>
+                {% endif %}
+            </div>
         </div>
 
         <div class="denuncias-panel" id="panel-minhas" role="tabpanel" aria-labelledby="tab-minhas" data-panel="minhas" hidden>
             {% if user.is_authenticated %}
-                <ul class="reports-list denuncias-grid" role="list">
-                    {% for denuncia in minhas_denuncias %}
-                    <li>
-                        <div class="report-item denuncias-card" style="border-left: 5px solid {{ denuncia.id_categoria.cor|default:'#f3e8d093' }}">
-                            <div class="report-info">
-                                <div class="denuncias-card-top">
-                                    <div class="denuncias-card-heading">
-                                        <div class="report-category">{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</div>
-                                        {% if denuncia.id_orgao_alvo %}<div class="report-target">{{ denuncia.id_orgao_alvo.descricao }}</div>{% endif %}
-                                    </div>
-                                    {% if user.is_staff or user.is_superuser %}
-                                    <form class="denuncias-status-form" method="post">
-                                        {% csrf_token %}
-                                        <select class="report-badge denuncias-status-select {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}" aria-label="Alterar status da denúncia">
-                                            <option value="P" data-url="{% url 'denuncia:marcar_status_pendente' denuncia.id_denuncia %}" {% if denuncia.status == 'P' %}selected{% endif %}>Pendente</option>
-                                            <option value="A" data-url="{% url 'denuncia:marcar_status_em_analise' denuncia.id_denuncia %}" {% if denuncia.status == 'A' %}selected{% endif %}>Em análise</option>
-                                            <option value="R" data-url="{% url 'denuncia:marcar_status_resolvida' denuncia.id_denuncia %}" {% if denuncia.status == 'R' %}selected{% endif %}>Resolvida</option>
-                                        </select>
-                                    </form>
-                                    {% else %}
-                                    <span class="report-badge {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}">{{ denuncia.get_status_display }}</span>
-                                    {% endif %}
-                                </div>
-                                <div class="report-title">{{ denuncia.mensagem|truncatechars:64 }}</div>
-                                <div class="report-meta">
-                                    <span>{{ denuncia.localizacao|default:'&nbsp;' }}</span>
-                                    <span class="denuncias-date-row"><span>{{ denuncia.data_hora|date:"d/m/y H:i" }}</span><span>{{ denuncia.data_hora|timesince }} atrás</span></span>
-                                    <button
-                                    class="denuncias-more"
-                                    type="button"
-                                    data-mensagem="{{ denuncia.mensagem }}"
-                                    data-categoria="{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}"
-                                    data-orgao="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.descricao }}{% endif %}"
-                                    data-orgao-email="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.email_orgao|default_if_none:'' }}{% endif %}"
-                                    data-orgao-telefone="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.telefone|default_if_none:'' }}{% endif %}"
-                                    data-localizacao="{{ denuncia.localizacao|default_if_none:'' }}"
-                                    data-latitude="{{ denuncia.latitude|default_if_none:'' }}"
-                                    data-longitude="{{ denuncia.longitude|default_if_none:'' }}"
-                                    data-data="{{ denuncia.data_hora }}"
-                                    data-status="{{ denuncia.get_status_display }}"
-                                    data-anonimo="{% if denuncia.anonimo %}Sim{% else %}Não{% endif %}"
-                                    data-usuario="{% if denuncia.anonimo %}Enviado anonimamentes{% elif denuncia.id_usuario %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
-                                    data-midia="{% for midia in denuncia.midias %}{{ midia.url }}{% if not forloop.last %}|{% endif %}{% endfor %}"
-                                >Ver mais</button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    {% empty %}
-                    <li class="denuncias-empty">Você ainda não registrou denúncias identificadas.</li>
-                    {% endfor %}
-                </ul>
-
-                {% if minhas_denuncias.has_other_pages %}
-                <nav class="denuncias-pagination" aria-label="Paginação das minhas denúncias">
-                    {% for page_number in minhas_denuncias.paginator.page_range %}
-                        {% if page_number == minhas_denuncias.number %}
-                            <span class="denuncias-page is-active" aria-current="page">{{ page_number }}</span>
-                        {% else %}
-                            <a class="denuncias-page" href="?minhas_page={{ page_number }}{{ categoria_query }}#minhas">{{ page_number }}</a>
+                <div class="denuncias-panel-body" data-painel="minhas">
+                    {% if minhas_denuncias %}
+                        <ul class="reports-list denuncias-grid" role="list" data-painel="minhas">
+                            {% for denuncia in minhas_denuncias %}
+                                <li>{% include 'denuncia/partials/_denuncia_card.html' with denuncia=denuncia %}</li>
+                            {% endfor %}
+                        </ul>
+                        {% if minhas_denuncias.has_other_pages %}
+                        <nav class="denuncias-pagination" data-painel="minhas" aria-label="Paginação das minhas denúncias">
+                            {% for page_number in minhas_denuncias.paginator.page_range %}
+                                {% if page_number == minhas_denuncias.number %}
+                                    <span class="denuncias-page is-active" aria-current="page">{{ page_number }}</span>
+                                {% else %}
+                                    <a class="denuncias-page" href="?minhas_page={{ page_number }}{{ categoria_query }}#minhas" data-page="{{ page_number }}" data-painel="minhas">{{ page_number }}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </nav>
                         {% endif %}
-                    {% endfor %}
-                </nav>
-                {% endif %}
+                    {% else %}
+                        <ul class="reports-list denuncias-grid" role="list" data-painel="minhas">
+                            <li class="denuncias-empty">Você ainda não registrou denúncias identificadas.</li>
+                        </ul>
+                    {% endif %}
+                </div>
             {% else %}
                 <div class="denuncias-empty denuncias-login-prompt">
                     <h2>Entre para ver suas denúncias</h2>
@@ -226,49 +140,84 @@
 
 {% block extra_js %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const mapElement = document.getElementById('denunciasMap');
         const mapDataElement = document.getElementById('denunciasMapaData');
-        if (mapElement && mapDataElement && window.L) {
-            const denuncias = JSON.parse(mapDataElement.textContent || '[]');
-            const belemCenter = [-1.455833, -48.503887];
-            const map = L.map(mapElement).setView(belemCenter, 12);
-            const bounds = [];
-            const escapeHtml = (value) => String(value || '').replace(/[&<>'"]/g, (char) => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                "'": '&#39;',
-                '"': '&quot;',
-            }[char]));
+        if (mapElement && mapDataElement && window.L && window.L.markerClusterGroup) {
+            const initMap = () => {
+                const denuncias = JSON.parse(mapDataElement.textContent || '[]');
+                const belemCenter = [-1.455833, -48.503887];
+                const escapeHtml = (value) => String(value || '').replace(/[&<>'"]/g, (char) => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;',
+                }[char]));
 
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                maxZoom: 19,
-                attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-            }).addTo(map);
+                const map = L.map(mapElement, {
+                    preferCanvas: true,
+                    fadeAnimation: false,
+                    zoomAnimation: false,
+                    markerZoomAnimation: false,
+                }).setView(belemCenter, 12);
 
-            denuncias.forEach((denuncia) => {
-                const latLng = [denuncia.lat, denuncia.lng];
-                bounds.push(latLng);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+                }).addTo(map);
 
-                L.marker(latLng, {
-                    icon: L.divIcon({
+                const iconCache = new Map();
+                const iconFor = (cor, icone) => {
+                    if (iconCache.has(cor)) return iconCache.get(cor);
+                    const html = `<div class="denuncia-pin" style="--pin-color: ${escapeHtml(cor)};"><span>${escapeHtml(icone)}</span></div>`;
+                    const icon = L.divIcon({
                         className: '',
-                        html: `<div class="denuncia-pin" style="--pin-color: ${escapeHtml(denuncia.cor)};"><span>${escapeHtml(denuncia.icone)}</span></div>`,
+                        html,
                         iconSize: [38, 44],
                         iconAnchor: [19, 43],
                         popupAnchor: [0, -44],
-                    }),
-                })
-                    .addTo(map)
-                    .bindPopup(`<strong>${escapeHtml(denuncia.categoria)}</strong><br>${escapeHtml(denuncia.status)}<br>${escapeHtml(denuncia.localizacao || denuncia.mensagem)}`);
-            });
+                    });
+                    iconCache.set(cor, icon);
+                    return icon;
+                };
 
-            if (bounds.length > 1) {
-                map.fitBounds(bounds, { padding: [28, 28] });
-            } else if (bounds.length === 1) {
-                map.setView(bounds[0], 15);
+                const cluster = L.markerClusterGroup({
+                    disableClusteringAtZoom: 16,
+                    spiderfyOnMaxZoom: false,
+                    showCoverageOnHover: false,
+                    maxClusterRadius: 60,
+                    chunkedLoading: true,
+                });
+
+                const bounds = [];
+                denuncias.forEach((denuncia) => {
+                    const latLng = [denuncia.lat, denuncia.lng];
+                    bounds.push(latLng);
+                    const marker = L.marker(latLng, { icon: iconFor(denuncia.cor, denuncia.icone) });
+                    marker.bindPopup(
+                        `<strong>${escapeHtml(denuncia.categoria)}</strong>` +
+                        `<br>${escapeHtml(denuncia.status)}` +
+                        `<br>${escapeHtml(denuncia.localizacao || denuncia.mensagem)}`
+                    );
+                    cluster.addLayer(marker);
+                });
+
+                map.addLayer(cluster);
+
+                if (bounds.length > 1) {
+                    map.fitBounds(bounds, { padding: [28, 28] });
+                } else if (bounds.length === 1) {
+                    map.setView(bounds[0], 15);
+                }
+            };
+
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(initMap, { timeout: 1500 });
+            } else {
+                setTimeout(initMap, 200);
             }
         }
 
@@ -299,13 +248,22 @@
             });
         });
 
-        document.querySelectorAll('.denuncias-status-select').forEach((select) => {
-            select.addEventListener('change', function () {
-                const option = select.options[select.selectedIndex];
-                select.form.action = option.dataset.url;
-                select.form.submit();
+        function bindCardListeners(scope) {
+            scope.querySelectorAll('.denuncias-status-select').forEach((select) => {
+                select.addEventListener('change', function () {
+                    const option = select.options[select.selectedIndex];
+                    select.form.action = option.dataset.url;
+                    select.form.submit();
+                });
             });
-        });
+            scope.querySelectorAll('.denuncias-more').forEach((button) => {
+                button.addEventListener('click', function () {
+                    openDetailModal(button);
+                });
+            });
+        }
+
+        bindCardListeners(document);
 
         const detailModal = document.getElementById('denunciaDetalheModal');
         const closeDetailModal = document.getElementById('fecharDenunciaDetalhe');
@@ -390,12 +348,6 @@
             detailModal.setAttribute('aria-hidden', 'true');
         }
 
-        document.querySelectorAll('.denuncias-more').forEach((button) => {
-            button.addEventListener('click', function () {
-                openDetailModal(button);
-            });
-        });
-
         closeDetailModal.addEventListener('click', closeModal);
         detailModal.addEventListener('click', function (event) {
             if (event.target === detailModal) {
@@ -416,6 +368,82 @@
             if (!mediaItems.length) return;
             mediaIndex = (mediaIndex + 1) % mediaItems.length;
             renderMedia();
+        });
+
+        // Paginação AJAX: troca só o conteúdo do painel, sem recarregar mapa/modal.
+        const pageEndpoint = "{% url 'denuncia:listar_denuncias_page' %}";
+
+        function getPageParam(painel) {
+            return painel === 'minhas' ? 'minhas_page' : 'todas_page';
+        }
+
+        function getCurrentPage(painel) {
+            const params = new URLSearchParams(window.location.search);
+            return parseInt(params.get(getPageParam(painel)) || '1', 10) || 1;
+        }
+
+        function fetchPainel(painel, page, options = {}) {
+            const body = document.querySelector(`.denuncias-panel-body[data-painel="${painel}"]`);
+            if (!body) return Promise.resolve();
+
+            const params = new URLSearchParams();
+            params.set('painel', painel);
+            params.set('page', String(page));
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoria = urlParams.get('categoria');
+            if (categoria) params.set('categoria', categoria);
+
+            const url = `${pageEndpoint}?${params.toString()}`;
+            body.classList.add('is-loading');
+
+            return fetch(url, { headers: { 'X-Requested-With': 'fetch' } })
+                .then((response) => {
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return response.text();
+                })
+                .then((html) => {
+                    body.innerHTML = html;
+                    bindCardListeners(body);
+                    if (options.updateUrl) {
+                        const newUrl = new URL(window.location.href);
+                        const pageParam = getPageParam(painel);
+                        if (page > 1) {
+                            newUrl.searchParams.set(pageParam, String(page));
+                        } else {
+                            newUrl.searchParams.delete(pageParam);
+                        }
+                        newUrl.hash = painel;
+                        history.pushState({ painel, page }, '', newUrl.toString());
+                    }
+                })
+                .catch((error) => {
+                    console.error('Falha ao trocar de página:', error);
+                    // Em caso de erro, faz fallback para o link tradicional.
+                    window.location.href = options.fallbackHref || `${window.location.pathname}?${params.toString().replace('painel=', getPageParam(painel) + '=')}#${painel}`;
+                })
+                .finally(() => {
+                    body.classList.remove('is-loading');
+                });
+        }
+
+        document.addEventListener('click', function (event) {
+            const link = event.target.closest('a.denuncias-page');
+            if (!link) return;
+            const painel = link.dataset.painel;
+            if (!painel) return;
+            const page = parseInt(link.dataset.page, 10);
+            if (!page || page === getCurrentPage(painel)) {
+                event.preventDefault();
+                return;
+            }
+            event.preventDefault();
+            fetchPainel(painel, page, { updateUrl: true, fallbackHref: link.href });
+        });
+
+        window.addEventListener('popstate', function (event) {
+            const painel = window.location.hash.replace('#', '') || 'todas';
+            const page = getCurrentPage(painel);
+            fetchPainel(painel, page);
         });
 
         if (window.location.hash === '#minhas') {

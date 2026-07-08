@@ -49,6 +49,27 @@ main::before {
   justify-content: center;
 }
 
+.denuncia-page-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 1180px);
+  margin-inline: auto;
+}
+
+.denuncia-page-header {
+  width: 100%;
+  margin-bottom: 28px;
+}
+
+.denuncia-page-header .section-title {
+  color: var(--t1);
+}
+
+.denuncia-page-header .denuncia-accent {
+  color: var(--accent);
+}
+
 .denuncia-page::before {
   content: "";
   position: absolute;
@@ -127,6 +148,8 @@ form.login-form {
 
 .denuncia-form-panel form.login-form {
   width: 100%;
+  padding-top: 28px;
+}
   max-width: none;
   height: 100%;
 }
@@ -531,7 +554,7 @@ textarea:focus {
 
   .denuncia-page {
     grid-template-columns: 1fr;
-    max-width: 90%;
+    max-width: 100%;
   }
 
   .denuncia-map-panel {

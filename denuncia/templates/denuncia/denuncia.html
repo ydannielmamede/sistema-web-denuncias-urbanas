@@ -7,8 +7,14 @@
 {% endblock %}
 
 {% block content %}
-<div class="denuncia-page">
-  <section class="denuncia-map-panel" aria-label="Mapa para selecionar localização da denúncia">
+<div class="denuncia-page-wrap">
+  <header class="section-header denuncia-page-header">
+    <h1 class="section-title">Registrar <span class="denuncia-accent">Denúncia</span></h1>
+    <p class="section-sub">Informe a categoria, marque o local e descreva o problema para que a cidade possa agir.</p>
+  </header>
+
+  <div class="denuncia-page">
+    <section class="denuncia-map-panel" aria-label="Mapa para selecionar localização da denúncia">
     <div class="map-card">
       <div class="map-header">
         <h2>Selecione o local da ocorrência</h2>
@@ -27,7 +33,7 @@
         </div>
       {% endif %}
       <div class="login-header">
-        <h2>Registrar Denúncia</h2>
+        <h2>Formulário Denúncia</h2>
         <p>Envie sua ocorrência com categoria, localização e anexos. Sua participação é importante!</p>
 
         <ol class="form-steps" aria-label="Etapas da denúncia">
@@ -118,6 +124,7 @@
       <button type="submit" class="login-btn btn" id="botaoEnviarDenuncia">Enviar denúncia</button>
     </form>
   </section>
+  </div>
 </div>
 {% endblock %}
 

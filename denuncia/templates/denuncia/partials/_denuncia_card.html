@@ -1,0 +1,44 @@
+<div class="report-item denuncias-card" style="border-left: 5px solid {{ denuncia.id_categoria.cor|default:'#f3e8d093' }}">
+    <div class="report-info">
+        <div class="denuncias-card-top">
+            <div class="denuncias-card-heading">
+                <div class="report-category">{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</div>
+                {% if denuncia.id_orgao_alvo %}<div class="report-target">{{ denuncia.id_orgao_alvo.descricao }}</div>{% endif %}
+            </div>
+            {% if user.is_staff or user.is_superuser %}
+                <form class="denuncias-status-form" method="post">
+                    {% csrf_token %}
+                    <select class="report-badge denuncias-status-select {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}" aria-label="Alterar status da denúncia">
+                        <option value="P" data-url="{% url 'denuncia:marcar_status_pendente' denuncia.id_denuncia %}" {% if denuncia.status == 'P' %}selected{% endif %}>Pendente</option>
+                        <option value="A" data-url="{% url 'denuncia:marcar_status_em_analise' denuncia.id_denuncia %}" {% if denuncia.status == 'A' %}selected{% endif %}>Em análise</option>
+                        <option value="R" data-url="{% url 'denuncia:marcar_status_resolvida' denuncia.id_denuncia %}" {% if denuncia.status == 'R' %}selected{% endif %}>Resolvida</option>
+                    </select>
+                </form>
+                {% else %}
+                <span class="report-badge {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}">{{ denuncia.get_status_display }}</span>
+                {% endif %}
+        </div>
+        <div class="report-title">{{ denuncia.mensagem|truncatechars:64 }}</div>
+        <div class="report-meta">
+            <span>{{ denuncia.localizacao|default:'&nbsp;' }}</span>
+            <span class="denuncias-date-row"><span>{{ denuncia.data_hora|date:"d/m/y H:i" }}</span><span>{{ denuncia.data_hora|timesince }} atrás</span></span>
+            <button
+                class="denuncias-more"
+                type="button"
+                data-mensagem="{{ denuncia.mensagem }}"
+                data-categoria="{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}"
+                data-orgao="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.descricao }}{% endif %}"
+                data-orgao-email="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.email_orgao|default_if_none:'' }}{% endif %}"
+                data-orgao-telefone="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.telefone|default_if_none:'' }}{% endif %}"
+                data-localizacao="{{ denuncia.localizacao|default_if_none:'' }}"
+                data-latitude="{{ denuncia.latitude|default_if_none:'' }}"
+                data-longitude="{{ denuncia.longitude|default_if_none:'' }}"
+                data-data="{{ denuncia.data_hora }}"
+                data-status="{{ denuncia.get_status_display }}"
+                data-anonimo="{% if denuncia.anonimo %}Sim{% else %}Não{% endif %}"
+                data-usuario="{% if denuncia.anonimo %}Enviado anonimamente{% elif denuncia.id_usuario %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
+                data-midia="{% for midia in denuncia.midias %}{{ midia.url }}{% if not forloop.last %}|{% endif %}{% endfor %}"
+            >Ver mais</button>
+        </div>
+    </div>
+</div>

@@ -7,7 +7,7 @@ from django.core.cache import cache
 from django.core.paginator import Paginator
 # from django.core.mail import EmailMessage  # Reativar junto com o envio de e-mails.
 from django.db.models import Count, Q
-from django.http import JsonResponse
+from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -56,7 +56,7 @@ def listar_denuncias(request):
         .filter(**filtro_categoria)
         .order_by('-data_hora')
     )
-    todas_page = Paginator(todas_denuncias, 9).get_page(request.GET.get('todas_page'))
+    todas_page = Paginator(todas_denuncias, 6).get_page(request.GET.get('todas_page'))
     denuncias_mapa = [
         {
             'lat': float(denuncia.latitude),
@@ -80,7 +80,7 @@ def listar_denuncias(request):
             .filter(id_usuario=request.user, anonimo=False, **filtro_categoria)
             .order_by('-data_hora')
         )
-        minhas_page = Paginator(minhas_denuncias, 9).get_page(request.GET.get('minhas_page'))
+        minhas_page = Paginator(minhas_denuncias, 6).get_page(request.GET.get('minhas_page'))
 
     return render(request, 'denuncia/listar_denuncias.html', {
         'todas_denuncias': todas_page,
@@ -89,6 +89,56 @@ def listar_denuncias(request):
         'categoria_selecionada': categoria_id,
         'categoria_query': f'&categoria={categoria_id}' if filtro_categoria else '',
         'denuncias_mapa': denuncias_mapa,
+    })
+
+
+def _paginator_por_painel(request, painel):
+    """Resolve a queryset paginada para o painel ('todas' ou 'minhas').
+
+    Reaproveita exatamente a lógica de filtro/categoria/paginação do
+    `listar_denuncias`, devolvendo ``(page_obj, categoria_query, empty_message)``.
+    """
+    categoria_id = request.GET.get('categoria', '').strip()
+    categorias = Categoria.objects.all().order_by('nome_categoria')
+    filtro_categoria = {}
+    if categoria_id.isdigit() and categorias.filter(id_categoria=categoria_id).exists():
+        filtro_categoria['id_categoria_id'] = categoria_id
+    categoria_query = f'&categoria={categoria_id}' if filtro_categoria else ''
+
+    base_qs = Denuncia.objects.select_related(
+        'id_categoria', 'id_orgao_alvo', 'id_usuario',
+    ).order_by('-data_hora')
+
+    if painel == 'minhas':
+        if not request.user.is_authenticated:
+            return None, categoria_query, 'Faça login para ver suas denúncias.'
+        qs = base_qs.filter(id_usuario=request.user, anonimo=False, **filtro_categoria)
+        page_param = 'minhas_page'
+        empty_message = 'Você ainda não registrou denúncias identificadas.'
+    else:
+        qs = base_qs.filter(**filtro_categoria)
+        page_param = 'todas_page'
+        empty_message = 'Nenhuma denúncia registrada até o momento.'
+
+    page_obj = Paginator(qs, 6).get_page(request.GET.get('page'))
+    return page_obj, categoria_query, empty_message
+
+
+def listar_denuncias_page(request):
+    """Devolve o HTML do painel solicitado para troca de página via AJAX."""
+    painel = request.GET.get('painel', 'todas')
+    if painel not in {'todas', 'minhas'}:
+        return HttpResponseBadRequest('Painel inválido.')
+
+    page_obj, categoria_query, empty_message = _paginator_por_painel(request, painel)
+    if page_obj is None:
+        return HttpResponseBadRequest('Autenticação necessária.')
+
+    return render(request, 'denuncia/partials/_painel_denuncias.html', {
+        'page_obj': page_obj,
+        'painel': painel,
+        'categoria_query': categoria_query,
+        'empty_message': empty_message,
     })
 
 
