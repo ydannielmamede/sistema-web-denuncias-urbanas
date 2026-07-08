@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.views.static import serve
 from django.views.generic import TemplateView
 from config.views import index
 
@@ -38,10 +39,17 @@ urlpatterns = [
     path("usuario/", include("usuario.urls")),
 ]
 
+# WhiteNoise só serve /static/. /media/ precisa de tratamento separado.
+# Em DEBUG, o helper static() resolve. Em produção, montamos uma rota
+# dedicada que aponta para o MEDIA_ROOT — sem isso, fotos enviadas
+# aparecem em media/denuncias/ mas retornam 404 quando o browser pede.
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 else:
-    # Em produção servimos /media/ do mesmo jeito — Railway pode ser efêmero
-    # no disco, mas o WhiteNoise só cuida de /static/. Sem isso, fotos recém-
-    # enviadas retornam 404 mesmo com o arquivo no MEDIA_ROOT.
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += [
+        path(
+            f"{settings.MEDIA_URL.strip('/')}/<path:path>",
+            serve,
+            {"document_root": settings.MEDIA_ROOT},
+        ),
+    ]
