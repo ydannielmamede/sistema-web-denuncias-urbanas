@@ -11,7 +11,7 @@
   background-repeat: no-repeat;
   position: relative;
   overflow: hidden;
-  padding: 80px 0 90px;
+  padding: 110px 0 120px;
 }
 
 /* subtle geometric bg */
@@ -67,11 +67,23 @@
   line-height: var(--lh-tight);
   letter-spacing: -0.03em;
   margin-bottom: 18px;
+  color: var(--t1);
 }
 
 .hero-title .line-accent {
   color: var(--accent);
   display: block;
+}
+
+/* O ::after do h1 é inline e cai numa nova linha após o .line-accent (display: block).
+   Movemos o ponto branco para dentro do .line-accent, junto de "minutos". */
+.hero-title::after {
+  content: none;
+}
+
+.hero-title .line-accent::after {
+  content: ".";
+  color: var(--white);
 }
 
 .hero-desc {
@@ -90,12 +102,17 @@
 
 /* HERO STATS CARD */
 .stats-card {
-  background: var(--dark3);
-  border: 1px solid var(--border);
+  background:
+    linear-gradient(rgba(255, 195, 0, 0.04), rgba(255, 195, 0, 0.04)),
+    rgba(10, 12, 14, 0.78);
+  border: 1px solid rgba(255, 195, 0, 0.32);
   border-radius: var(--radius-lg);
   padding: 36px;
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
 }
 
 .stats-card::before {
@@ -106,6 +123,7 @@
   right: 0;
   height: 3px;
   background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0.7;
 }
 
 .stats-card-title {
@@ -120,7 +138,7 @@
 
 .stats-divider {
   border: none;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(255, 195, 0, 0.18);
   margin: 18px 0;
 }
 
@@ -153,14 +171,16 @@
 .stat-mini {
   text-align: center;
   padding: 12px 8px;
-  background: var(--dark4);
+  background:
+    linear-gradient(rgba(255, 195, 0, 0.04), rgba(255, 195, 0, 0.04)),
+    rgba(10, 12, 14, 0.55);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 195, 0, 0.22);
   transition: border-color var(--transition);
 }
 
 .stat-mini:hover {
-  border-color: rgba(255, 195, 0, 0.2);
+  border-color: rgba(255, 195, 0, 0.5);
 }
 
 .stat-mini-num {
@@ -197,12 +217,34 @@
   background: var(--green);
 }
 
+/* Hero outline button — dark base + soft accent tint to match stats-card */
+.hero .btn-outline {
+  background:
+    linear-gradient(rgba(255, 195, 0, 0.04), rgba(255, 195, 0, 0.04)),
+    rgba(10, 12, 14, 0.72);
+  border: 1px solid rgba(255, 195, 0, 0.32);
+  color: var(--t1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+
+.hero .btn-outline:hover {
+  background:
+    linear-gradient(rgba(255, 195, 0, 0.08), rgba(255, 195, 0, 0.08)),
+    rgba(10, 12, 14, 0.78);
+  border-color: rgba(255, 195, 0, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.4);
+}
+
 /* ═══════════════════════════════════════════════════
    CATEGORIES
 ═══════════════════════════════════════════════════ */
 .categories {
   background: var(--dark2);
   border-top: 1px solid var(--border);
+  padding: 96px 0;
 }
 
 .cat-grid {
@@ -301,21 +343,28 @@
   width: 76px;
   height: 76px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.32);
-  backdrop-filter: blur(100px);
+  /* Substitui backdrop-filter por cor sólida — mesma aparência visual,
+     sem o custo de recompor o blur a cada paint em tablet. */
+  background: rgba(255, 255, 255, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
   border: 1.5px solid rgba(255, 255, 255, 0.45);
+  /* Box-shadow único e barato, sem o glow de 28-40px. */
   box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.28),
-    0 0 0 4px rgba(255, 255, 255, 0.06),
+    0 8px 18px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
   transition:
     background var(--transition),
     transform var(--transition),
     box-shadow var(--transition);
+}
+
+/* Isola reflow/paint de cada card — o navegador trata cada um como
+   um componente independente, evitando repintar a seção inteira. */
+.cat-card {
+  contain: layout paint;
 }
 
 .cat-icon img {
@@ -328,143 +377,113 @@
   transition: transform var(--transition), filter var(--transition);
 }
 
-/* Anel colorido por categoria (usa a cor clara do gradiente) */
+/* Anel colorido por categoria — o glow de 28-40px foi removido.
+   O anel agora é um border extra (não dispara paint no box-model) e
+   a sombra externa é única e barata. */
 .cat-card.luz .cat-icon {
   box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.28),
-    0 0 0 4px rgba(255, 195, 0, 0.22),
-    0 0 28px rgba(255, 195, 0, 0.28),
+    0 8px 18px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  outline: 3px solid rgba(255, 195, 0, 0.22);
+  outline-offset: 1px;
 }
 
 .cat-card.agua .cat-icon {
   box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.28),
-    0 0 0 4px rgba(56, 189, 248, 0.22),
-    0 0 28px rgba(56, 189, 248, 0.28),
+    0 8px 18px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  outline: 3px solid rgba(56, 189, 248, 0.22);
+  outline-offset: 1px;
 }
 
 .cat-card.form .cat-icon {
   box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.28),
-    0 0 0 4px rgba(74, 222, 128, 0.22),
-    0 0 28px rgba(74, 222, 128, 0.28),
+    0 8px 18px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  outline: 3px solid rgba(74, 222, 128, 0.22);
+  outline-offset: 1px;
 }
 
 .cat-card.anon .cat-icon {
   box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.28),
-    0 0 0 4px rgba(167, 139, 250, 0.22),
-    0 0 28px rgba(167, 139, 250, 0.28),
+    0 8px 18px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  outline: 3px solid rgba(167, 139, 250, 0.22);
+  outline-offset: 1px;
 }
 
 .cat-card.infra .cat-icon {
   box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.28),
-    0 0 0 4px rgba(251, 146, 60, 0.22),
-    0 0 28px rgba(251, 146, 60, 0.28),
+    0 8px 18px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  outline: 3px solid rgba(251, 146, 60, 0.22);
+  outline-offset: 1px;
 }
 
 .cat-card.meio .cat-icon {
   box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.28),
-    0 0 0 4px rgba(45, 212, 191, 0.22),
-    0 0 28px rgba(45, 212, 191, 0.28),
+    0 8px 18px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  outline: 3px solid rgba(45, 212, 191, 0.22);
+  outline-offset: 1px;
 }
 
 .cat-card.transp .cat-icon {
   box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.28),
-    0 0 0 4px rgba(240, 171, 252, 0.22),
-    0 0 28px rgba(240, 171, 252, 0.28),
+    0 8px 18px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  outline: 3px solid rgba(240, 171, 252, 0.22);
+  outline-offset: 1px;
 }
 
 .cat-card.limp .cat-icon {
   box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.28),
-    0 0 0 4px rgba(217, 119, 6, 0.22),
-    0 0 28px rgba(217, 119, 6, 0.28),
+    0 8px 18px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  outline: 3px solid rgba(217, 119, 6, 0.22);
+  outline-offset: 1px;
 }
 
 .cat-card:hover .cat-icon {
   background: rgba(255, 255, 255, 0.42);
-  transform: scale(1.12) translateY(-2px);
+  transform: scale(1.08);
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.35),
-    0 0 0 5px rgba(255, 255, 255, 0.12),
+    0 12px 24px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  outline-color: rgba(255, 255, 255, 0.35);
 }
 
 /* Hover mantém o anel da categoria, mais intenso */
 .cat-card.luz:hover .cat-icon {
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.35),
-    0 0 0 5px rgba(255, 195, 0, 0.32),
-    0 0 40px rgba(255, 195, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  outline-color: rgba(255, 195, 0, 0.4);
 }
 
 .cat-card.agua:hover .cat-icon {
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.35),
-    0 0 0 5px rgba(56, 189, 248, 0.32),
-    0 0 40px rgba(56, 189, 248, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  outline-color: rgba(56, 189, 248, 0.4);
 }
 
 .cat-card.form:hover .cat-icon {
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.35),
-    0 0 0 5px rgba(74, 222, 128, 0.32),
-    0 0 40px rgba(74, 222, 128, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  outline-color: rgba(74, 222, 128, 0.4);
 }
 
 .cat-card.anon:hover .cat-icon {
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.35),
-    0 0 0 5px rgba(167, 139, 250, 0.32),
-    0 0 40px rgba(167, 139, 250, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  outline-color: rgba(167, 139, 250, 0.4);
 }
 
 .cat-card.infra:hover .cat-icon {
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.35),
-    0 0 0 5px rgba(251, 146, 60, 0.32),
-    0 0 40px rgba(251, 146, 60, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  outline-color: rgba(251, 146, 60, 0.4);
 }
 
 .cat-card.meio:hover .cat-icon {
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.35),
-    0 0 0 5px rgba(45, 212, 191, 0.32),
-    0 0 40px rgba(45, 212, 191, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  outline-color: rgba(45, 212, 191, 0.4);
 }
 
 .cat-card.transp:hover .cat-icon {
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.35),
-    0 0 0 5px rgba(240, 171, 252, 0.32),
-    0 0 40px rgba(240, 171, 252, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  outline-color: rgba(240, 171, 252, 0.4);
 }
 
 .cat-card.limp:hover .cat-icon {
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.35),
-    0 0 0 5px rgba(217, 119, 6, 0.32),
-    0 0 40px rgba(217, 119, 6, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  outline-color: rgba(217, 119, 6, 0.4);
 }
 
 .cat-card:hover .cat-icon img {
@@ -534,6 +553,7 @@
 ═══════════════════════════════════════════════════ */
 .how {
   background: var(--dark1);
+  padding: 96px 0;
 }
 
 .steps {
@@ -648,6 +668,7 @@
   margin: auto;
   background: var(--dark2);
   border-top: 1px solid var(--border);
+  padding: 96px 0;
 }
 
 .reports-list {
@@ -774,7 +795,7 @@
 .stats-band {
   margin: auto;
   background: var(--accent);
-  padding: 48px 0;
+  padding: 64px 0;
 }
 
 .stats-band-grid {
@@ -834,7 +855,7 @@
   background: var(--dark2);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: 72px 0;
+  padding: 96px 0;
 }
 
 .cta-btn {
@@ -966,7 +987,7 @@
   }
 
   .hero {
-    padding: 60px 0 70px;
+    padding: 80px 0 90px;
   }
 
   .hero-title {
@@ -980,6 +1001,12 @@
   .hero-btns {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .categories,
+  .how,
+  .recent {
+    padding: 72px 0;
   }
 
   .cat-grid {
@@ -1000,7 +1027,7 @@
   }
 
   .stats-band {
-    padding: 40px 0;
+    padding: 48px 0;
   }
 
   .band-num {
@@ -1008,7 +1035,7 @@
   }
 
   .cta-banner {
-    padding: 60px 0;
+    padding: 72px 0;
   }
 
   .cta-title {

@@ -158,7 +158,7 @@
 .saibamais-card,
 .saibamais-alert-card,
 .saibamais-final-panel {
-  border: 1px solid var(--border);
+  /* border: 1px solid var(--border); */
   border-radius: var(--radius-lg);
   background: color-mix(in srgb, var(--dark2) 86%, transparent);
   box-shadow: 0 16px 45px color-mix(in srgb, var(--black) 22%, transparent);

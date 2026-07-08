@@ -3,6 +3,8 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'css/denuncias-list.css' %}" />
+<link rel="stylesheet" href="{% static 'css/modal.css' %}" />
 {% endblock %}
 
 {% block content %}
@@ -15,16 +17,7 @@
         <div class="hero-inner">
           <!-- Left -->
           <div class="left">
-            <div class="hero-eyebrow fade-up">
-              <span class="tag">
-                <svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                Plataforma Cidadã
-              </span>
-            </div>
+            <div class="hero-eyebrow fade-up"></div>
             <h1 id="hero-title" class="hero-title fade-up fade-up-1">
               Viu um problema na cidade?
               <span class="line-accent">Registre em minutos</span>
@@ -112,7 +105,8 @@
               <div role="progressbar" aria-valuenow="{{ taxa_resolucao }}" aria-valuemin="0" aria-valuemax="100"
                 aria-label="Taxa de resolução: {{ taxa_resolucao }}%" style="
                     margin-top: 16px;
-                    background: var(--dark4);
+                    background: rgba(0, 0, 0, 0.45);
+                    border: 1px solid rgba(255, 195, 0, 0.22);
                     border-radius: var(--radius-sm);
                     overflow: hidden;
                     height: 6px;
@@ -178,16 +172,6 @@
     <section class="categories" id="categorias" aria-labelledby="categorias-title">
       <div class="container">
         <div class="section-header">
-          <div class="tag" style="margin-bottom: 14px">
-            <svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2.5">
-              <rect x="3" y="3" width="7" height="7" />
-              <rect x="14" y="3" width="7" height="7" />
-              <rect x="14" y="14" width="7" height="7" />
-              <rect x="3" y="14" width="7" height="7" />
-            </svg>
-            Categorias
-          </div>
           <h2 id="categorias-title" class="section-title">
             Escolha o problema e denuncie agora
           </h2>
@@ -199,7 +183,7 @@
         <ul class="cat-grid" role="list">
           <li>
             <div class="cat-card luz">
-              <a href="{% url 'denuncia:denuncia' %}?categoria=Iluminação" class="cat-icon"><img src="{% static 'img/ui-iluminacao.png.png' %}" alt="Iluminação"></a>
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Iluminação" class="cat-icon"><img src="{% static 'img/ui-iluminacao.png.png' %}" alt="Iluminação" loading="lazy" decoding="async"></a>
               <div class="cat-title">Iluminação</div>
               <div class="cat-desc">
                 Relate falta de iluminação pública ou postes danificados em
@@ -218,7 +202,7 @@
 
           <li>
             <div class="cat-card agua">
-              <a href="{% url 'denuncia:denuncia' %}?categoria=Abastecimento" class="cat-icon"><img src="{% static 'img/ui-agua.png.png' %}" alt="Abastecimento"></a>
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Abastecimento" class="cat-icon"><img src="{% static 'img/ui-agua.png.png' %}" alt="Abastecimento" loading="lazy" decoding="async"></a>
               <div class="cat-title">Abastecimento</div>
               <div class="cat-desc">
                 Denuncie interrupções no abastecimento de água ou vazamentos.
@@ -236,7 +220,7 @@
 
           <li>
             <div class="cat-card form">
-              <div class="cat-icon"><img src="{% static 'img/ui-formulario.png.png' %}" alt="" aria-hidden="true"></div>
+              <div class="cat-icon"><img src="{% static 'img/ui-formulario.png.png' %}" alt="" aria-hidden="true" loading="lazy" decoding="async"></div>
               <div class="cat-title">Gerar Nova Denúncia</div>
               <div class="cat-desc">
                 Registre uma ocorrência com sua identificação para acompanhar
@@ -256,7 +240,7 @@
           <li>
             <div class="cat-card anon">
               <span class="cat-badge">Privado</span>
-              <div class="cat-icon"><img src="{% static 'img/ui-cadeado.png.png' %}" alt="" aria-hidden="true"></div>
+              <div class="cat-icon"><img src="{% static 'img/ui-cadeado.png.png' %}" alt="" aria-hidden="true" loading="lazy" decoding="async"></div>
               <div class="cat-title">Nova Denúncia Anônima</div>
               <div class="cat-desc">
                 Envie sua denúncia sem necessidade de identificação pessoal.
@@ -274,7 +258,7 @@
 
           <li>
             <div class="cat-card infra">
-              <a href="{% url 'denuncia:denuncia' %}?categoria=Infraestrutura" class="cat-icon"><img src="{% static 'img/ui-infraestrutura.png.png' %}" alt="Infraestrutura"></a>
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Infraestrutura" class="cat-icon"><img src="{% static 'img/ui-infraestrutura.png.png' %}" alt="Infraestrutura" loading="lazy" decoding="async"></a>
               <div class="cat-title">Infraestrutura</div>
               <div class="cat-desc">Buracos, calçadas, vias danificadas.</div>
               <a href="{% url 'denuncia:denuncia' %}?categoria=Infraestrutura" class="cat-btn" data-categoria="Infraestrutura" data-modo="identificada">
@@ -290,7 +274,7 @@
 
           <li>
             <div class="cat-card meio">
-              <a href="{% url 'denuncia:denuncia' %}?categoria=Meio Ambiente" class="cat-icon"><img src="{% static 'img/ui-meioambiente.png.png' %}" alt="Meio Ambiente"></a>
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Meio Ambiente" class="cat-icon"><img src="{% static 'img/ui-meioambiente.png.png' %}" alt="Meio Ambiente" loading="lazy" decoding="async"></a>
               <div class="cat-title">Meio Ambiente</div>
               <div class="cat-desc">
                 Desmatamento, descarte irregular, poluição.
@@ -308,7 +292,7 @@
 
           <li>
             <div class="cat-card transp">
-              <a href="{% url 'denuncia:denuncia' %}?categoria=Transporte" class="cat-icon"><img src="{% static 'img/ui-transporte.png.png' %}" alt="Transporte"></a>
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Transporte" class="cat-icon"><img src="{% static 'img/ui-transporte.png.png' %}" alt="Transporte" loading="lazy" decoding="async"></a>
               <div class="cat-title">Transporte</div>
               <div class="cat-desc">
                 Ônibus, semáforos, sinalização viária.
@@ -326,7 +310,7 @@
 
           <li>
             <div class="cat-card limp">
-              <a href="{% url 'denuncia:denuncia' %}?categoria=Limpeza Urbana" class="cat-icon"><img src="{% static 'img/ui-lixo.png.png' %}" alt="Limpeza Urbana"></a>
+              <a href="{% url 'denuncia:denuncia' %}?categoria=Limpeza Urbana" class="cat-icon"><img src="{% static 'img/ui-lixo.png.png' %}" alt="Limpeza Urbana" loading="lazy" decoding="async"></a>
               <div class="cat-title">Limpeza Urbana</div>
               <div class="cat-desc">
                 Lixo acumulado, limpeza de logradouros.
@@ -351,14 +335,6 @@
     <section class="how" id="como-funciona" aria-labelledby="como-funciona-title">
       <div class="container">
         <div class="section-header">
-          <div class="tag" style="margin-bottom: 14px">
-            <svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 8 12 12 14 14" />
-            </svg>
-            Processo
-          </div>
           <h2 id="como-funciona-title" class="section-title">
             Como funciona
           </h2>
@@ -370,7 +346,7 @@
           <li>
             <div class="step-card">
               <div class="step-num">1</div>
-              <div class="step-icon"><img src="{% static 'img/ui-localizacao.png.png' %}" alt="" aria-hidden="true"></div>
+              <div class="step-icon"><img src="{% static 'img/ui-localizacao.png.png' %}" alt="" aria-hidden="true" loading="lazy" decoding="async"></div>
               <div class="step-title">Localize o problema</div>
               <div class="step-desc">
                 Identifique o local exato da ocorrência usando o mapa
@@ -381,7 +357,7 @@
           <li>
             <div class="step-card">
               <div class="step-num">2</div>
-              <div class="step-icon"><img src="{% static 'img/ui-foto.png.png' %}" alt="" aria-hidden="true"></div>
+              <div class="step-icon"><img src="{% static 'img/ui-foto.png.png' %}" alt="" aria-hidden="true" loading="lazy" decoding="async"></div>
               <div class="step-title">Documente</div>
               <div class="step-desc">
                 Tire fotos ou grave um vídeo do problema para facilitar a
@@ -392,7 +368,7 @@
           <li>
             <div class="step-card">
               <div class="step-num">3</div>
-              <div class="step-icon"><img src="{% static 'img/ui-enviar.png.png' %}" alt="" aria-hidden="true"></div>
+              <div class="step-icon"><img src="{% static 'img/ui-enviar.png.png' %}" alt="" aria-hidden="true" loading="lazy" decoding="async"></div>
               <div class="step-title">Envie a denúncia</div>
               <div class="step-desc">
                 Preencha as informações, escolha a categoria e envie. Leva
@@ -403,7 +379,7 @@
           <li>
             <div class="step-card">
               <div class="step-num">4</div>
-              <div class="step-icon"><img src="{% static 'img/ui-resolvido.png.png' %}" alt="" aria-hidden="true"></div>
+              <div class="step-icon"><img src="{% static 'img/ui-resolvido.png.png' %}" alt="" aria-hidden="true" loading="lazy" decoding="async"></div>
               <div class="step-title">Acompanhe</div>
               <div class="step-desc">
                 Receba notificações sobre o andamento e veja quando o problema
@@ -424,14 +400,6 @@
     <section class="recent" id="recentes" aria-labelledby="recentes-title">
       <div class="container">
         <div class="section-header">
-          <div class="tag" style="margin-bottom: 14px">
-            <svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg>
-            Tempo real
-          </div>
           <h2 id="recentes-title" class="section-title">
             Denúncias Recentes
           </h2>
@@ -440,35 +408,53 @@
           </p>
         </div>
 
-        <ul class="reports-list" role="list">
+        <ul class="reports-list denuncias-grid" role="list">
           {% for denuncia in denuncias_recentes %}
           <li>
-            <div class="report-item">
-              <div class="report-dot" style="background: {{ denuncia.id_categoria.cor|default:'#F8C146' }}"></div>
+            <div class="report-item denuncias-card" style="border-left: 5px solid {{ denuncia.id_categoria.cor|default:'#f3e8d093' }}">
               <div class="report-info">
-                <div class="report-title">
-                  {{ denuncia.mensagem|truncatewords:8 }}
+                <div class="denuncias-card-top">
+                  <div class="denuncias-card-heading">
+                    <div class="report-category">{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</div>
+                    {% if denuncia.id_orgao_alvo %}<div class="report-target">{{ denuncia.id_orgao_alvo.descricao }}</div>{% endif %}
+                  </div>
+                  <span class="report-badge {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}">{{ denuncia.get_status_display }}</span>
                 </div>
+                <div class="report-title">{{ denuncia.mensagem|truncatechars:64 }}</div>
                 <div class="report-meta">
-                  <span>{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}</span>
-                  <span>{{ denuncia.localizacao|truncatewords:3 }}</span>
-                  <span>{{ denuncia.data_hora|timesince }} atrás</span>
+                  <span>{{ denuncia.localizacao|default:'&nbsp;' }}</span>
+                  <span class="denuncias-date-row"><span>{{ denuncia.data_hora|date:"d/m/y H:i" }}</span><span>{{ denuncia.data_hora|timesince }} atrás</span></span>
+                  <button
+                    class="denuncias-more"
+                    type="button"
+                    data-mensagem="{{ denuncia.mensagem }}"
+                    data-categoria="{{ denuncia.id_categoria.icone }} {{ denuncia.id_categoria.nome_categoria }}"
+                    data-orgao="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.descricao }}{% endif %}"
+                    data-orgao-email="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.email_orgao|default_if_none:'' }}{% endif %}"
+                    data-orgao-telefone="{% if denuncia.id_orgao_alvo %}{{ denuncia.id_orgao_alvo.telefone|default_if_none:'' }}{% endif %}"
+                    data-localizacao="{{ denuncia.localizacao|default_if_none:'' }}"
+                    data-latitude="{{ denuncia.latitude|default_if_none:'' }}"
+                    data-longitude="{{ denuncia.longitude|default_if_none:'' }}"
+                    data-data="{{ denuncia.data_hora }}"
+                    data-status="{{ denuncia.get_status_display }}"
+                    data-anonimo="{% if denuncia.anonimo %}Sim{% else %}Não{% endif %}"
+                    data-usuario="{% if denuncia.anonimo %}Enviado anonimamente{% elif denuncia.id_usuario %}{{ denuncia.id_usuario }}{% else %}Não identificado{% endif %}"
+                    data-midia="{% for midia in denuncia.midias %}{{ midia.url }}{% if not forloop.last %}|{% endif %}{% endfor %}"
+                  >Ver mais</button>
                 </div>
               </div>
-              <span class="report-badge {% if denuncia.status == 'P' %}b-pend{% elif denuncia.status == 'A' %}b-prog{% elif denuncia.status == 'R' %}b-done{% endif %}">{{ denuncia.get_status_display }}</span>
-              <svg aria-hidden="true" focusable="false" class="report-arrow" width="16" height="16" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
             </div>
           </li>
           {% empty %}
           <li>
-            <div class="report-item">
+            <div class="report-item denuncias-card">
               <div class="report-info">
-                <div class="report-title">
-                  Nenhuma denúncia registrada ainda
+                <div class="denuncias-card-top">
+                  <div class="denuncias-card-heading">
+                    <div class="report-category">📍 Sem registros</div>
+                  </div>
                 </div>
+                <div class="report-title">Nenhuma denúncia registrada ainda</div>
                 <div class="report-meta">
                   <span>Seja o primeiro a registrar uma denúncia!</span>
                 </div>
@@ -519,8 +505,151 @@
         </div>
       </div>
     </section>
+
+    <div class="modal" id="denunciaDetalheModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="denunciaDetalheTitulo">
+      <div class="modal-content denuncia-detail-modal">
+        <button class="close" id="fecharDenunciaDetalhe" type="button" aria-label="Fechar">&times;</button>
+        <div class="denuncia-media-carousel" id="modalDenunciaMediaCarousel" hidden>
+          <button class="denuncia-carousel-btn" id="denunciaMediaPrev" type="button" aria-label="Mídia anterior">‹</button>
+          <div class="denuncia-carousel-stage" id="denunciaMediaStage"></div>
+          <button class="denuncia-carousel-btn" id="denunciaMediaNext" type="button" aria-label="Próxima mídia">›</button>
+        </div>
+        <h1 id="denunciaDetalheTitulo">Detalhes da denúncia</h1>
+
+        <div class="denuncia-detail-message">
+          <strong>Mensagem:</strong>
+          <p id="modalDenunciaMensagem"></p>
+        </div>
+
+        <div class="denuncia-detail-grid">
+          <p><strong>Localização:</strong> <span id="modalDenunciaLocalizacao"></span></p>
+          <p><strong>Órgão alvo:</strong> <span id="modalDenunciaOrgao"></span></p>
+          <p><strong>Status:</strong> <span id="modalDenunciaStatus"></span></p>
+          <p><strong>Data:</strong> <span id="modalDenunciaData"></span></p>
+          <p><strong>Categoria:</strong> <span id="modalDenunciaCategoria"></span></p>
+          <p><strong>Usuário:</strong> <span id="modalDenunciaUsuario"></span></p>
+        </div>
+
+        <p class="denuncia-media-empty" id="modalDenunciaSemMidia">Nenhuma mídia registrada.</p>
+      </div>
+    </div>
   {% endblock %}
 
   {% block extra_js %}
     <script src="{% static 'js/denuncias.js'%}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const detailModal = document.getElementById('denunciaDetalheModal');
+        if (!detailModal) return;
+        const closeDetailModal = document.getElementById('fecharDenunciaDetalhe');
+        const mediaCarousel = document.getElementById('modalDenunciaMediaCarousel');
+        const mediaStage = document.getElementById('denunciaMediaStage');
+        const mediaPrev = document.getElementById('denunciaMediaPrev');
+        const mediaNext = document.getElementById('denunciaMediaNext');
+        const mediaEmpty = document.getElementById('modalDenunciaSemMidia');
+        const modalFields = {
+          categoria: document.getElementById('modalDenunciaCategoria'),
+          orgao: document.getElementById('modalDenunciaOrgao'),
+          status: document.getElementById('modalDenunciaStatus'),
+          data: document.getElementById('modalDenunciaData'),
+          localizacao: document.getElementById('modalDenunciaLocalizacao'),
+          usuario: document.getElementById('modalDenunciaUsuario'),
+          mensagem: document.getElementById('modalDenunciaMensagem'),
+        };
+        let mediaItems = [];
+        let mediaIndex = 0;
+
+        function setText(element, value, fallback = 'Não informado') {
+          element.textContent = value || fallback;
+        }
+
+        function renderMedia() {
+          mediaStage.innerHTML = '';
+          if (!mediaItems.length) {
+            mediaCarousel.hidden = true;
+            mediaEmpty.hidden = false;
+            return;
+          }
+
+          mediaCarousel.hidden = false;
+          mediaEmpty.hidden = true;
+          const filename = mediaItems[mediaIndex];
+          const lower = filename.toLowerCase();
+          const isImage = /\.(jpe?g|png|gif|webp)$/i.test(lower);
+          const isVideo = /\.(mp4|webm|ogg)$/i.test(lower);
+
+          if (isImage) {
+            const image = document.createElement('img');
+            image.src = filename;
+            image.alt = 'Mídia da denúncia';
+            mediaStage.appendChild(image);
+          } else if (isVideo) {
+            const video = document.createElement('video');
+            video.src = filename;
+            video.controls = true;
+            mediaStage.appendChild(video);
+          } else {
+            mediaStage.textContent = filename;
+          }
+
+          const hasMultiple = mediaItems.length > 1;
+          mediaPrev.disabled = !hasMultiple;
+          mediaNext.disabled = !hasMultiple;
+        }
+
+        function openDetailModal(button) {
+          setText(modalFields.categoria, button.dataset.categoria);
+          const orgao = [
+            button.dataset.orgao,
+            button.dataset.orgaoEmail && `E-mail: ${button.dataset.orgaoEmail}`,
+            button.dataset.orgaoTelefone && `Telefone: ${button.dataset.orgaoTelefone}`,
+          ].filter(Boolean).join('\n');
+          setText(modalFields.orgao, orgao);
+          setText(modalFields.status, button.dataset.status);
+          setText(modalFields.data, button.dataset.data);
+          setText(modalFields.localizacao, button.dataset.localizacao);
+          setText(modalFields.usuario, button.dataset.usuario);
+          setText(modalFields.mensagem, button.dataset.mensagem);
+          mediaItems = button.dataset.midia ? button.dataset.midia.split('|').filter(Boolean) : [];
+          mediaIndex = 0;
+          renderMedia();
+          detailModal.style.display = 'flex';
+          detailModal.setAttribute('aria-hidden', 'false');
+          closeDetailModal.focus();
+        }
+
+        function closeModal() {
+          detailModal.style.display = 'none';
+          detailModal.setAttribute('aria-hidden', 'true');
+        }
+
+        document.querySelectorAll('.denuncias-more').forEach((button) => {
+          button.addEventListener('click', function () {
+            openDetailModal(button);
+          });
+        });
+
+        closeDetailModal.addEventListener('click', closeModal);
+        detailModal.addEventListener('click', function (event) {
+          if (event.target === detailModal) {
+            closeModal();
+          }
+        });
+        document.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape' && detailModal.getAttribute('aria-hidden') === 'false') {
+            closeModal();
+          }
+        });
+        mediaPrev.addEventListener('click', function () {
+          if (!mediaItems.length) return;
+          mediaIndex = (mediaIndex - 1 + mediaItems.length) % mediaItems.length;
+          renderMedia();
+        });
+        mediaNext.addEventListener('click', function () {
+          if (!mediaItems.length) return;
+          mediaIndex = (mediaIndex + 1) % mediaItems.length;
+          renderMedia();
+        });
+      });
+    </script>
   {% endblock extra_js %}

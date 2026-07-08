@@ -1,0 +1,26 @@
+{% if page_obj.object_list %}
+    <ul class="reports-list denuncias-grid" role="list" data-painel="{{ painel }}">
+        {% for denuncia in page_obj.object_list %}
+            <li>{% include 'denuncia/partials/_denuncia_card.html' with denuncia=denuncia %}</li>
+        {% endfor %}
+    </ul>
+
+    {% if page_obj.has_other_pages %}
+    <nav class="denuncias-pagination" data-painel="{{ painel }}" aria-label="Paginação de denúncias">
+        {% for page_number in page_obj.paginator.page_range %}
+            {% if page_number == page_obj.number %}
+                <span class="denuncias-page is-active" aria-current="page">{{ page_number }}</span>
+            {% else %}
+                <a class="denuncias-page"
+                   href="?{% if painel == 'minhas' %}minhas_page={{ page_number }}{% else %}todas_page={{ page_number }}{% endif %}{{ categoria_query }}#{{ painel }}"
+                   data-page="{{ page_number }}"
+                   data-painel="{{ painel }}">{{ page_number }}</a>
+            {% endif %}
+        {% endfor %}
+    </nav>
+    {% endif %}
+{% else %}
+    <ul class="reports-list denuncias-grid" role="list" data-painel="{{ painel }}">
+        <li class="denuncias-empty">{{ empty_message }}</li>
+    </ul>
+{% endif %}

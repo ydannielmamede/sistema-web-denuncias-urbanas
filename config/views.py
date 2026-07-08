@@ -7,7 +7,11 @@ def index(request):
     if request.user.is_authenticated and (request.user.is_staff or request.user.is_superuser):
         return redirect('denuncia:dashboard')
 
-    denuncias_recentes = Denuncia.objects.select_related('id_categoria').order_by('-data_hora')[:5]
+    denuncias_recentes = (
+        Denuncia.objects
+        .select_related('id_categoria', 'id_orgao_alvo', 'id_usuario')
+        .order_by('-data_hora')[:6]
+    )
     total_denuncias = Denuncia.objects.count()
     resolvidas = Denuncia.objects.filter(status=Denuncia.Status.RESOLVIDA)
     total_resolvidas = resolvidas.count()

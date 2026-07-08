@@ -13,6 +13,10 @@
   margin-bottom: 28px;
 }
 
+.denuncias-list-header .section-title {
+  color: var(--accent);
+}
+
 .denuncias-filter {
   display: flex;
   align-items: center;
@@ -77,6 +81,15 @@
 
 .denuncias-panel.is-active {
   display: block;
+}
+
+.denuncias-panel-body {
+  transition: opacity var(--transition);
+}
+
+.denuncias-panel-body.is-loading {
+  opacity: 0.45;
+  pointer-events: none;
 }
 
 .reports-list.denuncias-grid {
@@ -480,6 +493,22 @@
   color: var(--t2);
 }
 
+/* Marker clusters — combinar com o tema dark do mapa */
+.denuncias-map .marker-cluster {
+  background: rgba(20, 24, 31, 0.7);
+  backdrop-filter: blur(4px);
+}
+.denuncias-map .marker-cluster div {
+  background: rgba(255, 195, 0, 0.85);
+  color: var(--black);
+  font-weight: 700;
+  font-family: var(--font-sans);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.denuncias-map .leaflet-marker-icon.leaflet-interactive {
+  cursor: pointer;
+}
+
 @media (max-width: 900px) {
   .reports-list.denuncias-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -489,6 +518,31 @@
 @media (max-width: 768px) {
   .denuncias-list-page {
     padding: 52px 0 64px;
+  }
+
+  .denuncias-list-page > .container {
+    width: 95%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .denuncias-list-header,
+  .denuncias-filter,
+  .denuncias-tabs,
+  .reports-list,
+  .denuncias-pagination {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .denuncias-map-card {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .denuncias-map {
