@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # 4. Executa o collectstatic agora que o código e o manage.py já estão lá
-RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput && python manage.py migrate
 
 # 5. Comando de inicialização
 CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "13", "--timeout", "120"]
