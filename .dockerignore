@@ -1,0 +1,14 @@
+.git
+.openclaude
+.venv
+venv
+__pycache__
+*.pyc
+.env
+.env.*
+!.env.example
+db.sqlite3
+db.sqlite3-journal
+staticfiles
+media/denuncias/*
+!media/denuncias/.gitkeep

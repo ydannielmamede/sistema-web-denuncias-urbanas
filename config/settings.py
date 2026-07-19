@@ -120,17 +120,22 @@ WSGI_APPLICATION = "config.wsgi.application"
 # servidor de banco instalado. Em produção, defina DATABASE_URL no
 # Railway (ex.: mysql://user:pass@host:port/db) para usar MySQL/Postgres.
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": config("DB_NAME", default="denuncias_db"),
-        "USER": config("DB_USER", default="root"),
-        "PASSWORD": config("DB_PASSWORD", default=""),
-        "HOST": config("DB_HOST", default="127.0.0.1"),
-        "PORT": config("DB_PORT", default="3307"),
-        "OPTIONS": {"ssl": {"ssl_mode": "REQUIRED"}},
+database_url = config("DATABASE_URL", default=None)
+
+if database_url:
+    DATABASES = {"default": dj_database_url.parse(database_url)}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": config("DB_NAME", default="denuncias_db"),
+            "USER": config("DB_USER", default="root"),
+            "PASSWORD": config("DB_PASSWORD", default="dannielmamede!"),
+            "HOST": config("DB_HOST", default="127.0.0.1"),
+            "PORT": config("DB_PORT", default="3306"),
+            # "OPTIONS": {"ssl": {"ssl_mode": "REQUIRED"}},
+        }
     }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
