@@ -1,0 +1,34 @@
+services:
+  mariadb-denuncias:
+    image: mariadb
+    container_name: mariadb-denuncias
+    restart: unless-stopped
+    volumes:
+      - denuncias-dados:/var/lib/mysql
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+    networks:
+      - django
+
+  denuncias-urbanas-app:
+    build: .
+    image: denuncias-urbanas:1.0
+    container_name: denuncias-urbanas-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mariadb-denuncias
+    networks:
+      - django
+
+networks:
+  django:
+    driver: bridge
+
+volumes:
+  denuncias-dados:
